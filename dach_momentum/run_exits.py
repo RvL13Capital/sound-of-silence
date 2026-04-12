@@ -174,6 +174,22 @@ def main():
     reports = scan_all_exits(portfolio, signals)
     print_exit_scan(reports)
 
+    # Drawdown circuit breaker check (compare current equity to initial)
+    if portfolio.open_positions:
+        current_prices_map = {}
+        for r in reports:
+            if r.get("current_price") and r.get("ticker"):
+                current_prices_map[r["ticker"]] = r["current_price"]
+        current_eq = portfolio.total_equity(current_prices_map)
+        portfolio_dd = (current_eq / portfolio.initial_equity - 1) * 100
+        if portfolio_dd < -config.DRAWDOWN_CIRCUIT_BREAKER_PCT:
+            print(f"\n  {'!' * 66}")
+            print(f"  CIRCUIT BREAKER ACTIVE")
+            print(f"  Portfolio drawdown: {portfolio_dd:.1f}% from initial equity")
+            print(f"  Threshold: -{config.DRAWDOWN_CIRCUIT_BREAKER_PCT}%")
+            print(f"  New entries BLOCKED until drawdown recovers")
+            print(f"  {'!' * 66}")
+
     # Regime-specific guidance
     if not regime_on:
         exits_triggered = sum(1 for r in reports if r.get("exit_triggered"))

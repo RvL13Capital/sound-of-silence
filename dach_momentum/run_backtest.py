@@ -323,8 +323,23 @@ def run_backtest(
             state.positions.remove(pos)
             state.closed_trades.append(pos)
 
-        # --- STEP 2: Screen for new entries (only if regime ON) ---
-        if regime_on and len(state.open_positions) < max_positions:
+        # --- DRAWDOWN CIRCUIT BREAKER ---
+        # If trailing 60-day portfolio return < -15%, pause new entries
+        current_equity = state.total_equity(current_prices)
+        circuit_breaker_active = False
+        if len(state.equity_curve) >= config.DRAWDOWN_LOOKBACK_DAYS // 5:
+            lookback_idx = min(
+                config.DRAWDOWN_LOOKBACK_DAYS // 5,
+                len(state.equity_curve),
+            )
+            past_equity = state.equity_curve[-lookback_idx]["equity"]
+            if past_equity > 0:
+                trailing_dd = (current_equity / past_equity - 1) * 100
+                if trailing_dd < -config.DRAWDOWN_CIRCUIT_BREAKER_PCT:
+                    circuit_breaker_active = True
+
+        # --- STEP 2: Screen for new entries (only if regime ON + no circuit breaker) ---
+        if regime_on and not circuit_breaker_active and len(state.open_positions) < max_positions:
             candidates = []
             for ticker, sig in all_signals.items():
                 # Skip if already holding
@@ -433,6 +448,7 @@ def run_backtest(
             "cash": state.cash,
             "positions": len(state.open_positions),
             "regime_on": regime_on,
+            "circuit_breaker": circuit_breaker_active,
         })
 
     # Close any remaining positions at last price
@@ -526,8 +542,10 @@ def compute_performance(state: BacktestState) -> dict:
     for t in trades:
         exit_reasons[t.exit_reason] = exit_reasons.get(t.exit_reason, 0) + 1
 
-    # Regime statistics
+    # Regime and circuit breaker statistics
     regime_on_pct = eq["regime_on"].mean() * 100
+    cb_pct = eq["circuit_breaker"].mean() * 100 if "circuit_breaker" in eq.columns else 0.0
+    cb_weeks = int(eq["circuit_breaker"].sum()) if "circuit_breaker" in eq.columns else 0
 
     return {
         "initial_capital": initial,
@@ -549,6 +567,8 @@ def compute_performance(state: BacktestState) -> dict:
         "avg_holding_days": avg_hold,
         "exit_reasons": exit_reasons,
         "regime_on_pct": regime_on_pct,
+        "circuit_breaker_pct": cb_pct,
+        "circuit_breaker_weeks": cb_weeks,
         "equity_curve": eq,
     }
 
@@ -590,6 +610,8 @@ def print_performance(perf: dict) -> None:
 
     print(f"\n  REGIME")
     print(f"    Time in bullish regime: {perf['regime_on_pct']:.1f}%")
+    print(f"    Circuit breaker active: {perf['circuit_breaker_pct']:.1f}% "
+          f"({perf['circuit_breaker_weeks']} weeks)")
 
     # Annual returns
     eq = perf["equity_curve"]
