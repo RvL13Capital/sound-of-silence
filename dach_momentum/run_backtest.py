@@ -10,7 +10,12 @@ Simulates the full strategy historically:
 - Transaction costs (DKB EUR 10/trade + spread estimate)
 - Outputs equity curve, drawdown, trade log, and performance stats
 
+Modes:
+  --mode momentum   : trend template + momentum only (original)
+  --mode canslim    : adds quality filters (volume, trend health, extension)
+
 Usage: python run_backtest.py
+       python run_backtest.py --mode canslim
        python run_backtest.py --start 2015-01-01 --end 2025-12-31
 """
 import sys
@@ -123,9 +128,59 @@ def compute_stock_signals(df: pd.DataFrame) -> pd.DataFrame:
     signals["sma_30w"] = sma(close, 150)  # 30 weeks * 5 days
     signals["sma_10w"] = sma(close, 50)   # 10 weeks * 5 days
 
-    # Volume (for basic confirmation)
+    # Volume analysis (S in CAN SLIM — supply/demand)
     if "Volume" in df.columns:
-        signals["vol_50d"] = df["Volume"].rolling(50).mean()
+        vol = df["Volume"]
+        signals["vol_50d"] = vol.rolling(50).mean()
+        signals["vol_10d"] = vol.rolling(10).mean()
+
+        # Volume trend: is recent volume above average?
+        signals["vol_increasing"] = signals["vol_10d"] > signals["vol_50d"]
+
+        # Up/Down volume ratio (20-day rolling)
+        daily_return = close.pct_change()
+        up_vol = vol.where(daily_return > 0, 0).rolling(20).sum()
+        down_vol = vol.where(daily_return < 0, 0).rolling(20).sum()
+        signals["up_down_vol_ratio"] = up_vol / down_vol.replace(0, np.nan)
+
+        # Accumulation: up/down ratio > 1.2
+        signals["accumulation"] = signals["up_down_vol_ratio"] > 1.2
+
+    # Trend health signals (proxies for CAN SLIM quality)
+    # These use only price data, so they're backtestable without fundamentals
+
+    # 1. Price acceleration: is the rate of rise increasing?
+    mom_3m = close / close.shift(63) - 1
+    mom_6m = close / close.shift(126) - 1
+    signals["price_accelerating"] = mom_3m > (mom_6m / 2)
+
+    # 2. SMA spacing: healthy trends have well-separated SMAs
+    #    (50 > 150 > 200 with gaps, not clustered together)
+    if "sma_50" in signals.columns and "sma_200" in signals.columns:
+        sma_spread = (signals["sma_50"] / signals["sma_200"] - 1) * 100
+        signals["sma_spread_pct"] = sma_spread
+        signals["healthy_spread"] = (sma_spread > 2) & (sma_spread < 30)
+
+    # 3. Not over-extended: price shouldn't be too far above 200d SMA
+    extension = (close / signals["sma_200"] - 1) * 100
+    signals["extension_pct"] = extension
+    signals["not_overextended"] = extension < 60  # <60% above 200d SMA
+
+    # 4. Volatility contraction: Bollinger bandwidth declining
+    signals["bb_width"] = bollinger_bandwidth(close, 20)
+    bb_avg = signals["bb_width"].rolling(50).mean()
+    signals["vol_contracting"] = signals["bb_width"] < bb_avg
+
+    # Combined quality score (0-5 points, backtestable)
+    quality_score = pd.Series(0, index=df.index, dtype=float)
+    if "accumulation" in signals.columns:
+        quality_score += signals["accumulation"].astype(float)
+    quality_score += signals["price_accelerating"].astype(float)
+    if "healthy_spread" in signals.columns:
+        quality_score += signals["healthy_spread"].astype(float)
+    quality_score += signals["not_overextended"].astype(float)
+    quality_score += signals["vol_contracting"].astype(float)
+    signals["quality_score"] = quality_score
 
     return signals
 
@@ -142,6 +197,7 @@ def run_backtest(
     initial_capital: float = 20000.0,
     max_positions: int = 10,
     rebalance_freq: str = "W-FRI",  # weekly on Fridays
+    mode: str = "momentum",  # "momentum" or "canslim"
 ) -> BacktestState:
     """Run the full backtest."""
 
@@ -296,15 +352,31 @@ def run_backtest(
                 if price <= 0:
                     continue
 
+                # Quality filter (CAN SLIM mode)
+                quality = row.get("quality_score", 0)
+                if pd.isna(quality):
+                    quality = 0
+
+                if mode == "canslim" and quality < 3:
+                    continue  # reject low-quality candidates
+
                 candidates.append({
                     "ticker": ticker,
                     "price": price,
                     "mom": mom,
                     "atr": float(atr_val) if pd.notna(atr_val) else None,
+                    "quality": float(quality),
                 })
 
-            # Rank by momentum, take top N to fill available slots
-            candidates.sort(key=lambda x: x["mom"], reverse=True)
+            # Rank candidates
+            if mode == "canslim":
+                # Weight: 60% momentum + 40% quality
+                candidates.sort(
+                    key=lambda x: x["mom"] * 0.6 + x.get("quality", 0) / 5 * 0.4,
+                    reverse=True,
+                )
+            else:
+                candidates.sort(key=lambda x: x["mom"], reverse=True)
             slots = max_positions - len(state.open_positions)
 
             for cand in candidates[:slots]:
@@ -540,12 +612,15 @@ def main():
     # Parse args
     start = "2010-01-01"
     end = "2026-12-31"
+    mode = "both"  # default: run both and compare
     args = sys.argv[1:]
     for i, arg in enumerate(args):
         if arg == "--start" and i + 1 < len(args):
             start = args[i + 1]
         elif arg == "--end" and i + 1 < len(args):
             end = args[i + 1]
+        elif arg == "--mode" and i + 1 < len(args):
+            mode = args[i + 1]
 
     # Load prices
     print("\n[1/3] Loading price data...")
@@ -571,47 +646,94 @@ def main():
     bench_close = bench["Close"]
     logger.info("Benchmark: %d rows", len(bench_close))
 
-    # Run backtest
-    print(f"\n[3/3] Running backtest {start} to {end}...")
-    state = run_backtest(
-        prices=prices,
-        benchmark_close=bench_close,
-        start_date=start,
-        end_date=end,
-        initial_capital=20000.0,
-        max_positions=10,
-    )
+    # Run backtest(s)
+    modes_to_run = ["momentum", "canslim"] if mode == "both" else [mode]
+    all_results = {}
 
-    # Compute and print results
-    perf = compute_performance(state)
-    print_performance(perf)
+    for run_mode in modes_to_run:
+        print(f"\n[3/3] Running backtest: {run_mode.upper()} mode ({start} to {end})...")
+        state = run_backtest(
+            prices=prices,
+            benchmark_close=bench_close,
+            start_date=start,
+            end_date=end,
+            initial_capital=20000.0,
+            max_positions=10,
+            mode=run_mode,
+        )
 
-    # Save trade log
-    if state.closed_trades:
-        trades_df = pd.DataFrame([{
-            "ticker": t.ticker,
-            "entry_date": t.entry_date,
-            "entry_price": round(t.entry_price, 2),
-            "exit_date": t.exit_date,
-            "exit_price": round(t.exit_price, 2),
-            "shares": t.shares,
-            "pnl": round(t.pnl, 2),
-            "pnl_pct": round(t.pnl_pct, 1),
-            "holding_days": t.holding_days,
-            "exit_reason": t.exit_reason,
-        } for t in state.closed_trades])
-        trades_path = config.DATA_DIR / "backtest_trades.csv"
-        trades_df.to_csv(trades_path, index=False)
-        print(f"  Trade log saved to: {trades_path}")
+        perf = compute_performance(state)
+        all_results[run_mode] = perf
+        print_performance(perf)
 
-    # Save equity curve
-    eq = perf.get("equity_curve")
-    if eq is not None:
-        eq_path = config.DATA_DIR / "backtest_equity.csv"
-        eq.to_csv(eq_path)
-        print(f"  Equity curve saved to: {eq_path}")
+        # Save trade log
+        suffix = f"_{run_mode}" if len(modes_to_run) > 1 else ""
+        if state.closed_trades:
+            trades_df = pd.DataFrame([{
+                "ticker": t.ticker,
+                "entry_date": t.entry_date,
+                "entry_price": round(t.entry_price, 2),
+                "exit_date": t.exit_date,
+                "exit_price": round(t.exit_price, 2),
+                "shares": t.shares,
+                "pnl": round(t.pnl, 2),
+                "pnl_pct": round(t.pnl_pct, 1),
+                "holding_days": t.holding_days,
+                "exit_reason": t.exit_reason,
+            } for t in state.closed_trades])
+            trades_path = config.DATA_DIR / f"backtest_trades{suffix}.csv"
+            trades_df.to_csv(trades_path, index=False)
+            print(f"  Trade log saved to: {trades_path}")
 
-    print()
+        eq = perf.get("equity_curve")
+        if eq is not None:
+            eq_path = config.DATA_DIR / f"backtest_equity{suffix}.csv"
+            eq.to_csv(eq_path)
+            print(f"  Equity curve saved to: {eq_path}")
+
+    # Side-by-side comparison if both modes ran
+    if len(all_results) == 2:
+        sep = "=" * 60
+        print(f"\n{sep}")
+        print("  MOMENTUM vs CAN SLIM COMPARISON")
+        print(sep)
+
+        m = all_results["momentum"]
+        c = all_results["canslim"]
+
+        rows = [
+            ("CAGR", f"{m['cagr_pct']:+.1f}%", f"{c['cagr_pct']:+.1f}%"),
+            ("Max Drawdown", f"{m['max_drawdown_pct']:.1f}%", f"{c['max_drawdown_pct']:.1f}%"),
+            ("Sharpe", f"{m['sharpe_ratio']:.2f}", f"{c['sharpe_ratio']:.2f}"),
+            ("Sortino", f"{m['sortino_ratio']:.2f}", f"{c['sortino_ratio']:.2f}"),
+            ("Total Trades", f"{m['total_trades']}", f"{c['total_trades']}"),
+            ("Win Rate", f"{m['win_rate_pct']:.1f}%", f"{c['win_rate_pct']:.1f}%"),
+            ("Avg Win", f"{m['avg_win_pct']:+.1f}%", f"{c['avg_win_pct']:+.1f}%"),
+            ("Avg Loss", f"{m['avg_loss_pct']:+.1f}%", f"{c['avg_loss_pct']:+.1f}%"),
+            ("Profit Factor", f"{m['profit_factor']:.2f}", f"{c['profit_factor']:.2f}"),
+            ("Calmar", f"{m['calmar_ratio']:.2f}", f"{c['calmar_ratio']:.2f}"),
+        ]
+
+        print(f"\n  {'Metric':<20} {'Momentum':>12} {'CAN SLIM':>12}  {'Better':>10}")
+        print(f"  {'─'*20} {'─'*12} {'─'*12}  {'─'*10}")
+        for label, mv, cv in rows:
+            # Determine which is better
+            try:
+                mf = float(mv.replace('%', '').replace('+', ''))
+                cf = float(cv.replace('%', '').replace('+', ''))
+                if label == "Max Drawdown":
+                    better = "CANSLIM" if cf > mf else "MOMENTUM"
+                elif label == "Avg Loss":
+                    better = "CANSLIM" if cf > mf else "MOMENTUM"
+                elif label == "Total Trades":
+                    better = "—"
+                else:
+                    better = "CANSLIM" if cf > mf else "MOMENTUM"
+            except ValueError:
+                better = "—"
+            print(f"  {label:<20} {mv:>12} {cv:>12}  {better:>10}")
+
+        print()
 
 
 if __name__ == "__main__":
