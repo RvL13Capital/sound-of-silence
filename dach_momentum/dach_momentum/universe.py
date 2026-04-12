@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import logging
 import re
+import time
 from io import StringIO
 from pathlib import Path
 from typing import Optional
@@ -383,18 +384,69 @@ def load_universe(path: Optional[Path] = None) -> pd.DataFrame:
 
 
 # ========================================================================== #
+# Scheduled refresh
+# ========================================================================== #
+
+UNIVERSE_MAX_AGE_DAYS = 30
+
+
+def _file_age_days(path: Path) -> float:
+    """Return the age of *path* in fractional days."""
+    return (time.time() - path.stat().st_mtime) / 86400.0
+
+
+def refresh_universe(force: bool = False) -> pd.DataFrame:
+    """
+    Return the universe, rebuilding it if the cached CSV is stale.
+
+    The universe is considered stale if ``universe.csv`` is older than
+    30 days or does not exist.  Pass ``force=True`` to rebuild
+    regardless of age.
+
+    Prints a human-readable cache-age message, e.g.:
+        Universe last updated: 3 days ago (next refresh in 27 days)
+    """
+    path = config.UNIVERSE_CSV
+
+    if path.exists() and not force:
+        age = _file_age_days(path)
+        int_age = int(age)
+        remaining = max(0, UNIVERSE_MAX_AGE_DAYS - int_age)
+
+        if age < UNIVERSE_MAX_AGE_DAYS:
+            day_word = "day" if int_age == 1 else "days"
+            rem_word = "day" if remaining == 1 else "days"
+            print(
+                f"Universe last updated: {int_age} {day_word} ago "
+                f"(next refresh in {remaining} {rem_word})"
+            )
+            return load_universe(path)
+        else:
+            logger.info(
+                "Universe is %d days old (> %d day limit) — rebuilding",
+                int_age, UNIVERSE_MAX_AGE_DAYS,
+            )
+
+    # (Re)build
+    logger.info("Building fresh universe (force=%s)...", force)
+    universe = build_universe()
+    save_universe(universe)
+    print("Universe rebuilt and saved.")
+    return universe
+
+
+# ========================================================================== #
 # CLI
 # ========================================================================== #
 
 
-def main() -> None:
+def main(refresh: bool = False) -> None:
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)-8s %(name)s: %(message)s",
     )
 
-    universe = build_universe()
-    save_universe(universe)
+    universe = refresh_universe(force=refresh)
 
     # --- summary output -----------------------------------------------------
     sep = "=" * 60
