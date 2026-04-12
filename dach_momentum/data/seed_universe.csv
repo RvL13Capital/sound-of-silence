@@ -251,3 +251,129 @@ EDP,EDP,Utilities,Portugal,.LS,PSI,EDP.LS
 GALP,Galp Energia,Energy,Portugal,.LS,PSI,GALP.LS
 SON,Sonae,Consumer Staples,Portugal,.LS,PSI,SON.LS
 JMT,Jeronimo Martins,Consumer Staples,Portugal,.LS,PSI,JMT.LS
+AOF,Atoss Software,Information Technology,Germany,.DE,Germany_Small,AOF.DE
+COK,CANCOM,Information Technology,Germany,.DE,SDAX,COK.DE
+COP,CompuGroup Medical,Health Care,Germany,.DE,SDAX,COP.DE
+DMP,Dermapharm,Health Care,Germany,.DE,SDAX,DMP.DE
+HYQ,Hypoport,Information Technology,Germany,.DE,SDAX,HYQ.DE
+IXX,INIT Innovation,Information Technology,Germany,.DE,Germany_Small,IXX.DE
+KTN,Kontron,Information Technology,Germany,.DE,SDAX,KTN.DE
+LPK,LPKF Laser,Information Technology,Germany,.DE,Germany_Small,LPK.DE
+MBB,MBB SE,Industrials,Germany,.DE,Germany_Small,MBB.DE
+NA9,Nagarro,Information Technology,Germany,.DE,SDAX,NA9.DE
+PAT,Patrizia,Real Estate,Germany,.DE,SDAX,PAT.DE
+SMHN,SUESS MicroTec,Information Technology,Germany,.DE,SDAX,SMHN.DE
+TPE,PVA TePla,Information Technology,Germany,.DE,SDAX,TPE.DE
+TTR1,technotrans,Industrials,Germany,.DE,Germany_Small,TTR1.DE
+YSN,Secunet Security,Information Technology,Germany,.DE,TecDAX,YSN.DE
+PSM,ProSiebenSat.1,Communication Services,Germany,.DE,MDAX,PSM.DE
+NB2,Northern Data,Information Technology,Germany,.DE,Germany_Small,NB2.DE
+DBAN,Deutsche Beteiligungs AG,Financials,Germany,.DE,SDAX,DBAN.DE
+RIB,RIB Software,Information Technology,Germany,.DE,Germany_Small,RIB.DE
+GTT,GTT,Industrials,France,.PA,France_Mid,GTT.PA
+IPN,Ipsen,Health Care,France,.PA,SBF_120,IPN.PA
+COFA,Coface,Financials,France,.PA,France_Mid,COFA.PA
+DBG,Derichebourg,Industrials,France,.PA,France_Mid,DBG.PA
+NXI,Nexity,Real Estate,France,.PA,France_Mid,NXI.PA
+POM,Plastic Omnium,Consumer Discretionary,France,.PA,SBF_120,POM.PA
+VCT,Vicat,Materials,France,.PA,France_Mid,VCT.PA
+VETO,Vetoquinol,Health Care,France,.PA,France_Small,VETO.PA
+KOF,Kaufman and Broad,Consumer Discretionary,France,.PA,France_Small,KOF.PA
+MDM,Maisons du Monde,Consumer Discretionary,France,.PA,France_Small,MDM.PA
+CRI,Chargeurs,Industrials,France,.PA,France_Small,CRI.PA
+MRN,Mersen,Industrials,France,.PA,France_Mid,MRN.PA
+BIG,Bigben Interactive,Communication Services,France,.PA,France_Small,BIG.PA
+RF,Eurazeo,Financials,France,.PA,SBF_120,RF.PA
+THEP,Thermador Groupe,Industrials,France,.PA,France_Small,THEP.PA
+DIM,Sartorius Stedim Biotech,Health Care,France,.PA,SBF_120,DIM.PA
+EN,Bouygues,Industrials,France,.PA,SBF_120,EN.PA
+TNXT,Tinexta,Information Technology,Italy,.MI,Italy_Mid,TNXT.MI
+ZV,Zignago Vetro,Materials,Italy,.MI,Italy_Small,ZV.MI
+MARR,MARR,Consumer Staples,Italy,.MI,Italy_Mid,MARR.MI
+JUVE,Juventus FC,Communication Services,Italy,.MI,Italy_Small,JUVE.MI
+PIA,Piaggio,Consumer Discretionary,Italy,.MI,Italy_Mid,PIA.MI
+TOD,Tods,Consumer Discretionary,Italy,.MI,Italy_Mid,TOD.MI
+SFER,Salvatore Ferragamo,Consumer Discretionary,Italy,.MI,Italy_Mid,SFER.MI
+CAF,CAF,Industrials,Spain,.MC,Spain_Mid,CAF.MC
+VIS,Viscofan,Consumer Staples,Spain,.MC,Spain_Mid,VIS.MC
+VID,Vidrala,Materials,Spain,.MC,Spain_Mid,VID.MC
+CIE,CIE Automotive,Consumer Discretionary,Spain,.MC,Spain_Mid,CIE.MC
+MEL,Melia Hotels,Consumer Discretionary,Spain,.MC,IBEX_35,MEL.MC
+LOG,Logista,Industrials,Spain,.MC,IBEX_35,LOG.MC
+A3M,Atresmedia,Communication Services,Spain,.MC,Spain_Mid,A3M.MC
+FDR,Fluidra,Industrials,Spain,.MC,IBEX_35,FDR.MC
+ANOD-B,Addnode Group,Information Technology,Sweden,.ST,Sweden_Small,ANOD-B.ST
+BEIJ-B,Beijer Ref,Industrials,Sweden,.ST,OMX_Mid_SE,BEIJ-B.ST
+EMBRAC-B,Embracer Group,Communication Services,Sweden,.ST,OMX_Mid_SE,EMBRAC-B.ST
+FNOX,Fortnox,Information Technology,Sweden,.ST,OMX_Mid_SE,FNOX.ST
+HTRO,Hexatronic,Information Technology,Sweden,.ST,Sweden_Small,HTRO.ST
+HPOL-B,Hexpol,Materials,Sweden,.ST,OMX_Mid_SE,HPOL-B.ST
+MIPS,MIPS,Consumer Discretionary,Sweden,.ST,Sweden_Small,MIPS.ST
+MTRS,Munters,Industrials,Sweden,.ST,OMX_Mid_SE,MTRS.ST
+NMAN,Nederman,Industrials,Sweden,.ST,Sweden_Small,NMAN.ST
+SUS,Surgical Science,Health Care,Sweden,.ST,Sweden_Small,SUS.ST
+TROAX,Troax,Industrials,Sweden,.ST,Sweden_Small,TROAX.ST
+VIT-B,Vitec Software,Information Technology,Sweden,.ST,Sweden_Small,VIT-B.ST
+MCOV-B,Medicover,Health Care,Sweden,.ST,OMX_Mid_SE,MCOV-B.ST
+ADDV-B,AddLife,Health Care,Sweden,.ST,OMX_Mid_SE,ADDV-B.ST
+CINT,CINT Group,Information Technology,Sweden,.ST,Sweden_Small,CINT.ST
+AUTO,AutoStore,Industrials,Norway,.OL,Norway_Mid,AUTO.OL
+CRAYN,Crayon,Information Technology,Norway,.OL,Norway_Mid,CRAYN.OL
+HEX,Hexagon Composites,Industrials,Norway,.OL,Norway_Mid,HEX.OL
+KIT,Kitron,Information Technology,Norway,.OL,Norway_Small,KIT.OL
+NOD,Nordic Semiconductor,Information Technology,Norway,.OL,OBX,NOD.OL
+ATEA,Atea,Information Technology,Norway,.OL,Norway_Mid,ATEA.OL
+BRG,Borregaard,Materials,Norway,.OL,Norway_Mid,BRG.OL
+TOM,Tomra,Industrials,Norway,.OL,OBX,TOM.OL
+WAWI,Wallenius Wilhelmsen,Industrials,Norway,.OL,OBX,WAWI.OL
+SCATC,Scatec,Utilities,Norway,.OL,OBX,SCATC.OL
+ALK-B,ALK-Abello,Health Care,Denmark,.CO,Denmark_Mid,ALK-B.CO
+CHEMM,ChemoMetec,Health Care,Denmark,.CO,Denmark_Small,CHEMM.CO
+FLS,FLSmidth,Industrials,Denmark,.CO,C25,FLS.CO
+NETC,Netcompany,Information Technology,Denmark,.CO,C25,NETC.CO
+TOP,Topdanmark,Insurance,Denmark,.CO,Denmark_Mid,TOP.CO
+PNDORA,Pandora,Consumer Discretionary,Denmark,.CO,C25,PNDORA.CO
+REG1V,Revenio,Health Care,Finland,.HE,Finland_Mid,REG1V.HE
+ORNBV,Orion,Health Care,Finland,.HE,OMX_H25,ORNBV.HE
+CDR,CD Projekt,Communication Services,Poland,.WA,WIG20,CDR.WA
+ALE,Allegro,Consumer Discretionary,Poland,.WA,WIG20,ALE.WA
+DNP,Dino Polska,Consumer Staples,Poland,.WA,WIG20,DNP.WA
+KGH,KGHM,Materials,Poland,.WA,WIG20,KGH.WA
+LPP,LPP,Consumer Discretionary,Poland,.WA,WIG20,LPP.WA
+PCO,Pepco,Consumer Discretionary,Poland,.WA,mWIG40,PCO.WA
+PZU,PZU,Insurance,Poland,.WA,WIG20,PZU.WA
+PKN,PKN Orlen,Energy,Poland,.WA,WIG20,PKN.WA
+PEO,Pekao,Financials,Poland,.WA,WIG20,PEO.WA
+CCC,CCC,Consumer Discretionary,Poland,.WA,mWIG40,CCC.WA
+ACP,Asseco Poland,Information Technology,Poland,.WA,mWIG40,ACP.WA
+BHW,Bank Handlowy,Financials,Poland,.WA,mWIG40,BHW.WA
+LVC,LiveChat Software,Information Technology,Poland,.WA,mWIG40,LVC.WA
+TEN,Ten Square Games,Communication Services,Poland,.WA,mWIG40,TEN.WA
+BFT,Benefit Systems,Consumer Discretionary,Poland,.WA,mWIG40,BFT.WA
+ING,ING Bank Slaski,Financials,Poland,.WA,mWIG40,ING.WA
+CMR,Comarch,Information Technology,Poland,.WA,mWIG40,CMR.WA
+ATC,Arctic Paper,Materials,Poland,.WA,mWIG40,ATC.WA
+BATS,British American Tobacco,Consumer Staples,UK,.L,FTSE_250,BATS.L
+RTO,Rentokil Initial,Industrials,UK,.L,FTSE_250,RTO.L
+SMDS,Smith DS,Materials,UK,.L,FTSE_250,SMDS.L
+WEIR,Weir Group,Industrials,UK,.L,FTSE_250,WEIR.L
+RR,Rolls-Royce Holdings,Industrials,UK,.L,FTSE_250,RR.L
+IMB,Imperial Brands,Consumer Staples,UK,.L,FTSE_250,IMB.L
+HLMA,Halma,Information Technology,UK,.L,FTSE_250,HLMA.L
+SMIN,Smiths Group,Industrials,UK,.L,FTSE_250,SMIN.L
+BNZL,Bunzl,Industrials,UK,.L,FTSE_250,BNZL.L
+MGGT,Meggitt,Industrials,UK,.L,UK_Mid,MGGT.L
+QQ,QinetiQ,Industrials,UK,.L,FTSE_250,QQ.L
+BDEV,Barratt Developments,Consumer Discretionary,UK,.L,FTSE_250,BDEV.L
+TW,Taylor Wimpey,Consumer Discretionary,UK,.L,FTSE_250,TW.L
+MNDI,Mondi,Materials,UK,.L,FTSE_250,MNDI.L
+JMAT,Johnson Matthey,Materials,UK,.L,FTSE_250,JMAT.L
+SPX,Spirax-Sarco Engineering,Industrials,UK,.L,FTSE_250,SPX.L
+OXIG,Oxford Instruments,Information Technology,UK,.L,UK_Mid,OXIG.L
+DPLM,Diploma,Industrials,UK,.L,FTSE_250,DPLM.L
+RS1,RS Group,Industrials,UK,.L,FTSE_250,RS1.L
+OPHR,Ophrys,Energy,Greece,.AT,ATHEX,OPHR.AT
+EUROB,Eurobank Ergasias,Financials,Greece,.AT,ATHEX,EUROB.AT
+ALPHA,Alpha Services and Holdings,Financials,Greece,.AT,ATHEX,ALPHA.AT
+MYTIL,Mytilineos,Industrials,Greece,.AT,ATHEX,MYTIL.AT
+PPC,Public Power Corp,Utilities,Greece,.AT,ATHEX,PPC.AT
