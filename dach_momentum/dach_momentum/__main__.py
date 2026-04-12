@@ -18,9 +18,12 @@ def main() -> None:
     elif cmd == "data":
         from .data import main as data_main
         data_main()
+    elif cmd == "signals":
+        from .signals import main as signals_main
+        signals_main()
     else:
         print(f"Unknown command: {cmd}")
-        print("Usage: python -m dach_momentum [universe|data]")
+        print("Usage: python -m dach_momentum [universe|data|signals]")
         sys.exit(1)
 
 
