@@ -1,5 +1,30 @@
-"""Allow running the package as:  python -m dach_momentum.universe"""
+"""
+Package entry point: python -m dach_momentum
 
-from .universe import main
+Dispatches to submodules based on command-line argument:
+    python -m dach_momentum universe   -> build the ticker universe
+    python -m dach_momentum data       -> download prices & filter
+    python -m dach_momentum            -> default: universe
+"""
+import sys
+
+
+def main() -> None:
+    cmd = sys.argv[1] if len(sys.argv) > 1 else "universe"
+
+    if cmd == "universe":
+        from .universe import main as universe_main
+        universe_main()
+    elif cmd == "data":
+        from .data import main as data_main
+        data_main()
+    elif cmd == "signals":
+        from .signals import main as signals_main
+        signals_main()
+    else:
+        print(f"Unknown command: {cmd}")
+        print("Usage: python -m dach_momentum [universe|data|signals]")
+        sys.exit(1)
+
 
 main()

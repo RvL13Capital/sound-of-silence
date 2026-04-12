@@ -31,6 +31,7 @@ for _d in (DATA_DIR, CACHE_DIR, PRICES_DIR):
 # --------------------------------------------------------------------------- #
 
 INDEX_SOURCES = {
+    # --- Germany ---
     "DAX": {
         "url": "https://en.wikipedia.org/wiki/DAX",
         "country": "Germany",
@@ -62,13 +63,79 @@ INDEX_SOURCES = {
         "suffix": ".SW",
     },
     "SMIM": {
-        # Swiss Market Index Mid-Cap — 30 mid-cap Swiss stocks.
-        # SMI itself is large-cap and will mostly be filtered out
-        # by our EUR 2B market cap ceiling; SMIM is where the
-        # Swiss small/mid exposure actually comes from.
         "url": "https://en.wikipedia.org/wiki/SMI_MID",
         "country": "Switzerland",
         "suffix": ".SW",
+    },
+    # --- France ---
+    "CAC_Mid_60": {
+        "url": "https://en.wikipedia.org/wiki/CAC_Mid_60",
+        "country": "France",
+        "suffix": ".PA",
+    },
+    "SBF_120": {
+        "url": "https://en.wikipedia.org/wiki/SBF_120",
+        "country": "France",
+        "suffix": ".PA",
+    },
+    # --- Netherlands ---
+    "AEX": {
+        "url": "https://en.wikipedia.org/wiki/AEX_index",
+        "country": "Netherlands",
+        "suffix": ".AS",
+    },
+    "AMX": {
+        "url": "https://en.wikipedia.org/wiki/AMX_index",
+        "country": "Netherlands",
+        "suffix": ".AS",
+    },
+    # --- Belgium ---
+    "BEL_20": {
+        "url": "https://en.wikipedia.org/wiki/BEL_20",
+        "country": "Belgium",
+        "suffix": ".BR",
+    },
+    # --- Italy ---
+    "FTSE_MIB": {
+        "url": "https://en.wikipedia.org/wiki/FTSE_MIB",
+        "country": "Italy",
+        "suffix": ".MI",
+    },
+    # --- Spain ---
+    "IBEX_35": {
+        "url": "https://en.wikipedia.org/wiki/IBEX_35",
+        "country": "Spain",
+        "suffix": ".MC",
+    },
+    # --- Sweden ---
+    "OMX_30": {
+        "url": "https://en.wikipedia.org/wiki/OMX_Stockholm_30",
+        "country": "Sweden",
+        "suffix": ".ST",
+    },
+    # --- Denmark ---
+    "C25": {
+        "url": "https://en.wikipedia.org/wiki/OMX_Copenhagen_25",
+        "country": "Denmark",
+        "suffix": ".CO",
+    },
+    # --- Finland ---
+    "OMX_H25": {
+        "url": "https://en.wikipedia.org/wiki/OMX_Helsinki_25",
+        "country": "Finland",
+        "suffix": ".HE",
+    },
+    # --- Norway ---
+    "OBX": {
+        "url": "https://en.wikipedia.org/wiki/OBX_Index",
+        "country": "Norway",
+        "suffix": ".OL",
+    },
+    # --- Portugal ---
+    "PSI": {
+        "url": "https://en.wikipedia.org/wiki/PSI-20",
+        "country": "Portugal",
+        "suffix": ".LS",
     },
 }
 
