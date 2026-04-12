@@ -62,10 +62,20 @@ class PortfolioState:
         return len(self.open_positions)
 
     @property
-    def total_equity(self) -> float:
-        return self.cash + sum(
-            p.shares * p.entry_price for p in self.open_positions
-        )
+    def invested_at_cost(self) -> float:
+        """Total value of open positions at entry price."""
+        return sum(p.shares * p.entry_price for p in self.open_positions)
+
+    def total_equity(self, current_prices: dict[str, float] = None) -> float:
+        """Total equity = cash + mark-to-market value of positions."""
+        if current_prices:
+            pos_value = sum(
+                p.shares * current_prices.get(p.ticker, p.entry_price)
+                for p in self.open_positions
+            )
+        else:
+            pos_value = self.invested_at_cost
+        return self.cash + pos_value
 
 
 def calculate_stop_price(
@@ -79,9 +89,10 @@ def calculate_stop_price(
 
     if atr and atr > 0:
         atr_stop = entry_price - config.INITIAL_HARD_STOP_ATR_MULT * atr
-        # Use the WIDER stop (more room), but cap at 15%
+        # Use the WIDER stop (lower price = more room), capped at 15%
         floor = entry_price * (1 - config.HARD_STOP_CEILING_PCT / 100)
-        stop = max(min(pct_stop, atr_stop), floor)
+        wider_stop = min(pct_stop, atr_stop)   # lower price = more room
+        stop = max(wider_stop, floor)           # but never below 15% floor
     else:
         stop = pct_stop
 

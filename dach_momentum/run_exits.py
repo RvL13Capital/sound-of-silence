@@ -47,9 +47,10 @@ def main():
     # Parse args
     days = 30
     manual = False
-    for i, arg in enumerate(sys.argv[1:]):
-        if arg == "--days" and i + 2 < len(sys.argv):
-            days = int(sys.argv[i + 2])
+    args = sys.argv[1:]
+    for i, arg in enumerate(args):
+        if arg == "--days" and i + 1 < len(args):
+            days = int(args[i + 1])
         if arg == "--manual":
             manual = True
 
