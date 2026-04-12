@@ -1,0 +1,154 @@
+ticker,name,sector,country,suffix,index,yf_ticker
+ADS,Adidas,Consumer Discretionary,Germany,.DE,DAX,ADS.DE
+AIR,Airbus,Industrials,Germany,.DE,DAX,AIR.DE
+ALV,Allianz,Insurance,Germany,.DE,DAX,ALV.DE
+BAS,BASF,Materials,Germany,.DE,DAX,BAS.DE
+BAYN,Bayer,Health Care,Germany,.DE,DAX,BAYN.DE
+BEI,Beiersdorf,Consumer Staples,Germany,.DE,DAX,BEI.DE
+BMW,BMW,Consumer Discretionary,Germany,.DE,DAX,BMW.DE
+BNR,Brenntag,Industrials,Germany,.DE,DAX,BNR.DE
+CBK,Commerzbank,Financials,Germany,.DE,DAX,CBK.DE
+CON,Continental,Consumer Discretionary,Germany,.DE,DAX,CON.DE
+1COV,Covestro,Materials,Germany,.DE,DAX,1COV.DE
+DB1,Deutsche Boerse,Financials,Germany,.DE,DAX,DB1.DE
+DBK,Deutsche Bank,Financials,Germany,.DE,DAX,DBK.DE
+DHL,DHL Group,Industrials,Germany,.DE,DAX,DHL.DE
+DTE,Deutsche Telekom,Communication Services,Germany,.DE,DAX,DTE.DE
+DTG,Daimler Truck,Industrials,Germany,.DE,DAX,DTG.DE
+EOAN,E.ON,Utilities,Germany,.DE,DAX,EOAN.DE
+ENR,Siemens Energy,Industrials,Germany,.DE,DAX,ENR.DE
+FRE,Fresenius,Health Care,Germany,.DE,DAX,FRE.DE
+HEI,Heidelberg Materials,Materials,Germany,.DE,DAX,HEI.DE
+HEN3,Henkel,Consumer Staples,Germany,.DE,DAX,HEN3.DE
+HNR1,Hannover Re,Insurance,Germany,.DE,DAX,HNR1.DE
+IFX,Infineon Technologies,Information Technology,Germany,.DE,"DAX,TecDAX",IFX.DE
+MBG,Mercedes-Benz Group,Consumer Discretionary,Germany,.DE,DAX,MBG.DE
+MRK,Merck KGaA,Health Care,Germany,.DE,DAX,MRK.DE
+MTX,MTU Aero Engines,Industrials,Germany,.DE,DAX,MTX.DE
+MUV2,Munich Re,Insurance,Germany,.DE,DAX,MUV2.DE
+PAH3,Porsche Automobil Holding SE,Consumer Discretionary,Germany,.DE,DAX,PAH3.DE
+P911,Porsche AG,Consumer Discretionary,Germany,.DE,DAX,P911.DE
+QIA,Qiagen,Health Care,Germany,.DE,"DAX,TecDAX",QIA.DE
+RHM,Rheinmetall,Industrials,Germany,.DE,DAX,RHM.DE
+RWE,RWE,Utilities,Germany,.DE,DAX,RWE.DE
+SAP,SAP,Information Technology,Germany,.DE,"DAX,TecDAX",SAP.DE
+SRT3,Sartorius,Health Care,Germany,.DE,"DAX,TecDAX",SRT3.DE
+SIE,Siemens,Industrials,Germany,.DE,DAX,SIE.DE
+SHL,Siemens Healthineers,Health Care,Germany,.DE,"DAX,TecDAX",SHL.DE
+SY1,Symrise,Materials,Germany,.DE,DAX,SY1.DE
+VNA,Vonovia,Real Estate,Germany,.DE,DAX,VNA.DE
+VOW3,Volkswagen,Consumer Discretionary,Germany,.DE,DAX,VOW3.DE
+ZAL,Zalando,Consumer Discretionary,Germany,.DE,DAX,ZAL.DE
+AFX,Carl Zeiss Meditec,Health Care,Germany,.DE,"MDAX,TecDAX",AFX.DE
+AIXA,Aixtron,Information Technology,Germany,.DE,"MDAX,TecDAX",AIXA.DE
+BC8,Bechtle,Information Technology,Germany,.DE,"MDAX,TecDAX",BC8.DE
+BOSS,Hugo Boss,Consumer Discretionary,Germany,.DE,MDAX,BOSS.DE
+DHER,Delivery Hero,Consumer Discretionary,Germany,.DE,MDAX,DHER.DE
+EVK,Evonik Industries,Materials,Germany,.DE,MDAX,EVK.DE
+FME,Fresenius Medical Care,Health Care,Germany,.DE,MDAX,FME.DE
+FPE3,Fuchs SE,Materials,Germany,.DE,MDAX,FPE3.DE
+G1A,GEA Group,Industrials,Germany,.DE,MDAX,G1A.DE
+GXI,Gerresheimer,Health Care,Germany,.DE,MDAX,GXI.DE
+KGX,Kion Group,Industrials,Germany,.DE,MDAX,KGX.DE
+KRN,Krones,Industrials,Germany,.DE,MDAX,KRN.DE
+LEG,LEG Immobilien,Real Estate,Germany,.DE,MDAX,LEG.DE
+LXS,Lanxess,Materials,Germany,.DE,MDAX,LXS.DE
+NEM,Nemetschek,Information Technology,Germany,.DE,"MDAX,TecDAX",NEM.DE
+NDX1,Nordex,Industrials,Germany,.DE,"MDAX,TecDAX",NDX1.DE
+PUM,Puma,Consumer Discretionary,Germany,.DE,MDAX,PUM.DE
+RAA,Rational,Industrials,Germany,.DE,MDAX,RAA.DE
+SZG,Salzgitter,Materials,Germany,.DE,MDAX,SZG.DE
+TEG,TAG Immobilien,Real Estate,Germany,.DE,MDAX,TEG.DE
+TLX,Talanx,Insurance,Germany,.DE,MDAX,TLX.DE
+UTDI,United Internet,Communication Services,Germany,.DE,"MDAX,TecDAX",UTDI.DE
+WAF,Siltronic,Information Technology,Germany,.DE,MDAX,WAF.DE
+WCH,Wacker Chemie,Materials,Germany,.DE,MDAX,WCH.DE
+1U1,1&1 AG,Communication Services,Germany,.DE,TecDAX,1U1.DE
+FNTN,freenet,Communication Services,Germany,.DE,"SDAX,TecDAX",FNTN.DE
+EVD,CTS Eventim,Communication Services,Germany,.DE,SDAX,EVD.DE
+BYW6,BayWa,Consumer Staples,Germany,.DE,SDAX,BYW6.DE
+CWC,CEWE Stiftung,Consumer Discretionary,Germany,.DE,SDAX,CWC.DE
+FTK,flatexDEGIRO,Financials,Germany,.DE,SDAX,FTK.DE
+G24,Scout24,Communication Services,Germany,.DE,MDAX,G24.DE
+GFT,GFT Technologies,Information Technology,Germany,.DE,TecDAX,GFT.DE
+HBH,Hornbach Holding,Consumer Discretionary,Germany,.DE,SDAX,HBH.DE
+HDD,Heidelberger Druckmaschinen,Industrials,Germany,.DE,SDAX,HDD.DE
+INH,Indus Holding,Industrials,Germany,.DE,SDAX,INH.DE
+JEN,Jenoptik,Information Technology,Germany,.DE,"SDAX,TecDAX",JEN.DE
+JUN3,Jungheinrich,Industrials,Germany,.DE,SDAX,JUN3.DE
+KWS,KWS Saat,Consumer Staples,Germany,.DE,SDAX,KWS.DE
+NOEJ,Norma Group,Industrials,Germany,.DE,SDAX,NOEJ.DE
+SFQ,SAF-Holland,Industrials,Germany,.DE,SDAX,SFQ.DE
+SGL,SGL Carbon,Materials,Germany,.DE,SDAX,SGL.DE
+SHA,Schaeffler,Consumer Discretionary,Germany,.DE,SDAX,SHA.DE
+STO3,Sto SE,Industrials,Germany,.DE,SDAX,STO3.DE
+VBK,Verbio,Energy,Germany,.DE,SDAX,VBK.DE
+SBS,Stratec SE,Health Care,Germany,.DE,SDAX,SBS.DE
+DIC,Branicks Group,Real Estate,Germany,.DE,SDAX,DIC.DE
+DEQ,Deutsche EuroShop,Real Estate,Germany,.DE,SDAX,DEQ.DE
+HAB,Hamborner REIT,Real Estate,Germany,.DE,SDAX,HAB.DE
+AG1,Auto1 Group,Consumer Discretionary,Germany,.DE,SDAX,AG1.DE
+PBB,Deutsche Pfandbriefbank,Financials,Germany,.DE,SDAX,PBB.DE
+HLAG,Hapag-Lloyd,Industrials,Germany,.DE,MDAX,HLAG.DE
+TKA,thyssenkrupp,Industrials,Germany,.DE,MDAX,TKA.DE
+HOT,Hochtief,Industrials,Germany,.DE,MDAX,HOT.DE
+BVB,Borussia Dortmund,Communication Services,Germany,.DE,SDAX,BVB.DE
+S92,SMA Solar Technology,Information Technology,Germany,.DE,"SDAX,TecDAX",S92.DE
+EUZ,Eckert und Ziegler,Health Care,Germany,.DE,"SDAX,TecDAX",EUZ.DE
+NB2,Northern Data,Information Technology,Germany,.DE,SDAX,NB2.DE
+PNE3,PNE AG,Utilities,Germany,.DE,SDAX,PNE3.DE
+WAC,Wacker Neuson,Industrials,Germany,.DE,SDAX,WAC.DE
+TIMA,Zeal Network,Consumer Discretionary,Germany,.DE,SDAX,TIMA.DE
+ELG,Elmos Semiconductor,Information Technology,Germany,.DE,TecDAX,ELG.DE
+O2D,Telefonica Deutschland,Communication Services,Germany,.DE,TecDAX,O2D.DE
+DRW3,Draegerwerk,Health Care,Germany,.DE,TecDAX,DRW3.DE
+SANT,S&T AG,Information Technology,Germany,.DE,TecDAX,SANT.DE
+SOW,SoftwareONE,Information Technology,Germany,.DE,TecDAX,SOW.DE
+OMV,OMV,Energy,Austria,.VI,ATX,OMV.VI
+VOE,voestalpine,Materials,Austria,.VI,ATX,VOE.VI
+EBS,Erste Group Bank,Financials,Austria,.VI,ATX,EBS.VI
+WIE,Wienerberger,Materials,Austria,.VI,ATX,WIE.VI
+SBO,Schoeller-Bleckmann Oilfield,Energy,Austria,.VI,ATX,SBO.VI
+VER,Verbund,Utilities,Austria,.VI,ATX,VER.VI
+TKA,Telekom Austria,Communication Services,Austria,.VI,ATX,TKA.VI
+RBI,Raiffeisen Bank International,Financials,Austria,.VI,ATX,RBI.VI
+LNZ,Lenzing,Materials,Austria,.VI,ATX,LNZ.VI
+FLU,Flughafen Wien,Industrials,Austria,.VI,ATX,FLU.VI
+AND,Andritz,Industrials,Austria,.VI,ATX,AND.VI
+POST,Oesterreichische Post,Industrials,Austria,.VI,ATX,POST.VI
+BG,BAWAG Group,Financials,Austria,.VI,ATX,BG.VI
+ATS,AT&S,Information Technology,Austria,.VI,ATX,ATS.VI
+PAL,Palfinger,Industrials,Austria,.VI,ATX,PAL.VI
+UQA,UNIQA Insurance,Insurance,Austria,.VI,ATX,UQA.VI
+NESN,Nestle,Consumer Staples,Switzerland,.SW,SMI,NESN.SW
+NOVN,Novartis,Health Care,Switzerland,.SW,SMI,NOVN.SW
+ROG,Roche,Health Care,Switzerland,.SW,SMI,ROG.SW
+UBSG,UBS Group,Financials,Switzerland,.SW,SMI,UBSG.SW
+ZURN,Zurich Insurance,Insurance,Switzerland,.SW,SMI,ZURN.SW
+ABBN,ABB,Industrials,Switzerland,.SW,SMI,ABBN.SW
+SREN,Swiss Re,Insurance,Switzerland,.SW,SMI,SREN.SW
+SIKA,Sika,Materials,Switzerland,.SW,SMI,SIKA.SW
+LONN,Lonza Group,Health Care,Switzerland,.SW,SMI,LONN.SW
+SLHN,Swiss Life,Insurance,Switzerland,.SW,SMI,SLHN.SW
+CFR,Richemont,Consumer Discretionary,Switzerland,.SW,SMI,CFR.SW
+GEBN,Geberit,Industrials,Switzerland,.SW,SMI,GEBN.SW
+SCMN,Swisscom,Communication Services,Switzerland,.SW,SMI,SCMN.SW
+GIVN,Givaudan,Materials,Switzerland,.SW,SMI,GIVN.SW
+HOLN,Holcim,Materials,Switzerland,.SW,SMI,HOLN.SW
+LOGN,Logitech,Information Technology,Switzerland,.SW,SMI,LOGN.SW
+PGHN,Partners Group,Financials,Switzerland,.SW,SMI,PGHN.SW
+SGSN,SGS,Industrials,Switzerland,.SW,SMI,SGSN.SW
+BAER,Julius Baer,Financials,Switzerland,.SW,SMI,BAER.SW
+ALC,Alcon,Health Care,Switzerland,.SW,SMI,ALC.SW
+SOON,Sonova,Health Care,Switzerland,.SW,SMI,SOON.SW
+BARN,Barry Callebaut,Consumer Staples,Switzerland,.SW,SMIM,BARN.SW
+TEMN,Temenos,Information Technology,Switzerland,.SW,SMIM,TEMN.SW
+VACN,VAT Group,Industrials,Switzerland,.SW,SMIM,VACN.SW
+BUCN,Bucher Industries,Industrials,Switzerland,.SW,SMIM,BUCN.SW
+STMN,Straumann,Health Care,Switzerland,.SW,SMIM,STMN.SW
+DUFN,Avolta,Consumer Discretionary,Switzerland,.SW,SMIM,DUFN.SW
+FLUN,Flughafen Zuerich,Industrials,Switzerland,.SW,SMIM,FLUN.SW
+SWON,SoftwareOne,Information Technology,Switzerland,.SW,SMIM,SWON.SW
+DOCM,DocMorris,Consumer Staples,Switzerland,.SW,SMIM,DOCM.SW
+BELM,Belimo,Industrials,Switzerland,.SW,SMIM,BELM.SW
+EMMN,Emmi,Consumer Staples,Switzerland,.SW,SMIM,EMMN.SW
