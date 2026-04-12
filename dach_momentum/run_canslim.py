@@ -12,7 +12,7 @@ import logging
 import pandas as pd
 import yfinance as yf
 from dach_momentum import config
-from dach_momentum.data import load_prices
+from dach_momentum.data import load_prices, print_data_freshness
 from dach_momentum.signals import load_signals
 from dach_momentum.canslim import deep_dive, print_deep_dive
 
@@ -25,6 +25,8 @@ logger = logging.getLogger(__name__)
 
 
 def main():
+    print_data_freshness()
+
     # Load saved signals
     signals = load_signals()
     if not signals:

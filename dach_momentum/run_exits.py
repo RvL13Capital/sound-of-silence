@@ -13,6 +13,7 @@ sys.path.insert(0, ".")
 import logging
 import pandas as pd
 from dach_momentum import config
+from dach_momentum.data import print_data_freshness
 from dach_momentum.signals import load_signals
 from dach_momentum.positions import (
     Position, PortfolioState,
@@ -28,6 +29,8 @@ logging.getLogger("yfinance").setLevel(logging.WARNING)
 
 
 def main():
+    print_data_freshness()
+
     signals = load_signals()
     if not signals:
         print("No saved signals. Run 'python run_signals.py' first.")

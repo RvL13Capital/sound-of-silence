@@ -29,7 +29,7 @@ import numpy as np
 import pandas as pd
 
 from dach_momentum import config
-from dach_momentum.data import load_prices
+from dach_momentum.data import load_prices, print_data_freshness
 from dach_momentum.signals import (
     sma, atr, rolling_high, rolling_low, bollinger_bandwidth,
     compute_regime,
@@ -609,6 +609,8 @@ def print_performance(perf: dict) -> None:
 # ========================================================================== #
 
 def main():
+    print_data_freshness()
+
     # Parse args
     start = "2010-01-01"
     end = "2026-12-31"
