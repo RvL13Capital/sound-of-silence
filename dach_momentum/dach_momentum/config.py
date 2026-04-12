@@ -101,6 +101,11 @@ INDEX_SOURCES = {
         "country": "Italy",
         "suffix": ".MI",
     },
+    "FTSE_Italia_Mid": {
+        "url": "https://en.wikipedia.org/wiki/FTSE_Italia_Mid_Cap",
+        "country": "Italy",
+        "suffix": ".MI",
+    },
     # --- Spain ---
     "IBEX_35": {
         "url": "https://en.wikipedia.org/wiki/IBEX_35",
@@ -110,6 +115,16 @@ INDEX_SOURCES = {
     # --- Sweden ---
     "OMX_30": {
         "url": "https://en.wikipedia.org/wiki/OMX_Stockholm_30",
+        "country": "Sweden",
+        "suffix": ".ST",
+    },
+    "OMX_Mid_SE": {
+        "url": "https://en.wikipedia.org/wiki/OMX_Stockholm_Mid_Cap",
+        "country": "Sweden",
+        "suffix": ".ST",
+    },
+    "OMX_Small_SE": {
+        "url": "https://en.wikipedia.org/wiki/OMX_Stockholm_Small_Cap",
         "country": "Sweden",
         "suffix": ".ST",
     },
@@ -136,6 +151,35 @@ INDEX_SOURCES = {
         "url": "https://en.wikipedia.org/wiki/PSI-20",
         "country": "Portugal",
         "suffix": ".LS",
+    },
+    # --- Poland ---
+    "WIG20": {
+        "url": "https://en.wikipedia.org/wiki/WIG20",
+        "country": "Poland",
+        "suffix": ".WA",
+    },
+    "mWIG40": {
+        "url": "https://en.wikipedia.org/wiki/MWIG40",
+        "country": "Poland",
+        "suffix": ".WA",
+    },
+    # --- Netherlands small ---
+    "AScX": {
+        "url": "https://en.wikipedia.org/wiki/AScX",
+        "country": "Netherlands",
+        "suffix": ".AS",
+    },
+    # --- UK ---
+    "FTSE_250": {
+        "url": "https://en.wikipedia.org/wiki/FTSE_250_Index",
+        "country": "UK",
+        "suffix": ".L",
+    },
+    # --- Greece ---
+    "ATHEX": {
+        "url": "https://en.wikipedia.org/wiki/FTSE/Athex_Large_Cap",
+        "country": "Greece",
+        "suffix": ".AT",
     },
 }
 
