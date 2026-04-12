@@ -59,7 +59,7 @@ def _flatten_multiindex(df: pd.DataFrame) -> pd.DataFrame:
 
 def _find_constituent_table(
     tables: list[pd.DataFrame],
-    min_rows: int = 10,
+    min_rows: int = 5,
     max_rows: int = 300,
 ) -> Optional[pd.DataFrame]:
     """
@@ -79,18 +79,28 @@ def _find_constituent_table(
             kw in cols_joined
             for kw in (
                 "company", "name", "symbol", "ticker",
-                "unternehmen", "firma",          # German labels
-                "constituent",
+                "unternehmen", "firma",
+                "constituent", "member", "component",
+                "aktie", "isin",  # ISIN column often accompanies tickers
             )
         )
         if has_company_col:
             candidates.append(t)
             logger.debug(
                 "  candidate table %d: %d rows, cols=%s",
-                i, len(t), list(t.columns)[:6],
+                i, len(t), list(t.columns)[:8],
             )
 
     if not candidates:
+        # Fallback: just pick the largest table with enough rows
+        big_tables = [t for t in tables if min_rows <= len(t) <= max_rows]
+        if big_tables:
+            fallback = max(big_tables, key=len)
+            logger.debug(
+                "  no keyword match; using largest table (%d rows, cols=%s)",
+                len(fallback), list(fallback.columns)[:8],
+            )
+            return _flatten_multiindex(fallback.copy())
         return None
     return max(candidates, key=len)
 
@@ -125,8 +135,9 @@ def _clean_ticker(raw) -> Optional[str]:
     s = str(raw).strip().upper()
     # Remove Wikipedia reference annotations  [1], [note], etc.
     s = re.sub(r"\[.*?\]", "", s).strip()
-    # Remove common exchange suffixes (we re-add the correct one later)
-    s = re.sub(r"\.(DE|F|VI|SW|SWX)$", "", s)
+    # Remove ALL exchange suffixes — we re-add the correct one later.
+    # Covers .DE .F .VI .SW .SWX .PA .AS .L .BR .MI .MC .HE .OL .CO .ST
+    s = re.sub(r"\.[A-Z]{1,3}$", "", s)
     # Keep only alphanumeric, dots, dashes
     s = re.sub(r"[^A-Z0-9.\-]", "", s)
     return s or None
@@ -160,20 +171,35 @@ def fetch_index_constituents(
         )
         return pd.DataFrame()
 
-    # Identify the columns we care about
+    # Log columns for debugging scraper issues
+    logger.debug(
+        "  %s table columns: %s", index_name, list(table.columns)
+    )
+
+    # Identify the columns we care about — cast a wide net because
+    # Wikipedia tables vary significantly between index pages.
     ticker_col = _first_matching_col(
         table,
-        ["Symbol", "Ticker", "Ticker symbol", "Code", "Trading symbol"],
+        [
+            "Symbol", "Ticker", "Ticker symbol", "Code",
+            "Trading symbol", "Tickersymbol", "Bloomberg",
+            "Xetra", "Börsenkürzel",
+        ],
     )
     name_col = _first_matching_col(
         table,
-        ["Company", "Name", "Company name", "Unternehmen", "Constituent"],
+        [
+            "Company", "Name", "Company name", "Unternehmen",
+            "Constituent", "Member", "Firma", "Aktie",
+            "Components",  # ATX uses this sometimes
+        ],
     )
     sector_col = _first_matching_col(
         table,
         [
             "GICS Sector", "Sector", "Industry", "GICS sector",
             "ICB Industry", "Prime Standard", "Branche",
+            "GICS Sub-Industry", "Sub-Industry",
         ],
     )
 
@@ -260,25 +286,60 @@ def build_universe() -> pd.DataFrame:
     DataFrame of unique tickers.  Stocks that appear in multiple
     indices get a comma-separated ``index`` field.
 
-    Falls back to a seed CSV if Wikipedia scraping fails entirely
-    (e.g. no network, proxy blocks, etc.).
+    Merges scraped results with the seed CSV to fill gaps for any
+    indices where scraping failed (different page layouts, etc.).
+    Falls back to seed entirely if no scraping succeeds.
     """
     frames: list[pd.DataFrame] = []
+    scraped_indices: set[str] = set()
+
     for index_name, source in config.INDEX_SOURCES.items():
         df = fetch_index_constituents(index_name, source)
         if not df.empty:
             frames.append(df)
+            scraped_indices.add(index_name)
+
+    # Load seed and fill gaps for indices that failed to scrape
+    seed_path = config.DATA_DIR / "seed_universe.csv"
+    if seed_path.exists():
+        seed = pd.read_csv(seed_path, encoding="utf-8")
+        # Find which indices in the seed were NOT successfully scraped
+        seed_indices_needed: set[str] = set()
+        for idx_str in seed["index"].dropna():
+            for idx in str(idx_str).split(","):
+                if idx not in scraped_indices:
+                    seed_indices_needed.add(idx)
+
+        if seed_indices_needed:
+            # Keep seed rows whose index contains at least one missing index
+            def _has_needed_index(idx_str: str) -> bool:
+                return any(
+                    idx in seed_indices_needed
+                    for idx in str(idx_str).split(",")
+                )
+
+            seed_fill = seed[seed["index"].apply(_has_needed_index)].copy()
+            if not seed_fill.empty:
+                logger.info(
+                    "Filling %d tickers from seed for missing indices: %s",
+                    len(seed_fill), ", ".join(sorted(seed_indices_needed)),
+                )
+                frames.append(seed_fill)
 
     if not frames:
-        logger.warning(
-            "Wikipedia scraping failed for all indices. "
-            "Falling back to seed universe."
+        if seed_path.exists():
+            logger.warning(
+                "Wikipedia scraping failed for all indices. "
+                "Using full seed universe."
+            )
+            return _load_seed_universe()
+        raise RuntimeError(
+            "No index data fetched and no seed file available."
         )
-        return _load_seed_universe()
 
     universe = pd.concat(frames, ignore_index=True)
 
-    # Deduplicate across indices
+    # Deduplicate across indices — prefer scraped over seed
     agg = (
         universe
         .groupby("yf_ticker", as_index=False)
@@ -288,15 +349,17 @@ def build_universe() -> pd.DataFrame:
             "sector": "first",
             "country": "first",
             "suffix": "first",
-            "index": lambda x: ",".join(sorted(set(x))),
+            "index": lambda x: ",".join(sorted(set(
+                idx for idx_str in x for idx in str(idx_str).split(",")
+            ))),
         })
     )
 
     agg = agg.sort_values(["country", "yf_ticker"]).reset_index(drop=True)
 
     logger.info(
-        "Universe built: %d unique tickers from %d index scrapes",
-        len(agg), len(frames),
+        "Universe built: %d unique tickers (%d scraped indices + seed fill)",
+        len(agg), len(scraped_indices),
     )
     return agg
 
