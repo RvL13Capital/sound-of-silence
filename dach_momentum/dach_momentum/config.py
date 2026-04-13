@@ -254,3 +254,25 @@ DRAWDOWN_LOOKBACK_DAYS = 60
 # -- Transaction costs (DKB) ------------------------------------------------
 COMMISSION_PER_TRADE_EUR = 10.0
 ESTIMATED_SPREAD_BPS = 50             # 50 bps one-way spread estimate
+
+# --------------------------------------------------------------------------- #
+# "Get Rich Quick" strategy parameters
+#
+# Aggressive concentrated breakout strategy:
+# - Fewer positions, larger bets
+# - Only top-percentile momentum names
+# - Breakout entries: near 52-week highs with volume confirmation
+# - Tighter stops, faster trailing
+# --------------------------------------------------------------------------- #
+
+RQ_MAX_POSITIONS = 5                   # concentrated: max 5 holdings
+RQ_RISK_PER_TRADE_PCT = 2.0           # 2% risk per trade (aggressive)
+RQ_MAX_POSITION_PCT = 25.0            # up to 25% in a single name
+RQ_MOMENTUM_PERCENTILE = 80           # top 20% momentum only
+RQ_HIGH_PROXIMITY_PCT = 0.97          # price within 3% of 52-week high
+RQ_VOLUME_SURGE_MULT = 1.5            # 10-day vol >= 1.5x 50-day vol
+RQ_INITIAL_HARD_STOP_PCT = 7.0        # tighter 7% hard stop
+RQ_HARD_STOP_ATR_MULT = 2.0           # 2x ATR stop (tighter)
+RQ_HARD_STOP_CEILING_PCT = 10.0       # never wider than 10%
+RQ_PROFIT_THRESHOLD_TO_TRAIL = 15.0   # trail earlier at +15%
+RQ_MIN_QUALITY_SCORE = 3              # require decent quality score
