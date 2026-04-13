@@ -13,9 +13,11 @@ Simulates the full strategy historically:
 Modes:
   --mode momentum   : trend template + momentum only (original)
   --mode canslim    : adds quality filters (volume, trend health, extension)
+  --mode rich_quick : aggressive concentrated breakout strategy
 
 Usage: python run_backtest.py
        python run_backtest.py --mode canslim
+       python run_backtest.py --mode rich_quick
        python run_backtest.py --start 2015-01-01 --end 2025-12-31
 """
 import sys
@@ -32,7 +34,7 @@ from dach_momentum import config
 from dach_momentum.data import load_prices
 from dach_momentum.signals import (
     sma, atr, rolling_high, rolling_low, bollinger_bandwidth,
-    compute_regime,
+    compute_regime, compute_breakout_signals,
 )
 
 logging.basicConfig(
@@ -182,6 +184,12 @@ def compute_stock_signals(df: pd.DataFrame) -> pd.DataFrame:
     quality_score += signals["vol_contracting"].astype(float)
     signals["quality_score"] = quality_score
 
+    # Breakout signals (for "Get Rich Quick" strategy)
+    breakout = compute_breakout_signals(df)
+    for col in breakout.columns:
+        if col not in signals.columns:
+            signals[col] = breakout[col]
+
     return signals
 
 
@@ -197,9 +205,13 @@ def run_backtest(
     initial_capital: float = 20000.0,
     max_positions: int = 10,
     rebalance_freq: str = "W-FRI",  # weekly on Fridays
-    mode: str = "momentum",  # "momentum" or "canslim"
+    mode: str = "momentum",  # "momentum", "canslim", or "rich_quick"
 ) -> BacktestState:
     """Run the full backtest."""
+
+    # Override position count for rich_quick mode
+    if mode == "rich_quick":
+        max_positions = config.RQ_MAX_POSITIONS
 
     # Compute signals for all stocks
     logger.info("Computing signals for %d stocks...", len(prices))
@@ -286,7 +298,11 @@ def run_backtest(
             if price > pos.highest_price:
                 pos.highest_price = price
             gain_pct = (price / pos.entry_price - 1) * 100
-            if gain_pct >= config.PROFIT_THRESHOLD_TO_TRAIL:
+            trail_threshold = (
+                config.RQ_PROFIT_THRESHOLD_TO_TRAIL if mode == "rich_quick"
+                else config.PROFIT_THRESHOLD_TO_TRAIL
+            )
+            if gain_pct >= trail_threshold:
                 pos.trailing_active = True
 
             sma_30w = row.get("sma_30w")
@@ -360,16 +376,38 @@ def run_backtest(
                 if mode == "canslim" and quality < 3:
                     continue  # reject low-quality candidates
 
+                # Rich Quick: aggressive breakout filters
+                breakout_score = row.get("breakout_score", 0)
+                if pd.isna(breakout_score):
+                    breakout_score = 0
+                near_high = bool(row.get("near_52w_high", False))
+                vol_surge = bool(row.get("volume_surge", False))
+
+                if mode == "rich_quick":
+                    if not near_high:
+                        continue  # must be near 52-week high
+                    if not vol_surge:
+                        continue  # must have volume confirmation
+                    if quality < config.RQ_MIN_QUALITY_SCORE:
+                        continue  # need decent trend quality
+
                 candidates.append({
                     "ticker": ticker,
                     "price": price,
                     "mom": mom,
                     "atr": float(atr_val) if pd.notna(atr_val) else None,
                     "quality": float(quality),
+                    "breakout_score": float(breakout_score),
                 })
 
             # Rank candidates
-            if mode == "canslim":
+            if mode == "rich_quick":
+                # Rank by breakout score (composite of proximity, volume, accel)
+                candidates.sort(
+                    key=lambda x: x.get("breakout_score", 0),
+                    reverse=True,
+                )
+            elif mode == "canslim":
                 # Weight: 60% momentum + 40% quality
                 candidates.sort(
                     key=lambda x: x["mom"] * 0.6 + x.get("quality", 0) / 5 * 0.4,
@@ -382,26 +420,39 @@ def run_backtest(
             for cand in candidates[:slots]:
                 entry_price = cand["price"] * (1 + spread_bps / 10000)  # spread cost
 
-                # Calculate stop
+                # Calculate stop — tighter for rich_quick
                 atr_val = cand["atr"]
-                pct_stop = entry_price * (1 - config.INITIAL_HARD_STOP_PCT / 100)
-                if atr_val and atr_val > 0:
-                    atr_stop = entry_price - config.INITIAL_HARD_STOP_ATR_MULT * atr_val
-                    floor = entry_price * (1 - config.HARD_STOP_CEILING_PCT / 100)
-                    stop = max(min(pct_stop, atr_stop), floor)
+                if mode == "rich_quick":
+                    pct_stop = entry_price * (1 - config.RQ_INITIAL_HARD_STOP_PCT / 100)
+                    if atr_val and atr_val > 0:
+                        atr_stop = entry_price - config.RQ_HARD_STOP_ATR_MULT * atr_val
+                        floor = entry_price * (1 - config.RQ_HARD_STOP_CEILING_PCT / 100)
+                        stop = max(min(pct_stop, atr_stop), floor)
+                    else:
+                        stop = pct_stop
                 else:
-                    stop = pct_stop
+                    pct_stop = entry_price * (1 - config.INITIAL_HARD_STOP_PCT / 100)
+                    if atr_val and atr_val > 0:
+                        atr_stop = entry_price - config.INITIAL_HARD_STOP_ATR_MULT * atr_val
+                        floor = entry_price * (1 - config.HARD_STOP_CEILING_PCT / 100)
+                        stop = max(min(pct_stop, atr_stop), floor)
+                    else:
+                        stop = pct_stop
 
-                # Position sizing
+                # Position sizing — more aggressive for rich_quick
                 risk_per_share = entry_price - stop
                 if risk_per_share <= 0:
                     continue
 
                 equity = state.total_equity(current_prices)
-                max_risk = equity * (config.RISK_PER_TRADE_PCT / 100)
-                shares = int(max_risk / risk_per_share)
-
-                max_pos_value = equity * (config.MAX_POSITION_PCT / 100)
+                if mode == "rich_quick":
+                    max_risk = equity * (config.RQ_RISK_PER_TRADE_PCT / 100)
+                    shares = int(max_risk / risk_per_share)
+                    max_pos_value = equity * (config.RQ_MAX_POSITION_PCT / 100)
+                else:
+                    max_risk = equity * (config.RISK_PER_TRADE_PCT / 100)
+                    shares = int(max_risk / risk_per_share)
+                    max_pos_value = equity * (config.MAX_POSITION_PCT / 100)
                 shares = min(shares, int(max_pos_value / entry_price))
 
                 if shares <= 0:
@@ -647,7 +698,12 @@ def main():
     logger.info("Benchmark: %d rows", len(bench_close))
 
     # Run backtest(s)
-    modes_to_run = ["momentum", "canslim"] if mode == "both" else [mode]
+    if mode == "both":
+        modes_to_run = ["momentum", "canslim"]
+    elif mode == "all":
+        modes_to_run = ["momentum", "canslim", "rich_quick"]
+    else:
+        modes_to_run = [mode]
     all_results = {}
 
     for run_mode in modes_to_run:
@@ -691,47 +747,70 @@ def main():
             eq.to_csv(eq_path)
             print(f"  Equity curve saved to: {eq_path}")
 
-    # Side-by-side comparison if both modes ran
-    if len(all_results) == 2:
-        sep = "=" * 60
+    # Side-by-side comparison if multiple modes ran
+    if len(all_results) >= 2:
+        sep = "=" * 76
         print(f"\n{sep}")
-        print("  MOMENTUM vs CAN SLIM COMPARISON")
+        print("  STRATEGY COMPARISON")
         print(sep)
 
-        m = all_results["momentum"]
-        c = all_results["canslim"]
+        mode_names = list(all_results.keys())
+        mode_labels = {
+            "momentum": "Momentum",
+            "canslim": "CAN SLIM",
+            "rich_quick": "Rich Quick",
+        }
 
-        rows = [
-            ("CAGR", f"{m['cagr_pct']:+.1f}%", f"{c['cagr_pct']:+.1f}%"),
-            ("Max Drawdown", f"{m['max_drawdown_pct']:.1f}%", f"{c['max_drawdown_pct']:.1f}%"),
-            ("Sharpe", f"{m['sharpe_ratio']:.2f}", f"{c['sharpe_ratio']:.2f}"),
-            ("Sortino", f"{m['sortino_ratio']:.2f}", f"{c['sortino_ratio']:.2f}"),
-            ("Total Trades", f"{m['total_trades']}", f"{c['total_trades']}"),
-            ("Win Rate", f"{m['win_rate_pct']:.1f}%", f"{c['win_rate_pct']:.1f}%"),
-            ("Avg Win", f"{m['avg_win_pct']:+.1f}%", f"{c['avg_win_pct']:+.1f}%"),
-            ("Avg Loss", f"{m['avg_loss_pct']:+.1f}%", f"{c['avg_loss_pct']:+.1f}%"),
-            ("Profit Factor", f"{m['profit_factor']:.2f}", f"{c['profit_factor']:.2f}"),
-            ("Calmar", f"{m['calmar_ratio']:.2f}", f"{c['calmar_ratio']:.2f}"),
+        metrics = [
+            ("CAGR", "cagr_pct", True),
+            ("Max Drawdown", "max_drawdown_pct", False),
+            ("Sharpe", "sharpe_ratio", True),
+            ("Sortino", "sortino_ratio", True),
+            ("Total Trades", "total_trades", None),
+            ("Win Rate", "win_rate_pct", True),
+            ("Avg Win", "avg_win_pct", True),
+            ("Avg Loss", "avg_loss_pct", False),
+            ("Profit Factor", "profit_factor", True),
+            ("Calmar", "calmar_ratio", True),
         ]
 
-        print(f"\n  {'Metric':<20} {'Momentum':>12} {'CAN SLIM':>12}  {'Better':>10}")
-        print(f"  {'─'*20} {'─'*12} {'─'*12}  {'─'*10}")
-        for label, mv, cv in rows:
-            # Determine which is better
-            try:
-                mf = float(mv.replace('%', '').replace('+', ''))
-                cf = float(cv.replace('%', '').replace('+', ''))
-                if label == "Max Drawdown":
-                    better = "CANSLIM" if cf > mf else "MOMENTUM"
-                elif label == "Avg Loss":
-                    better = "CANSLIM" if cf > mf else "MOMENTUM"
-                elif label == "Total Trades":
-                    better = "—"
+        # Print header
+        header = f"  {'Metric':<20}"
+        divider = f"  {'─'*20}"
+        for mn in mode_names:
+            header += f" {mode_labels.get(mn, mn):>12}"
+            divider += f" {'─'*12}"
+        header += f"  {'Best':>12}"
+        divider += f"  {'─'*12}"
+        print(f"\n{header}")
+        print(divider)
+
+        for label, key, higher_is_better in metrics:
+            vals = {}
+            line = f"  {label:<20}"
+            for mn in mode_names:
+                v = all_results[mn].get(key, 0)
+                vals[mn] = v
+                if key in ("total_trades", ):
+                    line += f" {v:>12d}" if isinstance(v, int) else f" {v:>12.0f}"
+                elif key in ("sharpe_ratio", "sortino_ratio", "profit_factor", "calmar_ratio"):
+                    line += f" {v:>12.2f}"
                 else:
-                    better = "CANSLIM" if cf > mf else "MOMENTUM"
-            except ValueError:
-                better = "—"
-            print(f"  {label:<20} {mv:>12} {cv:>12}  {better:>10}")
+                    line += f" {v:>+11.1f}%"
+
+            # Determine best
+            if higher_is_better is None:
+                best = "---"
+            elif higher_is_better:
+                best_mn = max(vals, key=vals.get)
+                best = mode_labels.get(best_mn, best_mn)
+            else:
+                # For drawdown/loss: less negative is better (higher value)
+                best_mn = max(vals, key=vals.get)
+                best = mode_labels.get(best_mn, best_mn)
+
+            line += f"  {best:>12}"
+            print(line)
 
         print()
 

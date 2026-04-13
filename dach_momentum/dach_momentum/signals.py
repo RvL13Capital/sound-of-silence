@@ -355,13 +355,14 @@ def compute_all_signals(
         volatility = compute_volatility_signals(df)
         rs = compute_relative_strength(df["Close"], bench_close)
         exits = compute_exit_signals(df)
+        breakout = compute_breakout_signals(df)
 
         # Join regime (aligned to stock's dates)
         regime_aligned = regime.reindex(df.index)
 
         # Combine everything
         combined = pd.concat(
-            [df, trend, momentum, volatility, rs, exits, regime_aligned],
+            [df, trend, momentum, volatility, rs, exits, breakout, regime_aligned],
             axis=1,
         )
 
@@ -405,6 +406,71 @@ def _add_cross_sectional_ranks(signals: dict[str, pd.DataFrame]) -> None:
             )
         else:
             signals[ticker]["mom_rank_pct"] = np.nan
+
+
+# ========================================================================== #
+# Breakout signals (for "Get Rich Quick" strategy)
+# ========================================================================== #
+
+
+def compute_breakout_signals(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Compute breakout-specific signals for the aggressive strategy.
+
+    Returns columns:
+      - near_52w_high: price within RQ_HIGH_PROXIMITY_PCT of 52-week high
+      - volume_surge: 10-day avg volume >= RQ_VOLUME_SURGE_MULT * 50-day avg
+      - breakout_score: composite breakout strength (0-100)
+    """
+    close = df["Close"]
+
+    result = pd.DataFrame(index=df.index)
+
+    # 52-week high proximity
+    high_52w = rolling_high(close, 252)
+    proximity = close / high_52w
+    result["near_52w_high"] = proximity >= config.RQ_HIGH_PROXIMITY_PCT
+
+    # Volume surge: recent volume well above average
+    if "Volume" in df.columns:
+        vol = df["Volume"]
+        vol_50d = vol.rolling(50, min_periods=20).mean()
+        vol_10d = vol.rolling(10, min_periods=5).mean()
+        result["volume_surge"] = vol_10d >= (vol_50d * config.RQ_VOLUME_SURGE_MULT)
+
+        # Volume ratio for scoring
+        vol_ratio = (vol_10d / vol_50d.replace(0, np.nan)).clip(0, 5)
+        result["vol_ratio"] = vol_ratio
+    else:
+        result["volume_surge"] = False
+        result["vol_ratio"] = 1.0
+
+    # Price acceleration: 1-month return > 2-month return / 2
+    mom_1m = close / close.shift(21) - 1.0
+    mom_2m = close / close.shift(42) - 1.0
+    result["price_accelerating"] = mom_1m > (mom_2m / 2)
+
+    # Breakout score (0-100): weighted composite
+    #   40% - proximity to 52-week high
+    #   30% - volume surge strength
+    #   20% - short-term momentum acceleration
+    #   10% - volatility contraction (tighter = better base)
+    proximity_score = (proximity.clip(0.8, 1.0) - 0.8) / 0.2 * 100
+    vol_score = (result["vol_ratio"].clip(0.5, 3.0) - 0.5) / 2.5 * 100
+    accel_score = mom_1m.clip(-0.1, 0.3) / 0.3 * 100
+
+    bb_w = bollinger_bandwidth(close, 20)
+    bb_avg = bb_w.rolling(50).mean()
+    contraction_score = ((bb_avg - bb_w) / bb_avg.replace(0, np.nan)).clip(0, 1) * 100
+
+    result["breakout_score"] = (
+        proximity_score * 0.4 +
+        vol_score * 0.3 +
+        accel_score * 0.2 +
+        contraction_score.fillna(0) * 0.1
+    ).clip(0, 100)
+
+    return result
 
 
 # ========================================================================== #
