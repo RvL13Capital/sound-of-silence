@@ -19,6 +19,7 @@ from dach_momentum.data import print_data_freshness
 from dach_momentum.signals import load_signals
 from dach_momentum.external_data import (
     enhanced_canslim, print_enhanced_canslim,
+    canslim_score_simfin,
     get_euro_yield_curve, FMP_KEY, FRED_KEY,
 )
 
@@ -86,9 +87,28 @@ def main():
     results = []
     for ticker in tickers:
         try:
-            data = enhanced_canslim(ticker)
-            results.append(data)
-            print_enhanced_canslim(data)
+            # Try SimFin first (free, has historical quarterly data)
+            sf_result = canslim_score_simfin(ticker)
+            if sf_result.get("quality_score", 0) > 0 or "real quarterly" in sf_result.get("source", ""):
+                # SimFin had data
+                print(f"\n{'=' * 60}")
+                print(f"  {ticker} — Source: {sf_result.get('source', 'simfin')}")
+                print(f"{'=' * 60}")
+                print(f"  C — Current Quarterly: {'PASS' if sf_result['C_pass'] else 'FAIL'}")
+                print(f"    {sf_result['C_details']}")
+                print(f"    Earnings accelerating: {'YES' if sf_result['earnings_accelerating'] else 'NO'}")
+                if sf_result.get("latest_revenue_growth") is not None:
+                    print(f"    Revenue growth: {sf_result['latest_revenue_growth']:+.1f}%")
+                print(f"  A — Annual Growth: {'PASS' if sf_result['A_pass'] else 'FAIL'}")
+                print(f"    {sf_result['A_details']}")
+                print(f"  FCF Positive: {'YES' if sf_result['fcf_positive'] else 'NO'}")
+                print(f"  Quality Score: {sf_result['quality_score']}/7")
+                results.append({"ticker": ticker, "fmp": sf_result, "has_fmp_data": True})
+            else:
+                # Fall back to FMP/yfinance
+                data = enhanced_canslim(ticker)
+                results.append(data)
+                print_enhanced_canslim(data)
         except Exception as exc:
             print(f"  {ticker}: failed — {exc}")
 

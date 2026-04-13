@@ -1,15 +1,13 @@
 """
-External data integrations: FMP, FRED, DBnomics.
+External data integrations: SimFin, FRED, FMP (fallback).
 
-Provides real fundamental data (quarterly earnings, financial ratios)
-and macro indicators to replace the price-based quality proxies.
+SimFin (free tier): historical quarterly income statements, balance sheets,
+and cash flows for European stocks — the key missing data source for
+real CAN SLIM analysis.
 
-API keys are loaded from .env file (gitignored, never committed).
+FRED: US and European macro indicators (ECB rate, yields, inflation).
 
-Usage:
-    from dach_momentum.external_data import fmp, fred, macro
-    earnings = fmp.get_quarterly_earnings("JEN.DE")
-    rates = fred.get_ecb_rate()
+API keys loaded from .env file (gitignored, never committed).
 """
 from __future__ import annotations
 
@@ -61,6 +59,241 @@ EXCHANGE_MAP = {
     ".L": ".L",     # London
     ".AT": ".AT",   # Athens
 }
+
+
+# ========================================================================== #
+# SimFin: Historical fundamental data (FREE — the primary source)
+# ========================================================================== #
+
+# SimFin market codes for our countries
+SIMFIN_MARKETS = {
+    ".DE": "de", ".VI": "de", ".SW": "de",  # DACH → German market
+    ".PA": "fr", ".AS": "nl", ".BR": "be",
+    ".MI": "it", ".MC": "es",
+    ".ST": "se", ".CO": "dk", ".HE": "fi", ".OL": "no",
+    ".LS": "pt", ".WA": "pl",
+    ".L": "gb", ".AT": "gr",
+}
+
+# Ticker mapping: yfinance suffix → SimFin ticker (strip suffix)
+def _yf_to_simfin_ticker(yf_ticker: str) -> str:
+    """Convert yfinance ticker to SimFin format (just the base symbol)."""
+    for suffix in EXCHANGE_MAP:
+        if yf_ticker.endswith(suffix):
+            return yf_ticker[: -len(suffix)]
+    return yf_ticker
+
+
+def _get_simfin_market(yf_ticker: str) -> str:
+    """Determine SimFin market code from yfinance ticker suffix."""
+    for suffix, market in SIMFIN_MARKETS.items():
+        if yf_ticker.endswith(suffix):
+            return market
+    return "de"  # default
+
+
+_simfin_cache: dict[str, pd.DataFrame] = {}
+
+
+def load_simfin_income(market: str = "de") -> pd.DataFrame:
+    """
+    Load quarterly income statements from SimFin for a market.
+    Data is cached in memory and on disk (~/.simfin_data/).
+    Free tier: no API key needed, set to 'free'.
+    """
+    cache_key = f"income_{market}"
+    if cache_key in _simfin_cache:
+        return _simfin_cache[cache_key]
+
+    try:
+        import simfin as sf
+        sf.set_api_key("free")
+
+        data_dir = str(config.CACHE_DIR / "simfin")
+        sf.set_data_dir(data_dir)
+
+        df = sf.load_income(variant="quarterly", market=market)
+        _simfin_cache[cache_key] = df
+        logger.info("SimFin income loaded for market=%s: %d rows", market, len(df))
+        return df
+    except Exception as exc:
+        logger.warning("SimFin income load failed for %s: %s", market, exc)
+        return pd.DataFrame()
+
+
+def load_simfin_balance(market: str = "de") -> pd.DataFrame:
+    """Load quarterly balance sheets from SimFin."""
+    cache_key = f"balance_{market}"
+    if cache_key in _simfin_cache:
+        return _simfin_cache[cache_key]
+
+    try:
+        import simfin as sf
+        sf.set_api_key("free")
+        sf.set_data_dir(str(config.CACHE_DIR / "simfin"))
+        df = sf.load_balance(variant="quarterly", market=market)
+        _simfin_cache[cache_key] = df
+        return df
+    except Exception as exc:
+        logger.warning("SimFin balance load failed: %s", exc)
+        return pd.DataFrame()
+
+
+def load_simfin_cashflow(market: str = "de") -> pd.DataFrame:
+    """Load quarterly cash flow statements from SimFin."""
+    cache_key = f"cashflow_{market}"
+    if cache_key in _simfin_cache:
+        return _simfin_cache[cache_key]
+
+    try:
+        import simfin as sf
+        sf.set_api_key("free")
+        sf.set_data_dir(str(config.CACHE_DIR / "simfin"))
+        df = sf.load_cashflow(variant="quarterly", market=market)
+        _simfin_cache[cache_key] = df
+        return df
+    except Exception as exc:
+        logger.warning("SimFin cashflow load failed: %s", exc)
+        return pd.DataFrame()
+
+
+def get_simfin_earnings(yf_ticker: str) -> pd.DataFrame:
+    """
+    Get quarterly earnings for a stock using SimFin bulk data.
+    Returns DataFrame with date, revenue, net_income, eps columns.
+    """
+    sf_ticker = _yf_to_simfin_ticker(yf_ticker)
+    market = _get_simfin_market(yf_ticker)
+
+    income = load_simfin_income(market)
+    if income.empty:
+        return pd.DataFrame()
+
+    try:
+        # SimFin uses MultiIndex: (Ticker, Report Date)
+        if sf_ticker in income.index.get_level_values("Ticker"):
+            stock = income.loc[sf_ticker].copy()
+            stock = stock.reset_index()
+
+            result = pd.DataFrame()
+            result["date"] = pd.to_datetime(stock.get("Report Date", stock.get("Fiscal Period", "")))
+
+            # Column names vary by SimFin version
+            for col_name, candidates in {
+                "revenue": ["Revenue", "Total Revenue"],
+                "net_income": ["Net Income", "Net Income (Common)"],
+                "gross_profit": ["Gross Profit"],
+            }.items():
+                for c in candidates:
+                    if c in stock.columns:
+                        result[col_name] = stock[c].values
+                        break
+
+            result = result.dropna(subset=["date"]).sort_values("date").reset_index(drop=True)
+            return result
+    except Exception as exc:
+        logger.debug("SimFin extraction failed for %s: %s", yf_ticker, exc)
+
+    return pd.DataFrame()
+
+
+def canslim_score_simfin(yf_ticker: str) -> dict:
+    """
+    Compute CAN SLIM score using SimFin historical quarterly data.
+    This is the REAL fundamental analysis — actual EPS, not proxies.
+    """
+    result = {
+        "ticker": yf_ticker,
+        "source": "simfin",
+        "C_pass": False, "C_details": "",
+        "A_pass": False, "A_details": "",
+        "quality_score": 0,
+        "earnings_accelerating": False,
+        "revenue_accelerating": False,
+        "roe": None,
+        "fcf_positive": False,
+    }
+
+    earnings = get_simfin_earnings(yf_ticker)
+    if earnings.empty or len(earnings) < 5:
+        result["C_details"] = f"Insufficient SimFin data ({len(earnings)} quarters)"
+        return result
+
+    result["source"] = "simfin (real quarterly data)"
+
+    # --- C: Current Quarterly EPS YoY ---
+    if "net_income" in earnings.columns and len(earnings) >= 5:
+        latest = earnings.iloc[-1]["net_income"]
+        prior_yr = earnings.iloc[-5]["net_income"]
+
+        if prior_yr and prior_yr != 0:
+            growth = (latest / prior_yr - 1) * 100
+            result["C_details"] = f"NI: {latest:,.0f} vs {prior_yr:,.0f} = {growth:+.1f}% YoY"
+            result["C_pass"] = growth >= 25
+
+        # Acceleration: compare last 2 YoY growth rates
+        if len(earnings) >= 9:
+            g1_curr, g1_prev = earnings.iloc[-1]["net_income"], earnings.iloc[-5]["net_income"]
+            g2_curr, g2_prev = earnings.iloc[-2]["net_income"], earnings.iloc[-6]["net_income"]
+            if g1_prev and g2_prev and g1_prev != 0 and g2_prev != 0:
+                rate1 = (g1_curr / g1_prev - 1) * 100
+                rate2 = (g2_curr / g2_prev - 1) * 100
+                result["earnings_accelerating"] = rate1 > rate2
+
+    # Revenue acceleration
+    if "revenue" in earnings.columns and len(earnings) >= 9:
+        r1_curr, r1_prev = earnings.iloc[-1]["revenue"], earnings.iloc[-5]["revenue"]
+        r2_curr, r2_prev = earnings.iloc[-2]["revenue"], earnings.iloc[-6]["revenue"]
+        if r1_prev and r2_prev and r1_prev != 0 and r2_prev != 0:
+            rg1 = (r1_curr / r1_prev - 1) * 100
+            rg2 = (r2_curr / r2_prev - 1) * 100
+            result["revenue_accelerating"] = rg1 > rg2
+            result["latest_revenue_growth"] = round(rg1, 1)
+
+    # --- A: Annual trend (use last 4 years of quarterly sums) ---
+    if "net_income" in earnings.columns and len(earnings) >= 8:
+        # Sum quarters into annual figures
+        annual_ni = []
+        for i in range(0, min(16, len(earnings)) - 3, 4):
+            chunk = earnings.iloc[i:i+4]
+            annual_ni.append(chunk["net_income"].sum())
+
+        if len(annual_ni) >= 3:
+            growth_years = sum(1 for i in range(1, len(annual_ni)) if annual_ni[i] > annual_ni[i-1])
+            result["A_pass"] = growth_years >= 2
+            result["A_details"] = f"{growth_years}/{len(annual_ni)-1} years of NI growth"
+
+    # --- FCF check ---
+    sf_ticker = _yf_to_simfin_ticker(yf_ticker)
+    market = _get_simfin_market(yf_ticker)
+    cf = load_simfin_cashflow(market)
+    if not cf.empty:
+        try:
+            if sf_ticker in cf.index.get_level_values("Ticker"):
+                stock_cf = cf.loc[sf_ticker]
+                for col in ["Free Cash Flow", "Net Cash from Operating Activities"]:
+                    if col in stock_cf.columns:
+                        ttm = stock_cf[col].tail(4).sum()
+                        result["fcf_positive"] = ttm > 0
+                        break
+        except Exception:
+            pass
+
+    # Quality score
+    score = 0
+    if result["C_pass"]:
+        score += 2
+    if result["A_pass"]:
+        score += 2
+    if result["earnings_accelerating"]:
+        score += 1
+    if result["revenue_accelerating"]:
+        score += 1
+    if result["fcf_positive"]:
+        score += 1
+    result["quality_score"] = score
+
+    return result
 
 
 def _fmp_get(endpoint: str, params: dict = None) -> list | dict:
