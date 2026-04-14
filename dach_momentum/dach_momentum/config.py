@@ -298,3 +298,25 @@ SR_INITIAL_HARD_STOP_PCT = 5.0        # very tight 5% stop
 SR_HARD_STOP_ATR_MULT = 1.5           # tight 1.5x ATR stop
 SR_HARD_STOP_CEILING_PCT = 8.0        # never wider than 8%
 SR_PROFIT_THRESHOLD_TO_TRAIL = 10.0   # trail very early at +10%
+
+# --------------------------------------------------------------------------- #
+# "Cash Machine" high-frequency compounding strategy
+#
+# Insight: more trades with consistent edge compound faster than few
+# concentrated big bets. Maximize trade frequency and win rate.
+# - Diversified (15 positions)
+# - Short holding period (10-week SMA exit instead of 30-week)
+# - Early trailing (+8% instead of +20%) to lock gains quickly
+# - Lower quality bar for MORE setups per year
+# - Quick turnover = high compounding frequency
+# --------------------------------------------------------------------------- #
+
+CM_MAX_POSITIONS = 15                  # diversified: max 15 holdings
+CM_RISK_PER_TRADE_PCT = 1.0           # 1% risk per trade (standard)
+CM_MAX_POSITION_PCT = 10.0            # up to 10% per position
+CM_MIN_QUALITY_SCORE = 2              # lower bar = more setups
+CM_INITIAL_HARD_STOP_PCT = 8.0        # moderate stop
+CM_HARD_STOP_ATR_MULT = 2.0           # 2x ATR stop
+CM_HARD_STOP_CEILING_PCT = 12.0       # never wider than 12%
+CM_PROFIT_THRESHOLD_TO_TRAIL = 8.0    # trail very early at +8%
+CM_EXIT_SMA_DAYS = 50                 # 10-week SMA exit (faster turnover)
