@@ -278,23 +278,26 @@ RQ_PROFIT_THRESHOLD_TO_TRAIL = 15.0   # trail earlier at +15%
 RQ_MIN_QUALITY_SCORE = 3              # require decent quality score
 
 # --------------------------------------------------------------------------- #
-# "Super Rich" pattern recognition strategy
+# "Super Rich" hybrid: pattern recognition + momentum/quality confirmation
 #
-# Standalone technical pattern recognition system.
-# Detects classic high-probability chart patterns:
-# - VCP (Volatility Contraction Pattern)  — Minervini
-# - Cup and Handle                        — O'Neil
-# - Pocket Pivot                          — Minervini/Morales
-# - Flag Breakout                         — classic
-# - Double Bottom                         — reversal
+# Pattern detection identifies the SETUP structure.
+# Momentum + quality confirms TIMING and context.
 #
-# Entry: best pattern score >= threshold. Concentrated sizing.
+# Entry requires ALL of:
+#   - Pattern score >= 50 (VCP, Cup&Handle, Pocket Pivot, Flag, Double Bottom)
+#   - Momentum rank >= top 30%
+#   - Quality score >= 3 (volume/trend-health signals)
+#   - Rising relative strength
+#
+# Ranking: 50% pattern score + 30% momentum + 20% quality
 # --------------------------------------------------------------------------- #
 
 SR_MAX_POSITIONS = 5                   # concentrated: max 5 holdings
 SR_RISK_PER_TRADE_PCT = 2.0           # 2% risk per trade
 SR_MAX_POSITION_PCT = 30.0            # up to 30% in a single name
-SR_MIN_PATTERN_SCORE = 60             # require pattern score >= 60 (/100)
+SR_MIN_PATTERN_SCORE = 50             # pattern bar (slightly relaxed for hybrid)
+SR_MIN_MOMENTUM_RANK = 70             # top 30% momentum
+SR_MIN_QUALITY_SCORE = 3              # quality score (3/5 signals)
 SR_INITIAL_HARD_STOP_PCT = 7.0        # 7% hard stop
 SR_HARD_STOP_ATR_MULT = 2.0           # 2x ATR stop
 SR_HARD_STOP_CEILING_PCT = 10.0       # never wider than 10%

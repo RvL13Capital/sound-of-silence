@@ -430,15 +430,21 @@ def run_backtest(
                     if quality < config.RQ_MIN_QUALITY_SCORE:
                         continue  # need decent trend quality
 
-                # Super Rich: pure pattern recognition
+                # Super Rich: HYBRID pattern + momentum + quality
                 pattern_name = ""
                 pattern_score = 0.0
                 if mode == "super_rich":
-                    # Need raw OHLCV up to current date for pattern detection
+                    # Momentum/quality gates FIRST (cheap filters)
+                    if quality < config.SR_MIN_QUALITY_SCORE:
+                        continue  # require decent quality
+                    if mom_rank < config.SR_MIN_MOMENTUM_RANK:
+                        continue  # require top-30% momentum
+                    if not rs_rising:
+                        continue  # require rising relative strength
+                    # Pattern detection (expensive — only on pre-filtered names)
                     raw_df = prices.get(ticker)
                     if raw_df is None or len(raw_df) < 60:
                         continue
-                    # Slice to current date
                     raw_df_as_of = raw_df.loc[raw_df.index <= date]
                     if len(raw_df_as_of) < 60:
                         continue
@@ -461,11 +467,13 @@ def run_backtest(
 
             # Rank candidates
             if mode == "super_rich":
-                # Rank by pattern score (pure technical pattern detection)
-                candidates.sort(
-                    key=lambda x: x.get("pattern_score", 0),
-                    reverse=True,
-                )
+                # Hybrid composite: 50% pattern + 30% momentum + 20% quality
+                def _sr_score(c):
+                    pat = c.get("pattern_score", 0)              # 0-100
+                    mom_pct = min(max(c.get("mom", 0), 0), 2) * 50  # 0-100 (cap at 200% mom)
+                    qual_pct = c.get("quality", 0) / 5 * 100     # 0-100
+                    return pat * 0.5 + mom_pct * 0.3 + qual_pct * 0.2
+                candidates.sort(key=_sr_score, reverse=True)
             elif mode == "rich_quick":
                 # Rank by breakout score (composite of proximity, volume, accel)
                 candidates.sort(
