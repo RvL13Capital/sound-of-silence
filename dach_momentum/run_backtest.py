@@ -422,10 +422,10 @@ def run_backtest(
                     # Momentum/quality gates FIRST (cheap filters)
                     if quality < config.SR_MIN_QUALITY_SCORE:
                         continue  # require decent quality
-                    if mom_rank < config.SR_MIN_MOMENTUM_RANK:
-                        continue  # require top-30% momentum
-                    if not rs_rising:
-                        continue  # require rising relative strength
+                    # Momentum threshold: mom_12_1 >= 20% = strong momentum
+                    # (mom_rank_pct not available inline; use mom threshold instead)
+                    if mom < 0.20:
+                        continue  # require strong 12-1 momentum
                     # Pattern detection (expensive — only on pre-filtered names)
                     raw_df = prices.get(ticker)
                     if raw_df is None or len(raw_df) < 60:
