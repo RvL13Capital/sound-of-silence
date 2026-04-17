@@ -41,6 +41,7 @@ from dach_momentum.signals import (
     sma, atr, rolling_high, rolling_low, bollinger_bandwidth,
     compute_regime, compute_breakout_signals,
 )
+from dach_momentum.patterns import compute_pattern_score
 
 logging.basicConfig(
     level=logging.INFO,
@@ -429,22 +430,23 @@ def run_backtest(
                     if quality < config.RQ_MIN_QUALITY_SCORE:
                         continue  # need decent trend quality
 
+                # Super Rich: pure pattern recognition
+                pattern_name = ""
+                pattern_score = 0.0
                 if mode == "super_rich":
-                    # Maximum aggression: require ALL confirmations aligned
-                    if not near_high:
-                        continue  # must be near 52-week high
-                    if not vol_surge:
-                        continue  # must have volume surge
-                    if not price_accel:
-                        continue  # require price acceleration
-                    if not rs_rising:
-                        continue  # require rising relative strength
-                    if quality < config.SR_MIN_QUALITY_SCORE:
-                        continue  # require high quality
-                    if breakout_score < config.SR_MIN_BREAKOUT_SCORE:
-                        continue  # require strong breakout score
-                    if mom_rank < config.SR_MIN_MOMENTUM_RANK:
-                        continue  # require top-10% momentum
+                    # Need raw OHLCV up to current date for pattern detection
+                    raw_df = prices.get(ticker)
+                    if raw_df is None or len(raw_df) < 60:
+                        continue
+                    # Slice to current date
+                    raw_df_as_of = raw_df.loc[raw_df.index <= date]
+                    if len(raw_df_as_of) < 60:
+                        continue
+                    pattern_name, pattern_score, _ = compute_pattern_score(
+                        raw_df_as_of.tail(200)
+                    )
+                    if pattern_score < config.SR_MIN_PATTERN_SCORE:
+                        continue
 
                 candidates.append({
                     "ticker": ticker,
@@ -453,10 +455,18 @@ def run_backtest(
                     "atr": float(atr_val) if pd.notna(atr_val) else None,
                     "quality": float(quality),
                     "breakout_score": float(breakout_score),
+                    "pattern_name": pattern_name,
+                    "pattern_score": float(pattern_score),
                 })
 
             # Rank candidates
-            if mode in ("rich_quick", "super_rich"):
+            if mode == "super_rich":
+                # Rank by pattern score (pure technical pattern detection)
+                candidates.sort(
+                    key=lambda x: x.get("pattern_score", 0),
+                    reverse=True,
+                )
+            elif mode == "rich_quick":
                 # Rank by breakout score (composite of proximity, volume, accel)
                 candidates.sort(
                     key=lambda x: x.get("breakout_score", 0),
