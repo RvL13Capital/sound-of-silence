@@ -278,26 +278,27 @@ RQ_PROFIT_THRESHOLD_TO_TRAIL = 15.0   # trail earlier at +15%
 RQ_MIN_QUALITY_SCORE = 3              # require decent quality score
 
 # --------------------------------------------------------------------------- #
-# "Super Rich Really Quick" strategy parameters
+# "Super Rich" pattern recognition strategy
 #
-# MAXIMUM AGGRESSION - higher expected return, higher risk, higher drawdowns.
-# Only trades the strongest breakouts with all confirmations aligned:
-# - Ultra-concentrated (3 positions max)
-# - Only top-10% momentum names
-# - Requires STRONG breakout (score >= 70), rising RS, price acceleration
-# - Very tight stops (5%), quick trailing (+10%)
+# Standalone technical pattern recognition system.
+# Detects classic high-probability chart patterns:
+# - VCP (Volatility Contraction Pattern)  — Minervini
+# - Cup and Handle                        — O'Neil
+# - Pocket Pivot                          — Minervini/Morales
+# - Flag Breakout                         — classic
+# - Double Bottom                         — reversal
+#
+# Entry: best pattern score >= threshold. Concentrated sizing.
 # --------------------------------------------------------------------------- #
 
-SR_MAX_POSITIONS = 3                   # ultra-concentrated: max 3 holdings
-SR_RISK_PER_TRADE_PCT = 3.0           # 3% risk per trade (very aggressive)
-SR_MAX_POSITION_PCT = 40.0            # up to 40% in a single name
-SR_MIN_MOMENTUM_RANK = 90             # top 10% by momentum only
-SR_MIN_BREAKOUT_SCORE = 70            # require STRONG breakout setup
-SR_MIN_QUALITY_SCORE = 4              # high trend quality (4/5 signals)
-SR_INITIAL_HARD_STOP_PCT = 5.0        # very tight 5% stop
-SR_HARD_STOP_ATR_MULT = 1.5           # tight 1.5x ATR stop
-SR_HARD_STOP_CEILING_PCT = 8.0        # never wider than 8%
-SR_PROFIT_THRESHOLD_TO_TRAIL = 10.0   # trail very early at +10%
+SR_MAX_POSITIONS = 5                   # concentrated: max 5 holdings
+SR_RISK_PER_TRADE_PCT = 2.0           # 2% risk per trade
+SR_MAX_POSITION_PCT = 30.0            # up to 30% in a single name
+SR_MIN_PATTERN_SCORE = 60             # require pattern score >= 60 (/100)
+SR_INITIAL_HARD_STOP_PCT = 7.0        # 7% hard stop
+SR_HARD_STOP_ATR_MULT = 2.0           # 2x ATR stop
+SR_HARD_STOP_CEILING_PCT = 10.0       # never wider than 10%
+SR_PROFIT_THRESHOLD_TO_TRAIL = 15.0   # trail at +15%
 
 # --------------------------------------------------------------------------- #
 # "Cash Machine" high-frequency compounding strategy
