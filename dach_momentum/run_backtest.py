@@ -11,13 +11,18 @@ Simulates the full strategy historically:
 - Outputs equity curve, drawdown, trade log, and performance stats
 
 Modes:
-  --mode momentum   : trend template + momentum only (original)
-  --mode canslim    : adds quality filters (volume, trend health, extension)
-  --mode rich_quick : aggressive concentrated breakout strategy
+  --mode momentum     : trend template + momentum only (original)
+  --mode canslim      : adds quality filters (volume, trend health, extension)
+  --mode rich_quick   : aggressive concentrated breakout strategy
+  --mode super_rich   : MAXIMUM AGGRESSION - 3 positions, strongest breakouts only
+  --mode cash_machine : HIGH FREQUENCY - many trades, early profit-taking
 
 Usage: python run_backtest.py
        python run_backtest.py --mode canslim
        python run_backtest.py --mode rich_quick
+       python run_backtest.py --mode super_rich
+       python run_backtest.py --mode cash_machine
+       python run_backtest.py --mode all
        python run_backtest.py --start 2015-01-01 --end 2025-12-31
 """
 import sys
@@ -205,13 +210,17 @@ def run_backtest(
     initial_capital: float = 20000.0,
     max_positions: int = 10,
     rebalance_freq: str = "W-FRI",  # weekly on Fridays
-    mode: str = "momentum",  # "momentum", "canslim", or "rich_quick"
+    mode: str = "momentum",  # "momentum", "canslim", "rich_quick", "super_rich", "cash_machine"
 ) -> BacktestState:
     """Run the full backtest."""
 
-    # Override position count for rich_quick mode
+    # Override position count per mode
     if mode == "rich_quick":
         max_positions = config.RQ_MAX_POSITIONS
+    elif mode == "super_rich":
+        max_positions = config.SR_MAX_POSITIONS
+    elif mode == "cash_machine":
+        max_positions = config.CM_MAX_POSITIONS
 
     # Compute signals for all stocks
     logger.info("Computing signals for %d stocks...", len(prices))
@@ -298,10 +307,14 @@ def run_backtest(
             if price > pos.highest_price:
                 pos.highest_price = price
             gain_pct = (price / pos.entry_price - 1) * 100
-            trail_threshold = (
-                config.RQ_PROFIT_THRESHOLD_TO_TRAIL if mode == "rich_quick"
-                else config.PROFIT_THRESHOLD_TO_TRAIL
-            )
+            if mode == "super_rich":
+                trail_threshold = config.SR_PROFIT_THRESHOLD_TO_TRAIL
+            elif mode == "rich_quick":
+                trail_threshold = config.RQ_PROFIT_THRESHOLD_TO_TRAIL
+            elif mode == "cash_machine":
+                trail_threshold = config.CM_PROFIT_THRESHOLD_TO_TRAIL
+            else:
+                trail_threshold = config.PROFIT_THRESHOLD_TO_TRAIL
             if gain_pct >= trail_threshold:
                 pos.trailing_active = True
 
@@ -318,8 +331,10 @@ def run_backtest(
             elif not regime_on and pd.notna(sma_10w) and price < float(sma_10w):
                 exit_reason = "REGIME_OFF_10W"
 
-            # Exit 3: Below 30w SMA
-            elif pd.notna(sma_30w) and price < float(sma_30w):
+            # Exit 3: Trend exit — 10w SMA for cash_machine, 30w SMA for others
+            elif mode == "cash_machine" and pd.notna(sma_10w) and price < float(sma_10w):
+                exit_reason = "BELOW_10W_SMA"
+            elif mode != "cash_machine" and pd.notna(sma_30w) and price < float(sma_30w):
                 exit_reason = "BELOW_30W_SMA"
 
             if exit_reason:
@@ -376,12 +391,20 @@ def run_backtest(
                 if mode == "canslim" and quality < 3:
                     continue  # reject low-quality candidates
 
-                # Rich Quick: aggressive breakout filters
+                if mode == "cash_machine" and quality < config.CM_MIN_QUALITY_SCORE:
+                    continue  # moderate quality bar for high-frequency mode
+
+                # Rich Quick & Super Rich: aggressive breakout filters
                 breakout_score = row.get("breakout_score", 0)
                 if pd.isna(breakout_score):
                     breakout_score = 0
                 near_high = bool(row.get("near_52w_high", False))
                 vol_surge = bool(row.get("volume_surge", False))
+                price_accel = bool(row.get("price_accelerating", False))
+                rs_rising = bool(row.get("rs_rising", False))
+                mom_rank = row.get("mom_rank_pct", 0)
+                if pd.isna(mom_rank):
+                    mom_rank = 0
 
                 if mode == "rich_quick":
                     if not near_high:
@@ -390,6 +413,23 @@ def run_backtest(
                         continue  # must have volume confirmation
                     if quality < config.RQ_MIN_QUALITY_SCORE:
                         continue  # need decent trend quality
+
+                if mode == "super_rich":
+                    # Maximum aggression: require ALL confirmations aligned
+                    if not near_high:
+                        continue  # must be near 52-week high
+                    if not vol_surge:
+                        continue  # must have volume surge
+                    if not price_accel:
+                        continue  # require price acceleration
+                    if not rs_rising:
+                        continue  # require rising relative strength
+                    if quality < config.SR_MIN_QUALITY_SCORE:
+                        continue  # require high quality
+                    if breakout_score < config.SR_MIN_BREAKOUT_SCORE:
+                        continue  # require strong breakout score
+                    if mom_rank < config.SR_MIN_MOMENTUM_RANK:
+                        continue  # require top-10% momentum
 
                 candidates.append({
                     "ticker": ticker,
@@ -401,7 +441,7 @@ def run_backtest(
                 })
 
             # Rank candidates
-            if mode == "rich_quick":
+            if mode in ("rich_quick", "super_rich"):
                 # Rank by breakout score (composite of proximity, volume, accel)
                 candidates.sort(
                     key=lambda x: x.get("breakout_score", 0),
@@ -420,13 +460,29 @@ def run_backtest(
             for cand in candidates[:slots]:
                 entry_price = cand["price"] * (1 + spread_bps / 10000)  # spread cost
 
-                # Calculate stop — tighter for rich_quick
+                # Calculate stop — tighter for aggressive modes
                 atr_val = cand["atr"]
-                if mode == "rich_quick":
+                if mode == "super_rich":
+                    pct_stop = entry_price * (1 - config.SR_INITIAL_HARD_STOP_PCT / 100)
+                    if atr_val and atr_val > 0:
+                        atr_stop = entry_price - config.SR_HARD_STOP_ATR_MULT * atr_val
+                        floor = entry_price * (1 - config.SR_HARD_STOP_CEILING_PCT / 100)
+                        stop = max(min(pct_stop, atr_stop), floor)
+                    else:
+                        stop = pct_stop
+                elif mode == "rich_quick":
                     pct_stop = entry_price * (1 - config.RQ_INITIAL_HARD_STOP_PCT / 100)
                     if atr_val and atr_val > 0:
                         atr_stop = entry_price - config.RQ_HARD_STOP_ATR_MULT * atr_val
                         floor = entry_price * (1 - config.RQ_HARD_STOP_CEILING_PCT / 100)
+                        stop = max(min(pct_stop, atr_stop), floor)
+                    else:
+                        stop = pct_stop
+                elif mode == "cash_machine":
+                    pct_stop = entry_price * (1 - config.CM_INITIAL_HARD_STOP_PCT / 100)
+                    if atr_val and atr_val > 0:
+                        atr_stop = entry_price - config.CM_HARD_STOP_ATR_MULT * atr_val
+                        floor = entry_price * (1 - config.CM_HARD_STOP_CEILING_PCT / 100)
                         stop = max(min(pct_stop, atr_stop), floor)
                     else:
                         stop = pct_stop
@@ -439,16 +495,24 @@ def run_backtest(
                     else:
                         stop = pct_stop
 
-                # Position sizing — more aggressive for rich_quick
+                # Position sizing — more aggressive for rich_quick / super_rich
                 risk_per_share = entry_price - stop
                 if risk_per_share <= 0:
                     continue
 
                 equity = state.total_equity(current_prices)
-                if mode == "rich_quick":
+                if mode == "super_rich":
+                    max_risk = equity * (config.SR_RISK_PER_TRADE_PCT / 100)
+                    shares = int(max_risk / risk_per_share)
+                    max_pos_value = equity * (config.SR_MAX_POSITION_PCT / 100)
+                elif mode == "rich_quick":
                     max_risk = equity * (config.RQ_RISK_PER_TRADE_PCT / 100)
                     shares = int(max_risk / risk_per_share)
                     max_pos_value = equity * (config.RQ_MAX_POSITION_PCT / 100)
+                elif mode == "cash_machine":
+                    max_risk = equity * (config.CM_RISK_PER_TRADE_PCT / 100)
+                    shares = int(max_risk / risk_per_share)
+                    max_pos_value = equity * (config.CM_MAX_POSITION_PCT / 100)
                 else:
                     max_risk = equity * (config.RISK_PER_TRADE_PCT / 100)
                     shares = int(max_risk / risk_per_share)
@@ -701,7 +765,7 @@ def main():
     if mode == "both":
         modes_to_run = ["momentum", "canslim"]
     elif mode == "all":
-        modes_to_run = ["momentum", "canslim", "rich_quick"]
+        modes_to_run = ["momentum", "canslim", "rich_quick", "super_rich", "cash_machine"]
     else:
         modes_to_run = [mode]
     all_results = {}
@@ -759,6 +823,8 @@ def main():
             "momentum": "Momentum",
             "canslim": "CAN SLIM",
             "rich_quick": "Rich Quick",
+            "super_rich": "Super Rich",
+            "cash_machine": "Cash Machine",
         }
 
         metrics = [
