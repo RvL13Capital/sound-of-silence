@@ -49,6 +49,8 @@ class TradeV2:
     shares: int
     stop_price: float
     mom_rank: float = 0.0
+    hvol_60: float = 0.0
+    size_reason: str = ""   # which sizing constraint was binding: VOL|ATR|NOTIONAL|CASH
     exit_date: str = ""
     exit_price: float = 0.0
     exit_reason: str = ""
@@ -99,9 +101,12 @@ def compute_signals_v2(df: pd.DataFrame) -> pd.DataFrame:
     out["high_3m"] = rolling_high(close, config.V2_BREAKOUT_WINDOW_DAYS)
     out["breakout"] = close >= out["high_3m"] * 0.98  # within 2% of 3m high
 
-    # Realized volatility (annualised, for high-vol regime filter per-stock)
+    # Realized volatility (annualised)
+    # hvol_20: responsive — used for per-stock high-vol regime gate
+    # hvol_60: stable  — used for position sizing
     log_ret = np.log(close / close.shift(1))
     out["hvol_20"] = log_ret.rolling(20).std() * np.sqrt(252)
+    out["hvol_60"] = log_ret.rolling(config.V2_SIZING_VOL_LOOKBACK).std() * np.sqrt(252)
 
     # ATR for stop sizing
     out["atr_14"] = atr(df, 14)
@@ -190,6 +195,74 @@ def compute_macro_regime(
     )
 
     return out
+
+
+# ========================================================================== #
+# Volatility-adjusted position sizing
+# ========================================================================== #
+
+def vol_adjusted_shares(
+    equity: float,
+    entry_price: float,
+    atr_val: float,
+    stock_vol: float,
+    available_cash: float,
+    commission: float,
+) -> tuple[int, float, str]:
+    """
+    Three-way capped position sizing.
+
+    Constraint 1 — Vol-adjusted (inverse-vol weighting):
+        Each position targets equal risk contribution to a portfolio vol goal.
+        notional_vol = equity * (target_port_vol / max_positions) / stock_vol
+        Higher-vol names get less notional, lower-vol names get more.
+
+    Constraint 2 — ATR risk cap (per-trade loss cap):
+        shares_atr = (equity * risk_pct) / (atr_stop_mult * atr)
+        Caps maximum loss per trade when the ATR stop triggers.
+
+    Constraint 3 — Notional cap (concentration limit):
+        shares_notional = (equity * max_position_pct) / entry_price
+
+    Final shares = min(all three), then floored by cash availability.
+    Returns: (shares, stop_price, binding_constraint_name)
+    """
+    # Clamp vol for sizing (prevent runaway on low-vol names, floor extreme names)
+    vol_clamped = max(
+        config.V2_SIZING_VOL_FLOOR,
+        min(stock_vol, config.V2_SIZING_VOL_CEILING),
+    )
+
+    # --- 1) Vol-adjusted notional ---
+    vol_budget = config.V2_TARGET_PORTFOLIO_VOL / config.V2_MAX_POSITIONS
+    notional_vol = equity * vol_budget / vol_clamped
+    shares_vol = int(notional_vol / entry_price)
+
+    # --- 2) ATR risk cap ---
+    risk_per_share = config.V2_ATR_STOP_MULT * atr_val
+    stop_price = entry_price - risk_per_share
+    max_risk_eur = equity * (config.V2_RISK_PER_TRADE_PCT / 100)
+    shares_atr = int(max_risk_eur / risk_per_share) if risk_per_share > 0 else 0
+
+    # --- 3) Notional cap ---
+    max_notional = equity * (config.V2_MAX_POSITION_PCT / 100)
+    shares_notional = int(max_notional / entry_price)
+
+    # Select minimum constraint + remember which one bound
+    constraints = {
+        "VOL": shares_vol,
+        "ATR": shares_atr,
+        "NOTIONAL": shares_notional,
+    }
+    binding, shares = min(constraints.items(), key=lambda kv: kv[1])
+
+    # --- 4) Cash availability ---
+    cost_needed = shares * entry_price + commission
+    if cost_needed > available_cash:
+        shares = int((available_cash - commission) / entry_price)
+        binding = "CASH"
+
+    return max(shares, 0), stop_price, binding
 
 
 # ========================================================================== #
@@ -347,8 +420,11 @@ def run_backtest_v2(
 
                 price = float(row.get("close", 0))
                 atr_val = row.get("atr_14", 0)
+                hvol_60 = row.get("hvol_60", np.nan)
                 if price <= 0 or pd.isna(atr_val) or atr_val <= 0:
                     continue
+                if pd.isna(hvol_60) or hvol_60 <= 0:
+                    continue  # need stable vol estimate for sizing
 
                 candidates.append({
                     "ticker": ticker,
@@ -356,6 +432,7 @@ def run_backtest_v2(
                     "atr": float(atr_val),
                     "rank": float(rank),
                     "hvol": float(hvol),
+                    "hvol_60": float(hvol_60),
                 })
 
             # Need minimum candidate depth — otherwise signal is too thin
@@ -366,36 +443,27 @@ def run_backtest_v2(
                 candidates.sort(key=lambda c: c["rank"], reverse=True)
 
                 slots = max_positions - len(state.open_positions)
+                equity = state.total_equity(current_prices)
+
                 for cand in candidates[:slots]:
                     entry_price = cand["price"] * (1 + spread_bps / 10000)
                     atr_val = cand["atr"]
 
-                    # Simple fixed-risk stop (V2 sizing model comes later)
-                    stop = entry_price - config.V2_ATR_STOP_MULT * atr_val
-                    risk_per_share = entry_price - stop
-                    if risk_per_share <= 0:
-                        continue
-
-                    equity = state.total_equity(current_prices)
-                    max_risk = equity * (config.V2_RISK_PER_TRADE_PCT / 100)
-                    shares = int(max_risk / risk_per_share)
-
-                    max_pos_value = equity * (config.V2_MAX_POSITION_PCT / 100)
-                    shares = min(shares, int(max_pos_value / entry_price))
-
+                    shares, stop, size_reason = vol_adjusted_shares(
+                        equity=equity,
+                        entry_price=entry_price,
+                        atr_val=atr_val,
+                        stock_vol=cand["hvol_60"],
+                        available_cash=state.cash,
+                        commission=commission,
+                    )
                     if shares <= 0:
                         continue
                     notional = shares * entry_price
                     if notional < config.V2_MIN_POSITION_EUR:
                         continue
 
-                    cost = notional + commission
-                    if cost > state.cash:
-                        shares = int((state.cash - commission) / entry_price)
-                        if shares <= 0:
-                            continue
-
-                    state.cash -= shares * entry_price + commission
+                    state.cash -= notional + commission
                     trade = TradeV2(
                         ticker=cand["ticker"],
                         entry_date=str(date.date()),
@@ -403,6 +471,8 @@ def run_backtest_v2(
                         shares=shares,
                         stop_price=stop,
                         mom_rank=cand["rank"],
+                        hvol_60=cand["hvol_60"],
+                        size_reason=size_reason,
                         highest_price=entry_price,
                     )
                     state.positions.append(trade)
@@ -493,8 +563,12 @@ def summarize_v2(state: StateV2) -> dict:
     win_rate = len(winners) / len(trades) * 100 if trades else 0
 
     exit_reasons = {}
+    size_reasons = {}
     for t in trades:
         exit_reasons[t.exit_reason] = exit_reasons.get(t.exit_reason, 0) + 1
+        size_reasons[t.size_reason] = size_reasons.get(t.size_reason, 0) + 1
+
+    avg_hvol = np.mean([t.hvol_60 for t in trades if t.hvol_60 > 0]) if trades else 0
 
     return {
         "initial": initial,
@@ -506,7 +580,9 @@ def summarize_v2(state: StateV2) -> dict:
         "total_trades": len(trades),
         "win_rate_pct": win_rate,
         "regime_on_pct": eq["regime_on"].mean() * 100,
+        "avg_entry_hvol_pct": avg_hvol * 100,
         "exit_reasons": exit_reasons,
+        "size_reasons": size_reasons,
         "equity_curve": eq,
     }
 
@@ -523,8 +599,12 @@ def print_v2(s: dict) -> None:
     print(f"  Trades:        {s['total_trades']:>10d}")
     print(f"  Win Rate:      {s['win_rate_pct']:>10.1f}%")
     print(f"  Regime ON:     {s['regime_on_pct']:>10.1f}%")
+    print(f"  Avg Entry Vol: {s.get('avg_entry_hvol_pct', 0):>10.1f}%")
     print("  Exit Reasons:")
     for r, n in sorted(s["exit_reasons"].items(), key=lambda x: -x[1]):
+        print(f"    {r:<22s} {n:>5d}")
+    print("  Binding Sizing Constraint:")
+    for r, n in sorted(s.get("size_reasons", {}).items(), key=lambda x: -x[1]):
         print(f"    {r:<22s} {n:>5d}")
     print()
 
@@ -580,6 +660,8 @@ def main():
             "exit_price": round(t.exit_price, 2),
             "shares": t.shares,
             "mom_rank": round(t.mom_rank, 1),
+            "hvol_60": round(t.hvol_60, 3),
+            "size_reason": t.size_reason,
             "pnl": round(t.pnl, 2),
             "pnl_pct": round(t.pnl_pct, 1),
             "holding_days": t.holding_days,

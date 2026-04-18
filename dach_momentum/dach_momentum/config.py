@@ -357,10 +357,17 @@ V2_REGIME_VOL_LOOKBACK = 20            # realized vol window
 V2_REGIME_DISPERSION_MIN = 0.15        # layer 4: top10-bot10 mom spread >= 15%
 
 # -- Position sizing (volatility-adjusted / equal risk contribution) --------
+# Inverse-vol sizing: notional_i = equity * vol_budget / stock_vol_i
+# vol_budget = V2_TARGET_PORTFOLIO_VOL / V2_MAX_POSITIONS
+# (conservative — assumes perfectly correlated holdings as upper bound)
+# Final shares = min(vol_adjusted, atr_risk_cap, notional_cap)
 V2_TARGET_PORTFOLIO_VOL = 0.15         # 15% annualised portfolio vol target
-V2_RISK_PER_TRADE_PCT = 1.0            # 1% of equity risked per position
+V2_SIZING_VOL_LOOKBACK = 60            # 60-day realized vol for stable sizing
+V2_SIZING_VOL_FLOOR = 0.15             # min 15% vol (cap notional on low-vol names)
+V2_SIZING_VOL_CEILING = 0.80           # max 80% vol (floor notional on extreme names)
+V2_RISK_PER_TRADE_PCT = 1.0            # 1% of equity risked per position (ATR cap)
 V2_ATR_STOP_MULT = 2.5                 # stop = 2.5 * ATR_14 below entry
-V2_MAX_POSITION_PCT = 15.0             # cap on single-name weight
+V2_MAX_POSITION_PCT = 15.0             # cap on single-name weight (notional cap)
 V2_MAX_POSITIONS = 10                  # max concurrent holdings
 V2_MIN_POSITION_EUR = 500.0            # skip dust positions
 
