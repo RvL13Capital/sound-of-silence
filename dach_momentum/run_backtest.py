@@ -345,11 +345,31 @@ def run_backtest(
             elif not regime_on and pd.notna(sma_10w) and price < float(sma_10w):
                 exit_reason = "REGIME_OFF_10W"
 
-            # Exit 3: Trend exit — 10w SMA for cash_machine, 30w SMA for others
+            # Exit 3: Trend exit — adaptive for super_rich, 10w for cash_machine, 30w for others
             elif mode == "cash_machine" and pd.notna(sma_10w) and price < float(sma_10w):
                 exit_reason = "BELOW_10W_SMA"
-            elif mode != "cash_machine" and pd.notna(sma_30w) and price < float(sma_30w):
+            elif mode == "super_rich" and pos.trailing_active:
+                # Adaptive trailing: tighter MA as peak gain increases
+                peak_gain_pct = (pos.highest_price / pos.entry_price - 1) * 100
+                if peak_gain_pct >= 50:
+                    # Big winners: trail at 15% from peak OR 10w SMA (whichever tighter)
+                    peak_trail = pos.highest_price * 0.85
+                    trail_level = max(peak_trail, float(sma_10w)) if pd.notna(sma_10w) else peak_trail
+                    if price < trail_level:
+                        exit_reason = "ADAPTIVE_TRAIL_50"
+                elif peak_gain_pct >= 25:
+                    # Good winners: trail on 10w SMA (faster than 30w)
+                    if pd.notna(sma_10w) and price < float(sma_10w):
+                        exit_reason = "ADAPTIVE_TRAIL_25"
+                else:
+                    # Early winners: trail on 30w SMA (default)
+                    if pd.notna(sma_30w) and price < float(sma_30w):
+                        exit_reason = "BELOW_30W_SMA"
+            elif mode not in ("cash_machine", "super_rich") and pd.notna(sma_30w) and price < float(sma_30w):
                 exit_reason = "BELOW_30W_SMA"
+            elif mode == "super_rich" and not pos.trailing_active:
+                if pd.notna(sma_30w) and price < float(sma_30w):
+                    exit_reason = "BELOW_30W_SMA"
 
             if exit_reason:
                 # Apply spread cost on exit
@@ -660,6 +680,24 @@ def compute_performance(state: BacktestState) -> dict:
     win_rate = len(winners) / len(trades) * 100 if trades else 0
     avg_win = np.mean([t.pnl_pct for t in winners]) if winners else 0
     avg_loss = np.mean([t.pnl_pct for t in losers]) if losers else 0
+
+    # Profit give-back analysis (how much peak profit was surrendered)
+    give_backs = []
+    peak_gains = []
+    for t in trades:
+        if t.highest_price > 0 and t.entry_price > 0:
+            peak_pct = (t.highest_price / t.entry_price - 1) * 100
+            exit_pct = t.pnl_pct
+            give_back = peak_pct - exit_pct  # how much was given back
+            give_backs.append(give_back)
+            peak_gains.append(peak_pct)
+    avg_give_back = np.mean(give_backs) if give_backs else 0
+    avg_peak_gain = np.mean(peak_gains) if peak_gains else 0
+    winner_give_backs = [
+        (t.highest_price / t.entry_price - 1) * 100 - t.pnl_pct
+        for t in winners if t.highest_price > 0
+    ]
+    avg_winner_give_back = np.mean(winner_give_backs) if winner_give_backs else 0
     profit_factor = (
         sum(t.pnl for t in winners) / abs(sum(t.pnl for t in losers))
         if losers and sum(t.pnl for t in losers) != 0 else float("inf")
@@ -694,6 +732,9 @@ def compute_performance(state: BacktestState) -> dict:
         "avg_holding_days": avg_hold,
         "exit_reasons": exit_reasons,
         "regime_on_pct": regime_on_pct,
+        "avg_peak_gain_pct": avg_peak_gain,
+        "avg_give_back_pct": avg_give_back,
+        "avg_winner_give_back_pct": avg_winner_give_back,
         "equity_curve": eq,
     }
 
@@ -727,6 +768,11 @@ def print_performance(perf: dict) -> None:
     print(f"    Avg Loss:          {perf['avg_loss_pct']:>+10.1f}%")
     print(f"    Profit Factor:     {perf['profit_factor']:>10.2f}")
     print(f"    Avg Holding:       {perf['avg_holding_days']:>10.0f} days")
+
+    print(f"\n  PROFIT GIVE-BACK (peak gain vs actual exit)")
+    print(f"    Avg Peak Gain:     {perf.get('avg_peak_gain_pct', 0):>+10.1f}%")
+    print(f"    Avg Give-Back:     {perf.get('avg_give_back_pct', 0):>10.1f}%")
+    print(f"    Winners Give-Back: {perf.get('avg_winner_give_back_pct', 0):>10.1f}%")
 
     print(f"\n  EXIT REASONS")
     for reason, count in sorted(perf["exit_reasons"].items(),
