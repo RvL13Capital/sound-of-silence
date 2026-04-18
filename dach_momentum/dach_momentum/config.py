@@ -327,3 +327,53 @@ CM_HARD_STOP_ATR_MULT = 2.0           # 2x ATR stop
 CM_HARD_STOP_CEILING_PCT = 12.0       # never wider than 12%
 CM_PROFIT_THRESHOLD_TO_TRAIL = 8.0    # trail very early at +8%
 CM_EXIT_SMA_DAYS = 50                 # 10-week SMA exit (faster turnover)
+
+# --------------------------------------------------------------------------- #
+# V2 architecture: Cross-sectional momentum in high-volatility breakouts
+#
+# Design principles (directive from V2 review):
+#   1) Stop parameter optimization on narrow bands.
+#   2) Replace absolute thresholds with cross-sectional ranking.
+#   3) Add multi-layer macro regime gating (not just binary CDAX trend).
+#   4) Volatility-adjusted position sizing (equal risk contribution via ATR).
+#   5) Rigorous transaction cost model (spread + market impact + slippage).
+#
+# Goal: prove the Cohen's d = 0.28 edge survives realistic friction.
+# --------------------------------------------------------------------------- #
+
+# -- Cross-sectional selection ----------------------------------------------
+V2_TOP_N_PCT = 10.0                    # select top 10% of momentum universe
+V2_MIN_CANDIDATES_PER_DATE = 5         # need at least 5 names ranked to trade
+V2_MIN_MOM_RANK_PCT = 90.0             # fallback absolute floor (percentile)
+V2_BREAKOUT_WINDOW_DAYS = 63           # 3-month high breakout requirement
+V2_MIN_HVOL_PCT = 0.25                 # min 25% annualised vol (high-vol regime)
+
+# -- Multi-layer macro regime -----------------------------------------------
+V2_REGIME_TREND_MA_WEEKS = 40          # layer 1: CDAX > 40w SMA
+V2_REGIME_BREADTH_MIN_PCT = 45.0       # layer 2: >=45% of universe above 200d
+V2_REGIME_BREADTH_LOOKBACK = 200       # breadth SMA lookback (daily bars)
+V2_REGIME_VOL_MAX_HVOL = 0.35          # layer 3: CDAX hvol <= 35% annualised
+V2_REGIME_VOL_LOOKBACK = 20            # realized vol window
+V2_REGIME_DISPERSION_MIN = 0.15        # layer 4: top10-bot10 mom spread >= 15%
+
+# -- Position sizing (volatility-adjusted / equal risk contribution) --------
+V2_TARGET_PORTFOLIO_VOL = 0.15         # 15% annualised portfolio vol target
+V2_RISK_PER_TRADE_PCT = 1.0            # 1% of equity risked per position
+V2_ATR_STOP_MULT = 2.5                 # stop = 2.5 * ATR_14 below entry
+V2_MAX_POSITION_PCT = 15.0             # cap on single-name weight
+V2_MAX_POSITIONS = 10                  # max concurrent holdings
+V2_MIN_POSITION_EUR = 500.0            # skip dust positions
+
+# -- Transaction cost model -------------------------------------------------
+# Total cost = commission + half_spread + market_impact + slippage
+V2_COMMISSION_EUR = 10.0               # fixed DKB-style commission
+V2_HALF_SPREAD_BPS = 25                # 25 bps half-spread (both sides)
+V2_IMPACT_COEFF = 0.10                 # sqrt-model: impact = coeff * σ * sqrt(q/ADV)
+V2_SLIPPAGE_BPS = 5                    # fixed slippage buffer
+V2_MAX_PCT_OF_ADV = 5.0                # never trade >5% of 20-day ADV
+V2_ADV_LOOKBACK = 20                   # 20-day ADV window
+
+# -- Exits ------------------------------------------------------------------
+V2_EXIT_SMA_DAYS = 100                 # 20-week SMA trailing exit
+V2_PROFIT_TRAIL_THRESHOLD = 20.0       # switch to SMA trailing after +20%
+V2_TIME_STOP_DAYS = 180                # exit if no new high in 180 days
