@@ -5,8 +5,8 @@ V2 backtest engine: Cross-sectional momentum in high-volatility breakouts.
 Architecture differences vs V1 (run_backtest.py):
   - Candidate selection: top-N percentile ranking, not absolute thresholds
   - Regime: multi-layer (CDAX trend + breadth + vol + dispersion)
-  - Sizing: simple fixed-risk for now (vol-adjusted model comes later)
-  - Costs: flat spread + commission for now (impact model comes later)
+  - Sizing: inverse-vol weighted (equal risk contribution) + ATR/notional caps
+  - Costs: Almgren-Chriss sqrt-impact + half-spread + slippage + commission
 
 V1 remains the benchmark. V2 is a parallel module.
 
@@ -50,7 +50,9 @@ class TradeV2:
     stop_price: float
     mom_rank: float = 0.0
     hvol_60: float = 0.0
-    size_reason: str = ""   # which sizing constraint was binding: VOL|ATR|NOTIONAL|CASH
+    size_reason: str = ""
+    entry_cost_bps: float = 0.0
+    exit_cost_bps: float = 0.0
     exit_date: str = ""
     exit_price: float = 0.0
     exit_reason: str = ""
@@ -110,6 +112,13 @@ def compute_signals_v2(df: pd.DataFrame) -> pd.DataFrame:
 
     # ATR for stop sizing
     out["atr_14"] = atr(df, 14)
+
+    # Average daily volume (for market impact model)
+    if "Volume" in df.columns:
+        vol = df["Volume"]
+        out["adv_20"] = vol.rolling(config.V2_ADV_LOOKBACK).mean()
+    else:
+        out["adv_20"] = np.nan
 
     # Trailing exit SMA
     out["exit_sma"] = sma(close, config.V2_EXIT_SMA_DAYS)
@@ -266,6 +275,61 @@ def vol_adjusted_shares(
 
 
 # ========================================================================== #
+# Transaction cost model
+# ========================================================================== #
+
+def compute_trade_cost(
+    shares: int,
+    price: float,
+    stock_vol: float,
+    adv: float,
+) -> tuple[float, dict]:
+    """
+    Rigorous per-trade cost model.
+
+    Components (one-way):
+      1) Commission:    fixed EUR per trade
+      2) Half-spread:   half_spread_bps * notional
+      3) Market impact: coeff * stock_vol * sqrt(shares / ADV) * notional
+         (Almgren-Chriss square-root model)
+      4) Slippage:      fixed bps buffer * notional
+
+    Returns: (total_cost_eur, breakdown_dict)
+    """
+    notional = shares * price
+
+    # 1) Commission
+    comm = config.V2_COMMISSION_EUR
+
+    # 2) Half-spread
+    half_spread = notional * (config.V2_HALF_SPREAD_BPS / 10000)
+
+    # 3) Market impact (sqrt model)
+    if adv > 0 and stock_vol > 0:
+        participation = shares / adv
+        if participation > config.V2_MAX_PCT_OF_ADV / 100:
+            participation = config.V2_MAX_PCT_OF_ADV / 100
+        impact = config.V2_IMPACT_COEFF * stock_vol * np.sqrt(participation) * notional
+    else:
+        impact = 0.0
+
+    # 4) Slippage
+    slippage = notional * (config.V2_SLIPPAGE_BPS / 10000)
+
+    total = comm + half_spread + impact + slippage
+
+    breakdown = {
+        "commission": comm,
+        "half_spread": half_spread,
+        "impact": impact,
+        "slippage": slippage,
+        "total": total,
+        "total_bps": (total / notional * 10000) if notional > 0 else 0,
+    }
+    return total, breakdown
+
+
+# ========================================================================== #
 # Core backtest loop
 # ========================================================================== #
 
@@ -307,9 +371,6 @@ def run_backtest_v2(
         if (trading_dates >= d).any()
     ]
 
-    # Simple V1-style costs (for the base scaffold; V2 cost model comes later)
-    commission = config.V2_COMMISSION_EUR
-    spread_bps = config.V2_HALF_SPREAD_BPS * 2  # round-trip approximation
     max_positions = config.V2_MAX_POSITIONS
 
     state = StateV2(cash=initial_capital)
@@ -368,17 +429,30 @@ def run_backtest_v2(
                 exit_reason = "BELOW_EXIT_SMA"
 
             if exit_reason:
-                exit_price = price * (1 - spread_bps / 10000)
+                adv_exit = row.get("adv_20", 0)
+                if pd.isna(adv_exit):
+                    adv_exit = 0.0
+                hvol_exit = row.get("hvol_60", pos.hvol_60)
+                if pd.isna(hvol_exit):
+                    hvol_exit = pos.hvol_60
+                exit_cost, exit_bd = compute_trade_cost(
+                    shares=pos.shares,
+                    price=price,
+                    stock_vol=hvol_exit,
+                    adv=float(adv_exit),
+                )
+                exit_price = price - exit_cost / pos.shares
                 pos.exit_date = str(date.date())
                 pos.exit_price = exit_price
                 pos.exit_reason = exit_reason
-                pos.pnl = (exit_price - pos.entry_price) * pos.shares - 2 * commission
+                pos.exit_cost_bps = exit_bd["total_bps"]
+                pos.pnl = (exit_price - pos.entry_price) * pos.shares
                 pos.pnl_pct = (exit_price / pos.entry_price - 1) * 100
                 pos.holding_days = (date - pd.Timestamp(pos.entry_date)).days
                 to_close.append(pos)
 
         for pos in to_close:
-            state.cash += pos.shares * pos.exit_price - commission
+            state.cash += pos.shares * pos.exit_price
             state.positions.remove(pos)
             state.closed_trades.append(pos)
 
@@ -421,10 +495,13 @@ def run_backtest_v2(
                 price = float(row.get("close", 0))
                 atr_val = row.get("atr_14", 0)
                 hvol_60 = row.get("hvol_60", np.nan)
+                adv = row.get("adv_20", np.nan)
                 if price <= 0 or pd.isna(atr_val) or atr_val <= 0:
                     continue
                 if pd.isna(hvol_60) or hvol_60 <= 0:
-                    continue  # need stable vol estimate for sizing
+                    continue
+                if pd.isna(adv):
+                    adv = 0.0
 
                 candidates.append({
                     "ticker": ticker,
@@ -433,6 +510,7 @@ def run_backtest_v2(
                     "rank": float(rank),
                     "hvol": float(hvol),
                     "hvol_60": float(hvol_60),
+                    "adv": float(adv),
                 })
 
             # Need minimum candidate depth — otherwise signal is too thin
@@ -446,24 +524,44 @@ def run_backtest_v2(
                 equity = state.total_equity(current_prices)
 
                 for cand in candidates[:slots]:
-                    entry_price = cand["price"] * (1 + spread_bps / 10000)
+                    raw_price = cand["price"]
                     atr_val = cand["atr"]
 
+                    # Size first on raw price (conservative — cost comes off cash)
                     shares, stop, size_reason = vol_adjusted_shares(
                         equity=equity,
-                        entry_price=entry_price,
+                        entry_price=raw_price,
                         atr_val=atr_val,
                         stock_vol=cand["hvol_60"],
                         available_cash=state.cash,
-                        commission=commission,
+                        commission=config.V2_COMMISSION_EUR,
                     )
                     if shares <= 0:
                         continue
-                    notional = shares * entry_price
+
+                    # Compute realistic entry cost
+                    entry_cost, entry_bd = compute_trade_cost(
+                        shares=shares,
+                        price=raw_price,
+                        stock_vol=cand["hvol_60"],
+                        adv=cand["adv"],
+                    )
+                    entry_price = raw_price + entry_cost / shares  # effective entry
+                    notional = shares * raw_price
                     if notional < config.V2_MIN_POSITION_EUR:
                         continue
+                    total_outlay = notional + entry_cost
+                    if total_outlay > state.cash:
+                        shares = int((state.cash - entry_cost) / raw_price)
+                        if shares <= 0:
+                            continue
+                        entry_cost, entry_bd = compute_trade_cost(
+                            shares, raw_price, cand["hvol_60"], cand["adv"],
+                        )
+                        entry_price = raw_price + entry_cost / shares
+                        total_outlay = shares * raw_price + entry_cost
 
-                    state.cash -= notional + commission
+                    state.cash -= total_outlay
                     trade = TradeV2(
                         ticker=cand["ticker"],
                         entry_date=str(date.date()),
@@ -473,6 +571,7 @@ def run_backtest_v2(
                         mom_rank=cand["rank"],
                         hvol_60=cand["hvol_60"],
                         size_reason=size_reason,
+                        entry_cost_bps=entry_bd["total_bps"],
                         highest_price=entry_price,
                     )
                     state.positions.append(trade)
@@ -487,7 +586,7 @@ def run_backtest_v2(
             "regime_on": regime_on,
         })
 
-    # Close remaining positions at last price
+    # Close remaining positions at last price (with exit costs)
     last_date = trading_dates[-1] if len(trading_dates) > 0 else rebal_dates[-1]
     for pos in list(state.open_positions):
         if pos.ticker not in all_signals:
@@ -496,14 +595,23 @@ def run_backtest_v2(
         prior = sig.index[sig.index <= last_date]
         if len(prior) == 0:
             continue
-        price = float(sig.loc[prior[-1]].get("close", pos.entry_price))
+        row = sig.loc[prior[-1]]
+        price = float(row.get("close", pos.entry_price))
+        adv_end = row.get("adv_20", 0)
+        if pd.isna(adv_end):
+            adv_end = 0.0
+        exit_cost, exit_bd = compute_trade_cost(
+            pos.shares, price, pos.hvol_60, float(adv_end),
+        )
+        exit_price = price - exit_cost / pos.shares if pos.shares > 0 else price
         pos.exit_date = str(last_date.date())
-        pos.exit_price = price
+        pos.exit_price = exit_price
         pos.exit_reason = "END_OF_BACKTEST"
-        pos.pnl = (price - pos.entry_price) * pos.shares - 2 * commission
-        pos.pnl_pct = (price / pos.entry_price - 1) * 100
+        pos.exit_cost_bps = exit_bd["total_bps"]
+        pos.pnl = (exit_price - pos.entry_price) * pos.shares
+        pos.pnl_pct = (exit_price / pos.entry_price - 1) * 100
         pos.holding_days = (last_date - pd.Timestamp(pos.entry_date)).days
-        state.cash += pos.shares * price
+        state.cash += pos.shares * exit_price
         state.positions.remove(pos)
         state.closed_trades.append(pos)
 
@@ -569,6 +677,9 @@ def summarize_v2(state: StateV2) -> dict:
         size_reasons[t.size_reason] = size_reasons.get(t.size_reason, 0) + 1
 
     avg_hvol = np.mean([t.hvol_60 for t in trades if t.hvol_60 > 0]) if trades else 0
+    avg_entry_cost = np.mean([t.entry_cost_bps for t in trades]) if trades else 0
+    avg_exit_cost = np.mean([t.exit_cost_bps for t in trades]) if trades else 0
+    avg_round_trip = avg_entry_cost + avg_exit_cost
 
     return {
         "initial": initial,
@@ -581,6 +692,9 @@ def summarize_v2(state: StateV2) -> dict:
         "win_rate_pct": win_rate,
         "regime_on_pct": eq["regime_on"].mean() * 100,
         "avg_entry_hvol_pct": avg_hvol * 100,
+        "avg_entry_cost_bps": avg_entry_cost,
+        "avg_exit_cost_bps": avg_exit_cost,
+        "avg_round_trip_bps": avg_round_trip,
         "exit_reasons": exit_reasons,
         "size_reasons": size_reasons,
         "equity_curve": eq,
@@ -600,6 +714,10 @@ def print_v2(s: dict) -> None:
     print(f"  Win Rate:      {s['win_rate_pct']:>10.1f}%")
     print(f"  Regime ON:     {s['regime_on_pct']:>10.1f}%")
     print(f"  Avg Entry Vol: {s.get('avg_entry_hvol_pct', 0):>10.1f}%")
+    print(f"\n  TRANSACTION COSTS (avg per trade)")
+    print(f"    Entry:       {s.get('avg_entry_cost_bps', 0):>10.1f} bps")
+    print(f"    Exit:        {s.get('avg_exit_cost_bps', 0):>10.1f} bps")
+    print(f"    Round-trip:  {s.get('avg_round_trip_bps', 0):>10.1f} bps")
     print("  Exit Reasons:")
     for r, n in sorted(s["exit_reasons"].items(), key=lambda x: -x[1]):
         print(f"    {r:<22s} {n:>5d}")
@@ -662,6 +780,8 @@ def main():
             "mom_rank": round(t.mom_rank, 1),
             "hvol_60": round(t.hvol_60, 3),
             "size_reason": t.size_reason,
+            "entry_cost_bps": round(t.entry_cost_bps, 1),
+            "exit_cost_bps": round(t.exit_cost_bps, 1),
             "pnl": round(t.pnl, 2),
             "pnl_pct": round(t.pnl_pct, 1),
             "holding_days": t.holding_days,
