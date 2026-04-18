@@ -332,21 +332,322 @@ def detect_double_bottom(df: pd.DataFrame, lookback: int = 90) -> float:
 
 
 # ========================================================================== #
-# Combined scoring
+# Japanese Candlestick Patterns (Homma / Nison)
+# ========================================================================== #
+
+
+def _body(o: float, c: float) -> float:
+    return abs(c - o)
+
+
+def _upper_shadow(h: float, o: float, c: float) -> float:
+    return h - max(o, c)
+
+
+def _lower_shadow(o: float, c: float, l: float) -> float:
+    return min(o, c) - l
+
+
+def _is_bullish(o: float, c: float) -> bool:
+    return c > o
+
+
+def _is_bearish(o: float, c: float) -> bool:
+    return o > c
+
+
+def _avg_body(df: pd.DataFrame, n: int = 14) -> float:
+    """Average candle body size over last n bars."""
+    opens = df["Open"].iloc[-n:]
+    closes = df["Close"].iloc[-n:]
+    return float((closes - opens).abs().mean())
+
+
+def detect_bullish_engulfing(df: pd.DataFrame) -> float:
+    """
+    Bullish Engulfing (tsutsumi): bearish candle fully engulfed by
+    larger bullish candle. Reversal signal at support.
+    """
+    if len(df) < 16:
+        return 0.0
+    o1, h1, l1, c1 = [float(df[c].iloc[-2]) for c in ("Open", "High", "Low", "Close")]
+    o2, h2, l2, c2 = [float(df[c].iloc[-1]) for c in ("Open", "High", "Low", "Close")]
+    if not (_is_bearish(o1, c1) and _is_bullish(o2, c2)):
+        return 0.0
+    if not (o2 <= c1 and c2 >= o1):
+        return 0.0
+    score = 50.0
+    avg = _avg_body(df)
+    if avg > 0 and _body(o2, c2) > avg * 1.5:
+        score += 25
+    if l2 < l1:
+        score += 15
+    if _lower_shadow(o2, c2, l2) < _body(o2, c2) * 0.3:
+        score += 10
+    return min(score, 100.0)
+
+
+def detect_morning_star(df: pd.DataFrame) -> float:
+    """
+    Morning Star (sansei boshi): 3-candle reversal.
+    Day1=long bearish, Day2=small body (star), Day3=long bullish.
+    """
+    if len(df) < 16:
+        return 0.0
+    rows = [(float(df[c].iloc[-3+i]) for c in ("Open", "High", "Low", "Close")) for i in range(3)]
+    o1, h1, l1, c1 = rows[0]
+    o2, h2, l2, c2 = rows[1]
+    o3, h3, l3, c3 = rows[2]
+    avg = _avg_body(df, 14)
+    if avg <= 0:
+        return 0.0
+    if not (_is_bearish(o1, c1) and _body(o1, c1) > avg):
+        return 0.0
+    if _body(o2, c2) > avg * 0.5:
+        return 0.0
+    if not (_is_bullish(o3, c3) and _body(o3, c3) > avg):
+        return 0.0
+    score = 55.0
+    if c3 > (o1 + c1) / 2:
+        score += 25
+    if l2 < min(l1, l3):
+        score += 10
+    if _body(o3, c3) > avg * 1.5:
+        score += 10
+    return min(score, 100.0)
+
+
+def detect_hammer(df: pd.DataFrame) -> float:
+    """
+    Hammer (takuri): small body at top, long lower shadow (>= 2x body).
+    Bullish reversal at support after downtrend.
+    """
+    if len(df) < 16:
+        return 0.0
+    o, h, l, c = [float(df[col].iloc[-1]) for col in ("Open", "High", "Low", "Close")]
+    body = _body(o, c)
+    lower = _lower_shadow(o, c, l)
+    upper = _upper_shadow(h, o, c)
+    if body <= 0 or lower < body * 2:
+        return 0.0
+    if upper > body * 0.5:
+        return 0.0
+    score = 50.0
+    prior_5 = df["Close"].iloc[-6:-1]
+    if float(prior_5.iloc[-1]) < float(prior_5.iloc[0]):
+        score += 20
+    if lower > body * 3:
+        score += 15
+    if _is_bullish(o, c):
+        score += 15
+    return min(score, 100.0)
+
+
+def detect_three_white_soldiers(df: pd.DataFrame) -> float:
+    """
+    Three White Soldiers (sanpei): 3 consecutive long bullish candles,
+    each closing higher. Strong bullish continuation.
+    """
+    if len(df) < 16:
+        return 0.0
+    avg = _avg_body(df, 14)
+    if avg <= 0:
+        return 0.0
+    score = 0.0
+    for i in range(-3, 0):
+        o_i = float(df["Open"].iloc[i])
+        c_i = float(df["Close"].iloc[i])
+        if not _is_bullish(o_i, c_i):
+            return 0.0
+        if _body(o_i, c_i) < avg * 0.8:
+            return 0.0
+    score = 50.0
+    c1 = float(df["Close"].iloc[-3])
+    c2 = float(df["Close"].iloc[-2])
+    c3 = float(df["Close"].iloc[-1])
+    if c3 > c2 > c1:
+        score += 25
+    o2 = float(df["Open"].iloc[-2])
+    o3 = float(df["Open"].iloc[-1])
+    if o2 > c1 * 0.95 and o3 > c2 * 0.95:
+        score += 15
+    for i in range(-3, 0):
+        o_i = float(df["Open"].iloc[i])
+        h_i = float(df["High"].iloc[i])
+        c_i = float(df["Close"].iloc[i])
+        if _upper_shadow(h_i, o_i, c_i) < _body(o_i, c_i) * 0.3:
+            score += 3
+    return min(score, 100.0)
+
+
+def detect_piercing_line(df: pd.DataFrame) -> float:
+    """
+    Piercing Line (kirikomi): bearish candle + bullish candle that opens
+    below prior low and closes above 50% of prior body.
+    """
+    if len(df) < 16:
+        return 0.0
+    o1, c1 = float(df["Open"].iloc[-2]), float(df["Close"].iloc[-2])
+    o2, c2 = float(df["Open"].iloc[-1]), float(df["Close"].iloc[-1])
+    l1 = float(df["Low"].iloc[-2])
+    if not (_is_bearish(o1, c1) and _is_bullish(o2, c2)):
+        return 0.0
+    if o2 > c1:
+        return 0.0
+    midpoint = (o1 + c1) / 2
+    if c2 < midpoint:
+        return 0.0
+    score = 55.0
+    avg = _avg_body(df, 14)
+    if avg > 0 and _body(o1, c1) > avg * 1.2:
+        score += 15
+    if o2 < l1:
+        score += 15
+    if c2 > o1 * 0.95:
+        score += 15
+    return min(score, 100.0)
+
+
+def detect_doji_star(df: pd.DataFrame) -> float:
+    """
+    Bullish Doji Star: bearish candle + doji (open≈close), signaling
+    seller exhaustion. Needs bullish confirmation on day 3.
+    """
+    if len(df) < 16:
+        return 0.0
+    o1, c1 = float(df["Open"].iloc[-2]), float(df["Close"].iloc[-2])
+    o2, h2, l2, c2 = [float(df[c].iloc[-1]) for c in ("Open", "High", "Low", "Close")]
+    avg = _avg_body(df, 14)
+    if avg <= 0:
+        return 0.0
+    if not _is_bearish(o1, c1):
+        return 0.0
+    if _body(o1, c1) < avg:
+        return 0.0
+    doji_body = _body(o2, c2)
+    doji_range = h2 - l2
+    if doji_range <= 0 or doji_body > doji_range * 0.15:
+        return 0.0
+    score = 50.0
+    if max(o2, c2) < c1:
+        score += 20
+    if doji_range > avg * 0.5:
+        score += 10
+    prior_5 = df["Close"].iloc[-7:-2]
+    if float(prior_5.iloc[-1]) < float(prior_5.iloc[0]):
+        score += 20
+    return min(score, 100.0)
+
+
+def detect_bullish_harami(df: pd.DataFrame) -> float:
+    """
+    Bullish Harami (harami): large bearish candle + small bullish candle
+    contained within prior body. Reversal at support.
+    """
+    if len(df) < 16:
+        return 0.0
+    o1, c1 = float(df["Open"].iloc[-2]), float(df["Close"].iloc[-2])
+    o2, c2 = float(df["Open"].iloc[-1]), float(df["Close"].iloc[-1])
+    if not (_is_bearish(o1, c1) and _is_bullish(o2, c2)):
+        return 0.0
+    if not (o2 >= c1 and c2 <= o1):
+        return 0.0
+    avg = _avg_body(df, 14)
+    if avg <= 0:
+        return 0.0
+    score = 45.0
+    if _body(o1, c1) > avg * 1.3:
+        score += 20
+    if _body(o2, c2) < _body(o1, c1) * 0.5:
+        score += 20
+    prior_5 = df["Close"].iloc[-7:-2]
+    if float(prior_5.iloc[-1]) < float(prior_5.iloc[0]):
+        score += 15
+    return min(score, 100.0)
+
+
+def detect_marubozu(df: pd.DataFrame) -> float:
+    """
+    Bullish Marubozu: long body, no (or tiny) shadows.
+    Maximum conviction candle.
+    """
+    if len(df) < 16:
+        return 0.0
+    o, h, l, c = [float(df[col].iloc[-1]) for col in ("Open", "High", "Low", "Close")]
+    if not _is_bullish(o, c):
+        return 0.0
+    body = _body(o, c)
+    upper = _upper_shadow(h, o, c)
+    lower = _lower_shadow(o, c, l)
+    if body <= 0:
+        return 0.0
+    if upper > body * 0.05 or lower > body * 0.05:
+        if upper > body * 0.15 or lower > body * 0.15:
+            return 0.0
+        score = 40.0
+    else:
+        score = 60.0
+    avg = _avg_body(df, 14)
+    if avg > 0 and body > avg * 2:
+        score += 25
+    elif avg > 0 and body > avg * 1.5:
+        score += 15
+    vol = df["Volume"] if "Volume" in df.columns else None
+    if vol is not None and len(vol) >= 10:
+        if float(vol.iloc[-1]) > float(vol.iloc[-10:].mean()) * 1.5:
+            score += 15
+    return min(score, 100.0)
+
+
+# ========================================================================== #
+# Combined scoring (chart + candlestick)
 # ========================================================================== #
 
 
 def compute_pattern_score(df: pd.DataFrame) -> tuple[str, float, dict[str, float]]:
     """
-    Run all pattern detectors and return (best_pattern, best_score, all_scores).
+    Run all pattern detectors (chart + candlestick) and return
+    (best_pattern, best_score, all_scores).
+
+    Chart patterns detect multi-week structure (VCP, Cup&Handle, etc).
+    Candlestick patterns detect 1-3 day entry signals (Homma/Nison).
+    Final score = max(best_chart, best_candle + chart_context_bonus).
     """
-    patterns = {
+    has_ohlc = all(c in df.columns for c in ("Open", "High", "Low", "Close"))
+
+    # Chart patterns (multi-week structure)
+    chart = {
         "VCP": detect_vcp(df),
         "CUP_HANDLE": detect_cup_handle(df),
         "POCKET_PIVOT": detect_pocket_pivot(df),
         "FLAG_BREAKOUT": detect_flag_breakout(df),
         "DOUBLE_BOTTOM": detect_double_bottom(df),
     }
+
+    # Japanese candlestick patterns (1-3 day signals)
+    candle: dict[str, float] = {}
+    if has_ohlc and len(df) >= 16:
+        candle = {
+            "ENGULFING": detect_bullish_engulfing(df),
+            "MORNING_STAR": detect_morning_star(df),
+            "HAMMER": detect_hammer(df),
+            "THREE_SOLDIERS": detect_three_white_soldiers(df),
+            "PIERCING_LINE": detect_piercing_line(df),
+            "DOJI_STAR": detect_doji_star(df),
+            "HARAMI": detect_bullish_harami(df),
+            "MARUBOZU": detect_marubozu(df),
+        }
+
+    # Merge all patterns
+    patterns = {**chart, **candle}
+
+    # Candlestick bonus: if a candlestick fires AND a chart pattern
+    # is also active (>=30), boost the candlestick score by 15 pts.
+    best_chart_score = max(chart.values()) if chart else 0
+    if candle and best_chart_score >= 30:
+        for k in candle:
+            if candle[k] >= 40:
+                patterns[k] = min(candle[k] + 15, 100.0)
     best_pattern = max(patterns, key=patterns.get)
     best_score = patterns[best_pattern]
     return best_pattern, best_score, patterns
