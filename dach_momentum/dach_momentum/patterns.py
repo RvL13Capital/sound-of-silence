@@ -606,16 +606,18 @@ def detect_marubozu(df: pd.DataFrame) -> float:
 
 def compute_pattern_score(df: pd.DataFrame) -> tuple[str, float, dict[str, float]]:
     """
-    Run all pattern detectors (chart + candlestick) and return
-    (best_pattern, best_score, all_scores).
+    Run all pattern detectors and return (best_pattern, best_score, all_scores).
 
-    Chart patterns detect multi-week structure (VCP, Cup&Handle, etc).
-    Candlestick patterns detect 1-3 day entry signals (Homma/Nison).
-    Final score = max(best_chart, best_candle + chart_context_bonus).
+    Chart patterns (multi-week structure) are the PRIMARY trigger.
+    Candlestick patterns (1-3 day Homma/Nison signals) act as CONFIRMATION
+    bonus (max +15 pts) — they are not strong enough to trigger entries alone
+    in a momentum-filtered universe (most reversal candles fire too early).
+
+    Final score = best_chart_score + candlestick_confirmation_bonus.
     """
     has_ohlc = all(c in df.columns for c in ("Open", "High", "Low", "Close"))
 
-    # Chart patterns (multi-week structure)
+    # Chart patterns (multi-week structure) — primary
     chart = {
         "VCP": detect_vcp(df),
         "CUP_HANDLE": detect_cup_handle(df),
@@ -624,30 +626,51 @@ def compute_pattern_score(df: pd.DataFrame) -> tuple[str, float, dict[str, float
         "DOUBLE_BOTTOM": detect_double_bottom(df),
     }
 
-    # Japanese candlestick patterns (1-3 day signals)
-    candle: dict[str, float] = {}
+    # Continuation candlesticks (match momentum context)
+    continuation: dict[str, float] = {}
+    # Reversal candlesticks (confirmation only)
+    reversal: dict[str, float] = {}
     if has_ohlc and len(df) >= 16:
-        candle = {
+        continuation = {
+            "THREE_SOLDIERS": detect_three_white_soldiers(df),
+            "MARUBOZU": detect_marubozu(df),
+        }
+        reversal = {
             "ENGULFING": detect_bullish_engulfing(df),
             "MORNING_STAR": detect_morning_star(df),
             "HAMMER": detect_hammer(df),
-            "THREE_SOLDIERS": detect_three_white_soldiers(df),
             "PIERCING_LINE": detect_piercing_line(df),
             "DOJI_STAR": detect_doji_star(df),
             "HARAMI": detect_bullish_harami(df),
-            "MARUBOZU": detect_marubozu(df),
         }
 
-    # Merge all patterns
-    patterns = {**chart, **candle}
+    # Best chart pattern = primary score
+    best_chart_name = max(chart, key=chart.get) if chart else ""
+    best_chart_score = chart[best_chart_name] if chart else 0.0
 
-    # Candlestick bonus: if a candlestick fires AND a chart pattern
-    # is also active (>=30), boost the candlestick score by 15 pts.
-    best_chart_score = max(chart.values()) if chart else 0
-    if candle and best_chart_score >= 30:
-        for k in candle:
-            if candle[k] >= 40:
-                patterns[k] = min(candle[k] + 15, 100.0)
-    best_pattern = max(patterns, key=patterns.get)
-    best_score = patterns[best_pattern]
-    return best_pattern, best_score, patterns
+    # Candlestick confirmation bonus (chart pattern must be active)
+    bonus = 0.0
+    bonus_source = ""
+    if best_chart_score >= 30:
+        # Continuation candles — stronger bonus (context aligned)
+        if continuation:
+            best_cont = max(continuation, key=continuation.get)
+            if continuation[best_cont] >= 50:
+                bonus = min(continuation[best_cont] / 100 * 15, 15)
+                bonus_source = best_cont
+        # Reversal candles — weaker bonus (only counts if nothing else)
+        if bonus == 0 and reversal:
+            best_rev = max(reversal, key=reversal.get)
+            if reversal[best_rev] >= 60:
+                bonus = min(reversal[best_rev] / 100 * 8, 8)
+                bonus_source = best_rev
+
+    # Final combined score
+    final_score = min(best_chart_score + bonus, 100.0)
+    best_pattern = (
+        f"{best_chart_name}+{bonus_source}" if bonus_source else best_chart_name
+    )
+
+    # All candidate scores for diagnostics (not for max-selection)
+    diag = {**chart, **continuation, **reversal}
+    return best_pattern, final_score, diag
