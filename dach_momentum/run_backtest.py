@@ -36,7 +36,7 @@ import numpy as np
 import pandas as pd
 
 from dach_momentum import config
-from dach_momentum.data import load_prices, print_data_freshness
+from dach_momentum.data import load_prices
 from dach_momentum.signals import (
     sma, atr, rolling_high, rolling_low, bollinger_bandwidth,
     compute_regime, compute_breakout_signals,
@@ -345,11 +345,31 @@ def run_backtest(
             elif not regime_on and pd.notna(sma_10w) and price < float(sma_10w):
                 exit_reason = "REGIME_OFF_10W"
 
-            # Exit 3: Trend exit — 10w SMA for cash_machine, 30w SMA for others
+            # Exit 3: Trend exit — adaptive for super_rich, 10w for cash_machine, 30w for others
             elif mode == "cash_machine" and pd.notna(sma_10w) and price < float(sma_10w):
                 exit_reason = "BELOW_10W_SMA"
-            elif mode != "cash_machine" and pd.notna(sma_30w) and price < float(sma_30w):
+            elif mode == "super_rich" and pos.trailing_active:
+                # Adaptive trailing: tighter MA as peak gain increases
+                peak_gain_pct = (pos.highest_price / pos.entry_price - 1) * 100
+                if peak_gain_pct >= 50:
+                    # Big winners: trail at 15% from peak OR 10w SMA (whichever tighter)
+                    peak_trail = pos.highest_price * 0.85
+                    trail_level = max(peak_trail, float(sma_10w)) if pd.notna(sma_10w) else peak_trail
+                    if price < trail_level:
+                        exit_reason = "ADAPTIVE_TRAIL_50"
+                elif peak_gain_pct >= 25:
+                    # Good winners: trail on 10w SMA (faster than 30w)
+                    if pd.notna(sma_10w) and price < float(sma_10w):
+                        exit_reason = "ADAPTIVE_TRAIL_25"
+                else:
+                    # Early winners: trail on 30w SMA (default)
+                    if pd.notna(sma_30w) and price < float(sma_30w):
+                        exit_reason = "BELOW_30W_SMA"
+            elif mode not in ("cash_machine", "super_rich") and pd.notna(sma_30w) and price < float(sma_30w):
                 exit_reason = "BELOW_30W_SMA"
+            elif mode == "super_rich" and not pos.trailing_active:
+                if pd.notna(sma_30w) and price < float(sma_30w):
+                    exit_reason = "BELOW_30W_SMA"
 
             if exit_reason:
                 # Apply spread cost on exit
@@ -368,23 +388,8 @@ def run_backtest(
             state.positions.remove(pos)
             state.closed_trades.append(pos)
 
-        # --- DRAWDOWN CIRCUIT BREAKER ---
-        # If trailing 60-day portfolio return < -15%, pause new entries
-        current_equity = state.total_equity(current_prices)
-        circuit_breaker_active = False
-        if len(state.equity_curve) >= config.DRAWDOWN_LOOKBACK_DAYS // 5:
-            lookback_idx = min(
-                config.DRAWDOWN_LOOKBACK_DAYS // 5,
-                len(state.equity_curve),
-            )
-            past_equity = state.equity_curve[-lookback_idx]["equity"]
-            if past_equity > 0:
-                trailing_dd = (current_equity / past_equity - 1) * 100
-                if trailing_dd < -config.DRAWDOWN_CIRCUIT_BREAKER_PCT:
-                    circuit_breaker_active = True
-
-        # --- STEP 2: Screen for new entries (only if regime ON + no circuit breaker) ---
-        if regime_on and not circuit_breaker_active and len(state.open_positions) < max_positions:
+        # --- STEP 2: Screen for new entries (only if regime ON) ---
+        if regime_on and len(state.open_positions) < max_positions:
             candidates = []
             for ticker, sig in all_signals.items():
                 # Skip if already holding
@@ -593,7 +598,6 @@ def run_backtest(
             "cash": state.cash,
             "positions": len(state.open_positions),
             "regime_on": regime_on,
-            "circuit_breaker": circuit_breaker_active,
         })
 
     # Close any remaining positions at last price
@@ -676,6 +680,24 @@ def compute_performance(state: BacktestState) -> dict:
     win_rate = len(winners) / len(trades) * 100 if trades else 0
     avg_win = np.mean([t.pnl_pct for t in winners]) if winners else 0
     avg_loss = np.mean([t.pnl_pct for t in losers]) if losers else 0
+
+    # Profit give-back analysis (how much peak profit was surrendered)
+    give_backs = []
+    peak_gains = []
+    for t in trades:
+        if t.highest_price > 0 and t.entry_price > 0:
+            peak_pct = (t.highest_price / t.entry_price - 1) * 100
+            exit_pct = t.pnl_pct
+            give_back = peak_pct - exit_pct  # how much was given back
+            give_backs.append(give_back)
+            peak_gains.append(peak_pct)
+    avg_give_back = np.mean(give_backs) if give_backs else 0
+    avg_peak_gain = np.mean(peak_gains) if peak_gains else 0
+    winner_give_backs = [
+        (t.highest_price / t.entry_price - 1) * 100 - t.pnl_pct
+        for t in winners if t.highest_price > 0
+    ]
+    avg_winner_give_back = np.mean(winner_give_backs) if winner_give_backs else 0
     profit_factor = (
         sum(t.pnl for t in winners) / abs(sum(t.pnl for t in losers))
         if losers and sum(t.pnl for t in losers) != 0 else float("inf")
@@ -687,10 +709,8 @@ def compute_performance(state: BacktestState) -> dict:
     for t in trades:
         exit_reasons[t.exit_reason] = exit_reasons.get(t.exit_reason, 0) + 1
 
-    # Regime and circuit breaker statistics
+    # Regime statistics
     regime_on_pct = eq["regime_on"].mean() * 100
-    cb_pct = eq["circuit_breaker"].mean() * 100 if "circuit_breaker" in eq.columns else 0.0
-    cb_weeks = int(eq["circuit_breaker"].sum()) if "circuit_breaker" in eq.columns else 0
 
     return {
         "initial_capital": initial,
@@ -712,8 +732,9 @@ def compute_performance(state: BacktestState) -> dict:
         "avg_holding_days": avg_hold,
         "exit_reasons": exit_reasons,
         "regime_on_pct": regime_on_pct,
-        "circuit_breaker_pct": cb_pct,
-        "circuit_breaker_weeks": cb_weeks,
+        "avg_peak_gain_pct": avg_peak_gain,
+        "avg_give_back_pct": avg_give_back,
+        "avg_winner_give_back_pct": avg_winner_give_back,
         "equity_curve": eq,
     }
 
@@ -748,6 +769,11 @@ def print_performance(perf: dict) -> None:
     print(f"    Profit Factor:     {perf['profit_factor']:>10.2f}")
     print(f"    Avg Holding:       {perf['avg_holding_days']:>10.0f} days")
 
+    print(f"\n  PROFIT GIVE-BACK (peak gain vs actual exit)")
+    print(f"    Avg Peak Gain:     {perf.get('avg_peak_gain_pct', 0):>+10.1f}%")
+    print(f"    Avg Give-Back:     {perf.get('avg_give_back_pct', 0):>10.1f}%")
+    print(f"    Winners Give-Back: {perf.get('avg_winner_give_back_pct', 0):>10.1f}%")
+
     print(f"\n  EXIT REASONS")
     for reason, count in sorted(perf["exit_reasons"].items(),
                                  key=lambda x: -x[1]):
@@ -755,8 +781,6 @@ def print_performance(perf: dict) -> None:
 
     print(f"\n  REGIME")
     print(f"    Time in bullish regime: {perf['regime_on_pct']:.1f}%")
-    print(f"    Circuit breaker active: {perf['circuit_breaker_pct']:.1f}% "
-          f"({perf['circuit_breaker_weeks']} weeks)")
 
     # Annual returns
     eq = perf["equity_curve"]
@@ -776,8 +800,6 @@ def print_performance(perf: dict) -> None:
 # ========================================================================== #
 
 def main():
-    print_data_freshness()
-
     # Parse args
     start = "2010-01-01"
     end = "2026-12-31"
