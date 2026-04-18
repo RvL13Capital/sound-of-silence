@@ -319,6 +319,19 @@ def run_backtest(
             if gain_pct >= trail_threshold:
                 pos.trailing_active = True
 
+            # Asymmetric stop management (super_rich): raise stop after gains
+            # First-principles: convert near-winners into guaranteed wins
+            if mode == "super_rich":
+                # +10% gain → stop to breakeven (no more losses possible)
+                if gain_pct >= 10 and pos.stop_price < pos.entry_price:
+                    pos.stop_price = pos.entry_price
+                # +20% gain → stop to +5% (lock in partial win)
+                if gain_pct >= 20 and pos.stop_price < pos.entry_price * 1.05:
+                    pos.stop_price = pos.entry_price * 1.05
+                # +35% gain → stop to +15% (lock in bigger win)
+                if gain_pct >= 35 and pos.stop_price < pos.entry_price * 1.15:
+                    pos.stop_price = pos.entry_price * 1.15
+
             sma_30w = row.get("sma_30w")
             sma_10w = row.get("sma_10w")
 
@@ -415,7 +428,7 @@ def run_backtest(
                     if quality < config.RQ_MIN_QUALITY_SCORE:
                         continue  # need decent trend quality
 
-                # Super Rich: HYBRID pattern + momentum + quality + first-principles gatekeepers
+                # Super Rich: HYBRID pattern + momentum + quality
                 pattern_name = ""
                 pattern_score = 0.0
                 if mode == "super_rich":
@@ -423,34 +436,8 @@ def run_backtest(
                     if quality < config.SR_MIN_QUALITY_SCORE:
                         continue  # require decent quality
                     # Momentum threshold: mom_12_1 >= 20% = strong momentum
-                    # (mom_rank_pct not available inline; use mom threshold instead)
                     if mom < 0.20:
                         continue  # require strong 12-1 momentum
-
-                    # First-principles gatekeepers to increase win rate:
-                    # 1. Strong volume accumulation (institutional interest)
-                    updown_ratio = row.get("up_down_vol_ratio", 0)
-                    if pd.isna(updown_ratio) or updown_ratio < config.SR_MIN_UPDOWN_RATIO:
-                        continue  # require real institutional accumulation
-
-                    # 2. Not extended from 50-day SMA (no chasing peaks)
-                    sma_50 = row.get("sma_50", 0)
-                    if pd.notna(sma_50) and sma_50 > 0:
-                        extension_50 = price / float(sma_50) - 1.0
-                        if extension_50 > config.SR_MAX_EXTENSION_50D:
-                            continue  # too extended short-term
-
-                    # 3. Follow-through confirmation: price above 10d SMA AND above prior close
-                    sma_10 = row.get("sma_10w", 0)  # 10-week = 50-day SMA
-                    if pd.notna(sma_10) and sma_10 > 0 and price < float(sma_10):
-                        continue  # short-term trend not intact
-                    # Check prior-day confirmation (close > prev close)
-                    sig_df = sig.loc[sig.index <= date]
-                    if len(sig_df) >= 2:
-                        prev_close = float(sig_df["close"].iloc[-2])
-                        if prev_close > 0 and price <= prev_close:
-                            continue  # no follow-through vs prior day
-
                     # Pattern detection (expensive — only on pre-filtered names)
                     raw_df = prices.get(ticker)
                     if raw_df is None or len(raw_df) < 60:
