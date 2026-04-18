@@ -298,6 +298,11 @@ SR_MAX_POSITION_PCT = 30.0            # up to 30% in a single name
 SR_MIN_PATTERN_SCORE = 50             # pattern bar (slightly relaxed for hybrid)
 SR_MIN_MOMENTUM_12_1 = 0.20           # require 20% 12-1 month momentum
 SR_MIN_QUALITY_SCORE = 3              # quality score (3/5 signals)
+
+# First-principles gatekeeper filters (raise win rate by avoiding bad entries)
+SR_MIN_UPDOWN_RATIO = 1.5             # up/down vol ratio > 1.5 (institutional)
+SR_MAX_EXTENSION_50D = 0.25           # price <= 25% above 50-day SMA (no chase)
+
 SR_INITIAL_HARD_STOP_PCT = 7.0        # 7% hard stop
 SR_HARD_STOP_ATR_MULT = 2.0           # 2x ATR stop
 SR_HARD_STOP_CEILING_PCT = 10.0       # never wider than 10%
