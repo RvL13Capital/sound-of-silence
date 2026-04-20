@@ -1,0 +1,45 @@
+name: KnockoutSwing Backtest
+
+on:
+  push:
+    branches:
+      - claude/add-rich-quick-strategy-m7NH3
+    paths:
+      - 'dach_momentum/run_knockout_backtest.py'
+      - 'dach_momentum/dach_momentum/knockout_signals.py'
+      - 'dach_momentum/dach_momentum/config.py'
+      - '.github/workflows/ko_backtest.yml'
+  workflow_dispatch:
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas numpy yfinance
+
+      - name: Run KnockoutSwing backtest
+        working-directory: dach_momentum
+        run: |
+          python run_knockout_backtest.py --start 2015-01-01 --end 2024-12-31
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ko-backtest-results
+          path: |
+            dach_momentum/data/ko_backtest_trades.csv
+            dach_momentum/data/ko_backtest_equity.csv
+          if-no-files-found: ignore
