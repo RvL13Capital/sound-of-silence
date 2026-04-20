@@ -78,6 +78,45 @@ def bollinger_bandwidth(series: pd.Series, window: int = 20) -> pd.Series:
     return (2 * std) / mid
 
 
+def rsi(series: pd.Series, window: int = 14) -> pd.Series:
+    """Wilder's Relative Strength Index."""
+    delta = series.diff()
+    gain = delta.clip(lower=0)
+    loss = (-delta).clip(lower=0)
+    avg_gain = gain.ewm(alpha=1 / window, min_periods=window, adjust=False).mean()
+    avg_loss = loss.ewm(alpha=1 / window, min_periods=window, adjust=False).mean()
+    rs = avg_gain / avg_loss.replace(0, np.nan)
+    return 100 - 100 / (1 + rs)
+
+
+def adx(df: pd.DataFrame, window: int = 14) -> pd.Series:
+    """Wilder's Average Directional Index (trend strength, 0-100)."""
+    high = df["High"]
+    low = df["Low"]
+    close = df["Close"]
+
+    plus_dm = high.diff().clip(lower=0)
+    minus_dm = (-low.diff()).clip(lower=0)
+    # Only keep the larger directional move
+    plus_dm = plus_dm.where(plus_dm > minus_dm, 0)
+    minus_dm = minus_dm.where(minus_dm > plus_dm, 0)
+
+    prev_close = close.shift(1)
+    tr = pd.concat([
+        high - low,
+        (high - prev_close).abs(),
+        (low - prev_close).abs(),
+    ], axis=1).max(axis=1)
+
+    alpha = 1 / window
+    atr_smooth = tr.ewm(alpha=alpha, min_periods=window, adjust=False).mean()
+    plus_di = 100 * plus_dm.ewm(alpha=alpha, min_periods=window, adjust=False).mean() / atr_smooth
+    minus_di = 100 * minus_dm.ewm(alpha=alpha, min_periods=window, adjust=False).mean() / atr_smooth
+
+    dx = (plus_di - minus_di).abs() / (plus_di + minus_di).replace(0, np.nan) * 100
+    return dx.ewm(alpha=alpha, min_periods=window, adjust=False).mean()
+
+
 # ========================================================================== #
 # Trend Template (Minervini 8-criteria)
 # ========================================================================== #
