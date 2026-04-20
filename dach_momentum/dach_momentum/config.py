@@ -384,3 +384,91 @@ V2_ADV_LOOKBACK = 20                   # 20-day ADV window
 V2_EXIT_SMA_DAYS = 100                 # 20-week SMA trailing exit
 V2_PROFIT_TRAIL_THRESHOLD = 20.0       # switch to SMA trailing after +20%
 V2_TIME_STOP_DAYS = 180                # exit if no new high in 180 days
+
+# --------------------------------------------------------------------------- #
+# KnockoutSwing v1.0 — KO Certificate Swing Trading on Major Indices
+#
+# Leveraged swing trend-following via knockout certificates.
+# Structurally different from DACH momentum: trades 4 indices (not stocks),
+# daily bars, both long AND short, KO barrier simulation, staged exits.
+#
+# Mandate mapping (from roadmap):
+#   M1:  Trend filter          M7:  Portfolio cap
+#   M2:  Structural stop       M8:  Hold horizon / time stop
+#   M3:  3x R:R minimum        M9:  Staged exits (1/3, 1/3, 1/3)
+#   M4:  Barrier rule           M10: Weekly rhythm
+#   M5:  Leverage cap           M11: Frequency cap
+#   M6:  Position sizing        M12: Quarterly regime check
+# --------------------------------------------------------------------------- #
+
+# -- Universe (4 indices only) ----------------------------------------------
+KO_INDICES = {
+    "^GDAXI":   "DAX",
+    "^GSPC":    "S&P 500",
+    "^NDX":     "Nasdaq 100",
+    "^STOXX50E": "Euro Stoxx 50",
+}
+
+# -- Trend filter (M1) ------------------------------------------------------
+KO_EMA_FAST = 50
+KO_EMA_SLOW = 200
+
+# -- Setup A: Trend Pullback (M2) -------------------------------------------
+KO_RSI_PERIOD = 14
+KO_RSI_OVERSOLD = 40                    # RSI must dip below this
+KO_RSI_OVERBOUGHT = 60                  # for short-side pullbacks
+KO_PULLBACK_LOOKBACK = 5                # bars to look back for pullback sequence
+
+# -- Setup B: Consolidation Breakout (M2) -----------------------------------
+KO_CONSOL_MIN_DAYS = 20                 # ~4 weeks
+KO_CONSOL_MAX_DAYS = 40                 # ~8 weeks
+KO_ATR_CONTRACTION_PCT = 30.0           # ATR must contract >30%
+KO_VOL_SURGE_MULT = 1.5                 # breakout vol > 1.5x 20d avg
+KO_RETEST_WINDOW_DAYS = 5               # days to wait for retest
+KO_RETEST_TOLERANCE_PCT = 0.3           # how close = "retested" (%)
+
+# -- Setup C: Higher-Low Continuation (M2) ----------------------------------
+KO_SWING_BARS = 5                       # N-bar swing point detection
+KO_HL_LOOKBACK_DAYS = 60                # window for higher-low search
+
+# -- Structural stop (M2) ---------------------------------------------------
+KO_ATR_PERIOD = 14
+KO_STOP_ATR_BUFFER = 0.5                # stop = swing low - 0.5 * ATR(14)
+
+# -- R:R minimum (M3) -------------------------------------------------------
+KO_MIN_RR_RATIO = 3.0
+
+# -- KO certificate simulation (M4, M5) -------------------------------------
+KO_BARRIER_MULT = 2.0                   # barrier >= 2x stop distance
+KO_BARRIER_TARGET = 2.5                 # target barrier = 2.5x stop dist
+KO_LEVERAGE_MIN = 5.0
+KO_LEVERAGE_MAX = 10.0
+KO_RATIO = 100                          # 1 cert = 1/100 of index
+KO_FINANCING_RATE_ANNUAL = 0.04         # 4% annualized
+KO_EMITTER_SPREAD_PCT = 0.003           # 0.3% round-trip
+KO_COMMISSION_EUR = 10.0                # fixed commission per side
+
+# -- Position sizing (M6, M7) -----------------------------------------------
+KO_RISK_PER_TRADE_PCT = 1.0             # 1% of risk capital per trade
+KO_MAX_POSITIONS = 5                    # max concurrent positions
+KO_MAX_TOTAL_RISK_PCT = 3.0             # max total portfolio risk
+
+# -- Hold horizon / time stop (M8) ------------------------------------------
+KO_MAX_HOLD_DAYS = 30                   # close if no new high in 30 days
+
+# -- Staged exits (M9) ------------------------------------------------------
+KO_EXIT_TRANCHE_1_R = 1.5               # 1/3 at +1.5R
+KO_EXIT_TRANCHE_2_R = 3.0               # 1/3 at +3.0R
+KO_TRAILING_ATR_MULT = 2.0              # 1/3 trailing at 2x ATR
+
+# -- Frequency cap (M11) ----------------------------------------------------
+KO_MAX_TRADES_PER_MONTH = 4
+
+# -- Quarterly regime check (M12) -------------------------------------------
+KO_ADX_PERIOD = 14
+KO_ADX_THRESHOLD = 20.0                 # weekly ADX must be > 20
+KO_REGIME_CHECK_WEEKS = 13              # check every quarter
+
+# -- Backtest defaults -------------------------------------------------------
+KO_INITIAL_CAPITAL = 20000.0
+KO_DATA_START = "2005-01-01"
