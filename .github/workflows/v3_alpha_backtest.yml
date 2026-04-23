@@ -1,0 +1,43 @@
+name: V3 Alpha-Ensemble Backtest
+
+on:
+  push:
+    branches:
+      - claude/add-rich-quick-strategy-m7NH3
+    paths:
+      - 'dach_momentum/run_v3_alpha.py'
+      - '.github/workflows/v3_alpha_backtest.yml'
+  workflow_dispatch:
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas numpy yfinance statsmodels
+
+      - name: Run V3 Alpha-Ensemble backtest
+        working-directory: dach_momentum
+        run: |
+          python run_v3_alpha.py --start 2010-01-01 --end 2024-12-31
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v3-alpha-results
+          path: |
+            dach_momentum/data/v3_equity_curve.csv
+            dach_momentum/data/v3_weights.csv
+          if-no-files-found: ignore
