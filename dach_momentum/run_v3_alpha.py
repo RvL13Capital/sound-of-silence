@@ -161,36 +161,28 @@ class AlphaEngine:
         Returns target weight matrix (Date x Ticker).
         """
         n_dates = len(composite)
-        rebal_mask = np.zeros(n_dates, dtype=bool)
-        rebal_mask[::self.rebalance_days] = True
+        rebal_idx = list(range(0, n_dates, self.rebalance_days))
 
-        weights = pd.DataFrame(0.0, index=composite.index, columns=composite.columns)
-
-        for idx in np.where(rebal_mask)[0]:
+        # Build weight snapshots at each rebalance
+        weight_snapshots = {}
+        for idx in rebal_idx:
             row = composite.iloc[idx]
             valid = row.dropna()
-            if len(valid) < 4:
-                continue
-            q25 = valid.quantile(0.25)
-            q75 = valid.quantile(0.75)
-            longs = valid[valid >= q75].index
-            shorts = valid[valid <= q25].index
-            n_long = len(longs)
-            n_short = len(shorts)
-            if n_long > 0:
-                weights.iloc[idx][longs] = 1.0 / n_long
-            if n_short > 0:
-                weights.iloc[idx][shorts] = -1.0 / n_short
+            snapshot = pd.Series(0.0, index=composite.columns)
+            if len(valid) >= 4:
+                q25 = valid.quantile(0.25)
+                q75 = valid.quantile(0.75)
+                longs = valid[valid >= q75].index
+                shorts = valid[valid <= q25].index
+                if len(longs) > 0:
+                    snapshot[longs] = 1.0 / len(longs)
+                if len(shorts) > 0:
+                    snapshot[shorts] = -1.0 / len(shorts)
+            weight_snapshots[composite.index[idx]] = snapshot
 
-        # Forward-fill weights between rebalance dates
-        weights = weights.replace(0, np.nan)
-        # Mark rebalance rows explicitly
-        for idx in np.where(rebal_mask)[0]:
-            row = weights.iloc[idx]
-            if row.isna().all():
-                weights.iloc[idx] = 0.0
-        weights = weights.ffill()
-        weights = weights.fillna(0.0)
+        # Build full weight matrix via reindex + ffill
+        snap_df = pd.DataFrame(weight_snapshots).T
+        weights = snap_df.reindex(composite.index).ffill().fillna(0.0)
 
         return weights
 
