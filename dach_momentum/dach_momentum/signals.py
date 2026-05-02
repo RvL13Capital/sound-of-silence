@@ -271,6 +271,53 @@ def compute_regime(benchmark_close: pd.Series) -> pd.DataFrame:
     return result
 
 
+def compute_funding_stress(
+    funding_close: pd.Series,
+    threshold: float | None = None,
+    sma_days: int | None = None,
+) -> pd.DataFrame:
+    """
+    Crypto-leverage stress signal from BTC perp funding rate.
+
+    `funding_close` is the daily close of the per-8h funding rate (Binance
+    BTC-USDT perpetual via CoinDesk). Stress = N-day rolling mean above
+    threshold, indicating overheated long positioning (a contrarian signal
+    that often precedes broad-market mean reversion).
+
+    Threshold and window default to the legacy module-level constants when
+    not provided, so ad-hoc sweep scripts that mutate config still work.
+    """
+    if threshold is None:
+        threshold = config.FUNDING_STRESS_THRESHOLD
+    if sma_days is None:
+        sma_days = config.FUNDING_SMA_DAYS
+    result = pd.DataFrame(index=funding_close.index)
+    roll = funding_close.rolling(sma_days, min_periods=1).mean()
+    result["funding_smoothed"] = roll
+    result["funding_stress"] = roll > threshold
+    return result
+
+
+def compute_btc_regime(btc_close: pd.Series) -> pd.DataFrame:
+    """
+    Secondary regime gate based on BTC-USD trend (CoinDesk CCIX).
+
+    Same rule as CDAX: bullish when price is above a rising 40-week SMA.
+    BTC is a daily series (no weekend gap), so the SMA window is 40w * 7d.
+    """
+    result = pd.DataFrame(index=btc_close.index)
+    window = config.BTC_REGIME_MA_WEEKS * 7
+    sma_btc = sma(btc_close, window)
+    sma_btc_prev = sma_btc.shift(7)
+
+    result["btc_sma"] = sma_btc
+    result["btc_above_sma"] = btc_close > sma_btc
+    result["btc_sma_rising"] = sma_btc > sma_btc_prev
+    result["btc_regime_on"] = result["btc_above_sma"] & result["btc_sma_rising"]
+
+    return result
+
+
 # ========================================================================== #
 # Exit signals
 # ========================================================================== #

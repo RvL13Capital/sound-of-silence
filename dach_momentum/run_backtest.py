@@ -39,9 +39,11 @@ from dach_momentum import config
 from dach_momentum.data import load_prices
 from dach_momentum.signals import (
     sma, atr, rolling_high, rolling_low, bollinger_bandwidth,
-    compute_regime, compute_breakout_signals,
+    compute_regime, compute_btc_regime, compute_funding_stress,
+    compute_breakout_signals,
 )
 from dach_momentum.patterns import compute_pattern_score
+from dach_momentum.btc_data import load_btc_close, load_btc_funding
 
 logging.basicConfig(
     level=logging.INFO,
@@ -203,6 +205,30 @@ def compute_stock_signals(df: pd.DataFrame) -> pd.DataFrame:
 # Core backtest logic
 # ========================================================================== #
 
+def precompute_backtest_inputs(
+    prices: dict[str, pd.DataFrame],
+    benchmark_close: pd.Series,
+) -> tuple[dict[str, pd.DataFrame], pd.DataFrame]:
+    """
+    Compute the per-ticker signals and the CDAX regime once.
+
+    These are independent of mode/funding/BTC params, so a parameter sweep
+    can call this once and reuse the result across many backtests.
+    """
+    logger.info("Computing signals for %d stocks...", len(prices))
+    all_signals: dict[str, pd.DataFrame] = {}
+    for ticker, df in prices.items():
+        if len(df) < 252:
+            continue
+        try:
+            all_signals[ticker] = compute_stock_signals(df)
+        except Exception as e:
+            logger.debug("Signal computation failed for %s: %s", ticker, e)
+    logger.info("Signals computed for %d stocks", len(all_signals))
+    regime = compute_regime(benchmark_close)
+    return all_signals, regime
+
+
 def run_backtest(
     prices: dict[str, pd.DataFrame],
     benchmark_close: pd.Series,
@@ -212,6 +238,8 @@ def run_backtest(
     max_positions: int = 10,
     rebalance_freq: str = "W-FRI",  # weekly on Fridays
     mode: str = "momentum",  # "momentum", "canslim", "rich_quick", "super_rich", "cash_machine"
+    precomputed: tuple[dict, pd.DataFrame] | None = None,
+    funding_override: dict | None = None,  # {"threshold":..., "sma_days":...} forces overlay regardless of mode default
 ) -> BacktestState:
     """Run the full backtest."""
 
@@ -223,21 +251,43 @@ def run_backtest(
     elif mode == "cash_machine":
         max_positions = config.CM_MAX_POSITIONS
 
-    # Compute signals for all stocks
-    logger.info("Computing signals for %d stocks...", len(prices))
-    all_signals: dict[str, pd.DataFrame] = {}
-    for ticker, df in prices.items():
-        if len(df) < 252:  # need at least 1 year
-            continue
-        try:
-            all_signals[ticker] = compute_stock_signals(df)
-        except Exception as e:
-            logger.debug("Signal computation failed for %s: %s", ticker, e)
+    if precomputed is not None:
+        all_signals, regime = precomputed
+    else:
+        all_signals, regime = precompute_backtest_inputs(prices, benchmark_close)
 
-    logger.info("Signals computed for %d stocks", len(all_signals))
+    # Optional secondary regime overlay: BTC trend (CoinDesk CCIX)
+    btc_regime = None
+    if config.BTC_REGIME_ENABLED:
+        btc_close = load_btc_close()
+        if btc_close is not None and len(btc_close) > config.BTC_REGIME_MA_WEEKS * 7:
+            btc_regime = compute_btc_regime(btc_close)
+            logger.info("BTC regime overlay enabled (%d daily records, %s -> %s)",
+                        len(btc_close), btc_close.index.min().date(), btc_close.index.max().date())
+        else:
+            logger.warning("BTC regime overlay enabled but no BTC data found; "
+                           "run 'python -m dach_momentum.btc_data' to fetch.")
 
-    # Compute regime
-    regime = compute_regime(benchmark_close)
+    # Crypto-leverage stress overlay: BTC perp funding rate (per-mode opt-in).
+    # An explicit `funding_override` (e.g. from a sweep script) forces the gate;
+    # otherwise the per-mode default in config.FUNDING_OVERLAY_BY_MODE applies.
+    funding_settings = funding_override or config.FUNDING_OVERLAY_BY_MODE.get(mode)
+    funding_stress = None
+    if funding_settings is not None:
+        fr_close = load_btc_funding()
+        if fr_close is not None and len(fr_close) > funding_settings["sma_days"]:
+            funding_stress = compute_funding_stress(
+                fr_close,
+                threshold=funding_settings["threshold"],
+                sma_days=funding_settings["sma_days"],
+            )
+            stress_pct = funding_stress["funding_stress"].mean() * 100
+            logger.info("Funding overlay ON for %s (threshold=%.4f, sma=%dd, stress %.1f%% of days)",
+                        mode, funding_settings["threshold"],
+                        funding_settings["sma_days"], stress_pct)
+        else:
+            logger.warning("Funding overlay requested for %s but no funding data found; "
+                           "run 'python -m dach_momentum.btc_data' to fetch.", mode)
 
     # Get all rebalance dates
     all_dates = benchmark_close.index
@@ -275,15 +325,38 @@ def run_backtest(
         # Get current prices
         current_prices = _get_prices(all_signals, date)
 
-        # Get regime status
+        # Get regime status (CDAX primary)
         regime_on = False
         if date in regime.index:
             regime_on = bool(regime.loc[date].get("regime_on", False))
         else:
-            # Find nearest prior date
             prior = regime.index[regime.index <= date]
             if len(prior) > 0:
                 regime_on = bool(regime.loc[prior[-1]].get("regime_on", False))
+
+        # AND with BTC regime when available; default to OPEN before BTC history starts
+        if btc_regime is not None and regime_on:
+            btc_on = True
+            if date in btc_regime.index:
+                btc_on = bool(btc_regime.loc[date].get("btc_regime_on", True))
+            else:
+                prior_b = btc_regime.index[btc_regime.index <= date]
+                if len(prior_b) > 0:
+                    btc_on = bool(btc_regime.loc[prior_b[-1]].get("btc_regime_on", True))
+            regime_on = regime_on and btc_on
+
+        # Funding-stress overlay: when crypto perps are overheated, block new entries.
+        # Default OPEN before funding history starts (pre-2019-09).
+        if funding_stress is not None and regime_on:
+            stressed = False
+            if date in funding_stress.index:
+                stressed = bool(funding_stress.loc[date].get("funding_stress", False))
+            else:
+                prior_f = funding_stress.index[funding_stress.index <= date]
+                if len(prior_f) > 0:
+                    stressed = bool(funding_stress.loc[prior_f[-1]].get("funding_stress", False))
+            if stressed:
+                regime_on = False
 
         # --- STEP 1: Check exits on existing positions ---
         positions_to_close = []

@@ -216,6 +216,42 @@ EXCLUDED_SECTORS = {
 REGIME_INDEX_TICKER = "^CDAXI"        # CDAX Composite (yfinance symbol)
 REGIME_MA_WEEKS = 40                   # 40-week SMA for regime filter
 
+# Optional BTC regime overlay (CoinDesk CCIX). When enabled, new entries
+# require BOTH CDAX regime ON and BTC regime ON. When BTC data is unavailable
+# (pre-2010-07 or fetch failure) the BTC gate defaults to OPEN so it never
+# blocks the legacy strategy.
+#
+# Default OFF: empirically the overlay cuts ~5-8pp of CAGR across all modes
+# (BTC and European equities have weakly correlated regimes; ANDing them
+# halves time-in-regime without preventing equity-side drawdowns).
+# See data/backtest_equity_<mode>_btc.csv for the BTC-overlay snapshots.
+#
+# Refresh the BTC cache via: python -m dach_momentum.btc_data
+BTC_REGIME_ENABLED = False
+BTC_REGIME_MA_WEEKS = 40              # 40-week SMA, mirroring CDAX
+
+# -- Funding-rate stress overlay -------------------------------------------
+# Uses BTC perpetual funding rate from CoinDesk (Binance BTC-USDT-PERP) as a
+# proxy for crypto-leverage stress. When the rolling-mean per-8h funding
+# rate exceeds the threshold, new entries are blocked.
+#
+# Per-mode opt-in: only listed modes get the overlay. Settings (threshold +
+# rolling-window) come from walk-forward optimisation on 2020-2025 funding
+# data anchored at 2020-01-01.
+#   - super_rich: walk-forward validated, 5/5 folds positive, +22.8pp mean
+#     test Δ CAGR. Pick: 5 bp/8h, 14-day rolling mean.
+#   - rich_quick: walk-forward refuted (-2.2pp mean test Δ); not enabled.
+#   - canslim/momentum/cash_machine: in-sample sweep showed no signal worth
+#     walk-forward testing; not enabled.
+FUNDING_OVERLAY_BY_MODE: dict[str, dict] = {
+    "super_rich": {"threshold": 0.0005, "sma_days": 14},
+}
+
+# Module-level fallbacks consumed by ad-hoc scripts (sweep harness etc.)
+# that mutate them directly. Production wiring uses FUNDING_OVERLAY_BY_MODE.
+FUNDING_SMA_DAYS = 7
+FUNDING_STRESS_THRESHOLD = 0.0005
+
 # -- Momentum ----------------------------------------------------------------
 MOMENTUM_LOOKBACK_DAYS = 252           # ~12 months of trading days
 MOMENTUM_SKIP_DAYS = 21               # skip most recent month (reversal)
