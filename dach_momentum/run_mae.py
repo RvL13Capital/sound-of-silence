@@ -8,8 +8,10 @@ sys.path.insert(0, ".")
 
 import pandas as pd
 import numpy as np
-from dach_momentum.data import load_prices
+from dach_momentum.data import load_prices, print_data_freshness
 from dach_momentum import config
+
+print_data_freshness()
 
 # Load trade log
 for mode in ["canslim", "momentum"]:

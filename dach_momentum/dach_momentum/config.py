@@ -216,6 +216,42 @@ EXCLUDED_SECTORS = {
 REGIME_INDEX_TICKER = "^CDAXI"        # CDAX Composite (yfinance symbol)
 REGIME_MA_WEEKS = 40                   # 40-week SMA for regime filter
 
+# Optional BTC regime overlay (CoinDesk CCIX). When enabled, new entries
+# require BOTH CDAX regime ON and BTC regime ON. When BTC data is unavailable
+# (pre-2010-07 or fetch failure) the BTC gate defaults to OPEN so it never
+# blocks the legacy strategy.
+#
+# Default OFF: empirically the overlay cuts ~5-8pp of CAGR across all modes
+# (BTC and European equities have weakly correlated regimes; ANDing them
+# halves time-in-regime without preventing equity-side drawdowns).
+# See data/backtest_equity_<mode>_btc.csv for the BTC-overlay snapshots.
+#
+# Refresh the BTC cache via: python -m dach_momentum.btc_data
+BTC_REGIME_ENABLED = False
+BTC_REGIME_MA_WEEKS = 40              # 40-week SMA, mirroring CDAX
+
+# -- Funding-rate stress overlay -------------------------------------------
+# Uses BTC perpetual funding rate from CoinDesk (Binance BTC-USDT-PERP) as a
+# proxy for crypto-leverage stress. When the rolling-mean per-8h funding
+# rate exceeds the threshold, new entries are blocked.
+#
+# Per-mode opt-in: only listed modes get the overlay. Settings (threshold +
+# rolling-window) come from walk-forward optimisation on 2020-2025 funding
+# data anchored at 2020-01-01.
+#   - super_rich: walk-forward validated, 5/5 folds positive, +22.8pp mean
+#     test Δ CAGR. Pick: 5 bp/8h, 14-day rolling mean.
+#   - rich_quick: walk-forward refuted (-2.2pp mean test Δ); not enabled.
+#   - canslim/momentum/cash_machine: in-sample sweep showed no signal worth
+#     walk-forward testing; not enabled.
+FUNDING_OVERLAY_BY_MODE: dict[str, dict] = {
+    "super_rich": {"threshold": 0.0005, "sma_days": 14},
+}
+
+# Module-level fallbacks consumed by ad-hoc scripts (sweep harness etc.)
+# that mutate them directly. Production wiring uses FUNDING_OVERLAY_BY_MODE.
+FUNDING_SMA_DAYS = 7
+FUNDING_STRESS_THRESHOLD = 0.0005
+
 # -- Momentum ----------------------------------------------------------------
 MOMENTUM_LOOKBACK_DAYS = 252           # ~12 months of trading days
 MOMENTUM_SKIP_DAYS = 21               # skip most recent month (reversal)
@@ -276,3 +312,54 @@ RQ_HARD_STOP_ATR_MULT = 2.0           # 2x ATR stop (tighter)
 RQ_HARD_STOP_CEILING_PCT = 10.0       # never wider than 10%
 RQ_PROFIT_THRESHOLD_TO_TRAIL = 15.0   # trail earlier at +15%
 RQ_MIN_QUALITY_SCORE = 3              # require decent quality score
+
+# --------------------------------------------------------------------------- #
+# "Super Rich" hybrid: pattern recognition + momentum/quality confirmation
+#
+# Pattern detection identifies the SETUP structure.
+# Momentum + quality confirms TIMING and context.
+#
+# Entry requires ALL of:
+#   - Pattern score >= 50 (VCP, Cup&Handle, Pocket Pivot, Flag, Double Bottom)
+#   - Momentum rank >= top 30%
+#   - Quality score >= 3 (volume/trend-health signals)
+#   - Rising relative strength
+#
+# Ranking: 50% pattern score + 30% momentum + 20% quality
+# --------------------------------------------------------------------------- #
+
+SR_MAX_POSITIONS = 5                   # concentrated: max 5 holdings
+SR_RISK_PER_TRADE_PCT = 2.0           # 2% risk per trade
+SR_MAX_POSITION_PCT = 30.0            # up to 30% in a single name
+SR_MIN_PATTERN_SCORE = 50             # pattern bar (slightly relaxed for hybrid)
+SR_MIN_MOMENTUM_12_1 = 0.20           # require 20% 12-1 month momentum
+SR_MIN_QUALITY_SCORE = 3              # quality score (3/5 signals)
+SR_INITIAL_HARD_STOP_PCT = 7.0        # 7% hard stop
+SR_HARD_STOP_ATR_MULT = 2.0           # 2x ATR stop
+SR_HARD_STOP_CEILING_PCT = 10.0       # never wider than 10%
+SR_PROFIT_THRESHOLD_TO_TRAIL = 15.0   # trail at +15%
+
+# Asymmetric stop management (first-principles: convert near-wins into wins)
+# +10% gain → stop to breakeven; +20% → lock 5%; +35% → lock 15%
+
+# --------------------------------------------------------------------------- #
+# "Cash Machine" high-frequency compounding strategy
+#
+# Insight: more trades with consistent edge compound faster than few
+# concentrated big bets. Maximize trade frequency and win rate.
+# - Diversified (15 positions)
+# - Short holding period (10-week SMA exit instead of 30-week)
+# - Early trailing (+8% instead of +20%) to lock gains quickly
+# - Lower quality bar for MORE setups per year
+# - Quick turnover = high compounding frequency
+# --------------------------------------------------------------------------- #
+
+CM_MAX_POSITIONS = 15                  # diversified: max 15 holdings
+CM_RISK_PER_TRADE_PCT = 1.0           # 1% risk per trade (standard)
+CM_MAX_POSITION_PCT = 10.0            # up to 10% per position
+CM_MIN_QUALITY_SCORE = 2              # lower bar = more setups
+CM_INITIAL_HARD_STOP_PCT = 8.0        # moderate stop
+CM_HARD_STOP_ATR_MULT = 2.0           # 2x ATR stop
+CM_HARD_STOP_CEILING_PCT = 12.0       # never wider than 12%
+CM_PROFIT_THRESHOLD_TO_TRAIL = 8.0    # trail very early at +8%
+CM_EXIT_SMA_DAYS = 50                 # 10-week SMA exit (faster turnover)

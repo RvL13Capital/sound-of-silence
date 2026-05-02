@@ -1,0 +1,229 @@
+yf_ticker,ticker,name,sector_wiki,country,suffix,index,market_cap,sector_yf,industry,currency,exchange,avg_volume,free_float,shares_outstanding,sector_final,adv_60d,history_days
+LNZ.VI,LNZ,Lenzing,Materials,Austria,.VI,ATX,961592640.0,Consumer Cyclical,Textile Manufacturing,EUR,VIE,76734.0,12648226.0,38618180.0,Consumer Cyclical,1868282.9092916488,5337
+PAL.VI,PAL,Palfinger,Industrials,Austria,.VI,ATX,1281154432.0,Industrials,Farm & Heavy Construction Machinery,EUR,VIE,28751.0,16465847.0,34766742.0,Industrials,1045935.9941912333,5337
+SBO.VI,SBO,Schoeller-Bleckmann,Energy,Austria,.VI,ATX,574432512.0,Energy,Oil & Gas Equipment & Services,EUR,VIE,51952.0,10464285.0,15759465.0,Energy,1781178.950233523,5337
+ABLX.BR,ABLX,Ablynx,pharmaceuticals,Belgium,.BR,BEL_20,,,,,YHD,,,,pharmaceuticals,11442168.334419377,2638
+BAR.BR,BAR,Barco,Industrial Goods & Services,Belgium,.BR,BEL_20,806348672.0,Technology,Electronic Components,EUR,BRU,120817.0,53156739.0,81388339.0,Technology,1299609.6859982968,5447
+BPOST.BR,BPOST,Bpost,Industrial Goods and Services,Belgium,.BR,BEL_20,378801792.0,Industrials,Integrated Freight & Logistics,EUR,BRU,209942.0,97924462.0,200000944.0,Industrials,429132.5307242652,3275
+EVS.BR,EVS,EVS Broadcast Equipment,Information Technology,Belgium,.BR,Belgium_Mid,467832128.0,Technology,Communication Equipment,EUR,BRU,18267.0,12140176.0,13404931.0,Technology,642183.8007483165,5447
+ONTEX.BR,ONTEX,Ontex Group,Personal and Household Goods,Belgium,.BR,BEL_20,236409856.0,Consumer Defensive,Household & Personal Products,EUR,BRU,207586.0,45891212.0,79733512.0,Consumer Defensive,867532.5603643894,3018
+TESB.BR,TESB,Tessenderlo,Chemistry,Belgium,.BR,BEL_20,1291332864.0,Basic Materials,Agricultural Inputs,EUR,BRU,22337.0,18425856.0,58992942.0,Basic Materials,548088.2137341817,5447
+QTCOM.HE,QTCOM,Qt Group,Information Technology,Finland,.HE,OMX_H25,472276544.0,Technology,Software - Application,EUR,HEL,207514.0,14079934.0,25391211.0,Technology,4739886.764744313,2499
+REG1V.HE,REG1V,Revenio,Health Care,Finland,.HE,Finland_Mid,522527456.0,Healthcare,Medical Devices,EUR,HEL,49110.0,26156221.0,26605266.0,Healthcare,944231.9968886375,5363
+TYRES.HE,TYRES,Nokian Tyres,Consumer Discretionary,Finland,.HE,OMX_H25,1324981120.0,Consumer Cyclical,Auto Parts,EUR,HEL,573280.0,123601019.0,137875243.0,Consumer Cyclical,5910954.5599003155,5363
+DBG.PA,DBG,Derichebourg,Industrials,France,.PA,France_Mid,1433885824.0,Industrials,Waste Management,EUR,PAR,215496.0,90993747.0,158440410.0,Industrials,1809395.5890497684,5445
+FNAC.PA,FNAC,Fnac Darty,Consumer Discretionary,France,.PA,CAC_Mid_60,1030417728.0,Consumer Cyclical,Specialty Retail,EUR,PAR,77587.0,13524668.0,29107842.0,Consumer Cyclical,2789826.9345047316,3276
+GBT.PA,GBT,Guerbet,Health Care,France,.PA,CAC_Mid_60,117462032.0,Healthcare,Medical Devices,EUR,PAR,15796.0,5256596.0,12603223.0,Healthcare,171789.8675385952,5445
+KOF.PA,KOF,Kaufman and Broad,Consumer Discretionary,France,.PA,France_Small,576664640.0,Consumer Cyclical,Residential Construction,EUR,PAR,28076.0,13826356.0,19614445.0,Consumer Cyclical,865614.3484792074,5445
+MRN.PA,MRN,Mersen,Industrials,France,.PA,France_Mid,611507328.0,Industrials,Electrical Equipment & Parts,EUR,PAR,43242.0,21215677.0,24227707.0,Industrials,1086524.0335005124,5445
+THEP.PA,THEP,Thermador Groupe,Industrials,France,.PA,France_Small,669462144.0,Industrials,Industrial Distribution,EUR,PAR,2599.0,621316.0,9170713.0,Industrials,197388.3716156006,5445
+UBI.PA,UBI,Ubisoft,Communication Services,France,.PA,CAC_Mid_60,539075520.0,Communication Services,Electronic Gaming & Multimedia,EUR,PAR,1830906.0,95773656.0,134768884.0,Communication Services,7951928.926510087,5445
+VETO.PA,VETO,Vetoquinol,Health Care,France,.PA,France_Small,948967296.0,Healthcare,Drug Manufacturers - Specialty & Generic,EUR,PAR,2581.0,3818908.0,11799419.0,Healthcare,215048.73237215678,4959
+AOF.DE,AOF,Atoss Software,Information Technology,Germany,.DE,Germany_Small,1175473536.0,Technology,Software - Application,EUR,GER,36690.0,9036512.0,15906272.0,Technology,3211790.675620524,5408
+BFSA.DE,BFSA,Befesa,Waste management,Germany,.DE,MDAX,1358838144.0,Industrials,Waste Management,EUR,GER,102227.0,36067662.0,39999998.0,Industrials,3266930.079442692,2101
+BVB.DE,BVB,Borussia Dortmund,Communication Services,Germany,.DE,SDAX,345481024.0,Communication Services,Entertainment,EUR,GER,110440.0,72416530.0,110377320.0,Communication Services,349860.1550232848,5408
+BYW6.DE,BYW6,BayWa,Consumer Staples,Germany,.DE,SDAX,179848080.0,Industrials,Conglomerates,EUR,GER,116139.0,32119148.0,61337339.0,Industrials,357834.7194268068,5408
+COK.DE,COK,CANCOM,Information Technology,Germany,.DE,SDAX,748061632.0,Technology,Information Technology Services,EUR,GER,106411.0,21496336.0,30470943.0,Technology,2561925.8510687826,5408
+CWC.DE,CWC,CEWE Stiftung,Consumer Discretionary,Germany,.DE,SDAX,632297024.0,Consumer Cyclical,Personal Services,EUR,GER,11904.0,4768268.0,6798893.0,Consumer Cyclical,1182764.7491138459,5408
+DRW3.DE,DRW3,Draegerwerk,Health Care,Germany,.DE,TecDAX,1772819968.0,Healthcare,Medical Devices,EUR,GER,21517.0,10574074.0,8600000.0,Healthcare,1935818.7174747468,5408
+EUZ.DE,EUZ,Eckert und Ziegler,Health Care,Germany,.DE,SDAX,914831296.0,Healthcare,Medical Devices,EUR,GER,115949.0,40959038.0,62573961.0,Healthcare,1748045.8028120836,5408
+EVT.DE,EVT,Evotec,Biotechnology,Germany,.DE,MDAX,804500992.0,Healthcare,Drug Manufacturers - Specialty & Generic,EUR,GER,821889.0,132309543.0,177594029.0,Healthcare,4299900.443828432,5408
+GFT.DE,GFT,GFT Technologies,Information Technology,Germany,.DE,SDAX,444316352.0,Technology,Information Technology Services,EUR,GER,109228.0,15355758.0,25564808.0,Technology,1926751.8572295506,5408
+GXI.DE,GXI,Gerresheimer,Packaging,Germany,.DE,MDAX,589597760.0,Healthcare,Medical Instruments & Supplies,EUR,GER,381046.0,32048630.0,34540000.0,Healthcare,7676604.934175539,4783
+HBH.DE,HBH,Hornbach Holding,Consumer Discretionary,Germany,.DE,SDAX,1337328384.0,Consumer Cyclical,Home Improvement Retail,EUR,GER,17807.0,7917272.0,15996751.0,Consumer Cyclical,1452589.4459748587,4642
+HDD.DE,HDD,Heidelberger Druckmaschinen,Industrials,Germany,.DE,SDAX,418462432.0,Industrials,Specialty Industrial Machinery,EUR,GER,791482.0,237750666.0,304336334.0,Industrials,1231202.9263839324,5408
+HFG.DE,HFG,HelloFresh,Meal kit,Germany,.DE,MDAX,553300416.0,Consumer Cyclical,Restaurants,EUR,GER,1196215.0,120300189.0,143342081.0,Consumer Cyclical,5714547.734852902,2140
+INH.DE,INH,Indus Holding,Industrials,Germany,.DE,SDAX,749002240.0,Industrials,Conglomerates,EUR,GER,59775.0,21077078.0,26750079.0,Industrials,1822313.3248057046,5408
+IXX.DE,IXX,INIT Innovation,Information Technology,Germany,.DE,Germany_Small,403205824.0,Technology,Information Technology Services,EUR,GER,5611.0,6032098.0,9931178.0,Technology,247093.74554017384,5408
+JEN.DE,JEN,Jenoptik,Information Technology,Germany,.DE,"MDAX,SDAX",1764078720.0,Technology,Electronic Components,EUR,GER,246685.0,49332959.0,57238115.0,Technology,6512045.708488941,5408
+KTN.DE,KTN,Kontron,Information Technology,Germany,.DE,SDAX,1230542336.0,Technology,Information Technology Services,EUR,GER,229806.0,61360196.0,62750753.0,Technology,4922881.29317077,5408
+LPK.DE,LPK,LPKF Laser,Information Technology,Germany,.DE,Germany_Small,186173744.0,Industrials,Specialty Industrial Machinery,EUR,GER,56981.0,21857219.0,24496546.0,Industrials,403873.40635372006,5408
+LXS.DE,LXS,Lanxess,Chemistry,Germany,.DE,MDAX,1611222016.0,Basic Materials,Specialty Chemicals,EUR,GER,825986.0,85165949.0,86346303.0,Basic Materials,13743107.877743976,5408
+MBB.DE,MBB,MBB SE,Industrials,Germany,.DE,Germany_Small,968602688.0,Industrials,Conglomerates,EUR,GER,5883.0,1318467.0,5316151.0,Industrials,1182008.6459536233,5060
+NA9.DE,NA9,Nagarro,Information Technology,Germany,.DE,SDAX,529575008.0,Technology,Information Technology Services,EUR,GER,49941.0,10034866.0,11784046.0,Technology,2861475.6034341175,1351
+NB2.DE,NB2,Northern Data,Information Technology,Germany,.DE,Germany_Small,590578752.0,Technology,Information Technology Services,EUR,GER,60120.0,,64196677.0,Technology,639936.1233656884,1906
+NOEJ.DE,NOEJ,Norma Group,Industrials,Germany,.DE,SDAX,491318208.0,Industrials,Metal Fabrication,EUR,GER,96716.0,54276473.0,31862400.0,Industrials,1504916.193263038,3804
+PNE3.DE,PNE3,PNE AG,Utilities,Germany,.DE,SDAX,674109376.0,Utilities,Utilities - Renewable,EUR,GER,54341.0,12454936.0,76603334.0,Utilities,462906.63986927667,5408
+RDC.DE,RDC,Redcare Pharmacy,Pharmacy,Germany,.DE,MDAX,809568768.0,Healthcare,Pharmaceutical Retailers,EUR,GER,160190.0,13822068.0,20341307.0,Healthcare,7586861.485619863,2201
+S92.DE,S92,SMA Solar Technology,Information Technology,Germany,.DE,SDAX,1632288000.0,Technology,Solar,EUR,GER,137460.0,26757170.0,34700000.0,Technology,5073308.425536538,4479
+SAX.DE,SAX,Ströer,Media,Germany,.DE,MDAX,1930117760.0,Communication Services,Advertising Agencies,EUR,GER,131901.0,31269470.0,55848313.0,Communication Services,4394866.7806345625,3993
+SBS.DE,SBS,Stratec SE,Health Care,Germany,.DE,SDAX,215889536.0,Healthcare,Medical Devices,EUR,GER,10368.0,6630702.0,12155942.0,Healthcare,210176.6252763748,5408
+SFQ.DE,SFQ,SAF-Holland,Industrials,Germany,.DE,SDAX,813465920.0,Consumer Cyclical,Auto Parts,EUR,GER,88606.0,45394302.0,45394302.0,Consumer Cyclical,1583825.1298269907,4750
+SGL.DE,SGL,SGL Carbon,Materials,Germany,.DE,SDAX,478079520.0,Basic Materials,Chemicals,EUR,GER,382526.0,55440106.0,122270977.0,Basic Materials,1503897.8674928665,5408
+SMHN.DE,SMHN,SUESS MicroTec,Information Technology,Germany,.DE,SDAX,1165092096.0,Technology,Semiconductor Equipment & Materials,EUR,GER,126890.0,18602668.0,19115538.0,Technology,6666510.301355171,5408
+STM.DE,STM,Stabilus,Automotive,Germany,.DE,MDAX,447564032.0,Industrials,Specialty Industrial Machinery,EUR,GER,97457.0,10900604.0,24700000.0,Industrials,1762814.8969566664,2510
+STO3.DE,STO3,Sto SE,Industrials,Germany,.DE,SDAX,720997184.0,Industrials,Building Products & Equipment,EUR,GER,2230.0,2538013.0,2538000.0,Industrials,264049.04382629396,5408
+TMV.DE,TMV,TeamViewe,Software,Germany,.DE,MDAX,659885760.0,Technology,Software - Application,EUR,GER,1544590.0,153970413.0,156966162.0,Technology,7627432.315750281,1662
+TPE.DE,TPE,PVA TePla,Information Technology,Germany,.DE,SDAX,676804608.0,Industrials,Specialty Industrial Machinery,EUR,GER,87915.0,18375042.0,20422590.0,Industrials,2308321.8904522895,5408
+TTR1.DE,TTR1,technotrans,Industrials,Germany,.DE,Germany_Small,197213824.0,Industrials,Specialty Industrial Machinery,EUR,GER,10970.0,5492837.0,6907665.0,Industrials,323971.33592074714,5408
+WAC.DE,WAC,Wacker Neuson,Industrials,Germany,.DE,SDAX,1346703744.0,Industrials,Farm & Heavy Construction Machinery,EUR,GER,59947.0,18832089.0,68015345.0,Industrials,1186912.161956501,4801
+WAF.DE,WAF,Siltronic,Semiconductor industry,Germany,.DE,MDAX,1800000000.0,Technology,Semiconductors,EUR,GER,76887.0,12119100.0,30000000.0,Technology,4208866.158873176,2754
+YSN.DE,YSN,Secunet Security,Information Technology,Germany,.DE,TecDAX,1160628608.0,Technology,Software - Infrastructure,EUR,GER,5178.0,1609612.0,6469502.0,Technology,1044167.3518407185,5408
+AVIO.MI,AVIO,Avio,Aerospace,Italy,.MI,FTSE_MIB,1582979200.0,Industrials,Aerospace & Defense,EUR,MIL,970463.0,37566441.0,45803796.0,Industrials,34387644.86901906,2717
+DAL.MI,DAL,Datalogic,Information Technology,Italy,.MI,Italy_Mid,274880608.0,Technology,Scientific & Technical Instruments,EUR,MIL,107647.0,14655919.0,52558433.0,Technology,477147.9698684335,5406
+JUVE.MI,JUVE,Juventus FC,Communication Services,Italy,.MI,Italy_Small,854919616.0,Communication Services,Entertainment,EUR,MIL,753580.0,417033996.0,417033996.0,Communication Services,1735966.1738315583,5406
+MARR.MI,MARR,MARR,Consumer Staples,Italy,.MI,Italy_Mid,526729024.0,Consumer Defensive,Food Distribution,EUR,MIL,228900.0,30072539.0,63202917.0,Consumer Defensive,1858202.160413591,5285
+PIA.MI,PIA,Piaggio,Consumer Discretionary,Italy,.MI,Italy_Mid,559527104.0,Consumer Cyclical,Auto Manufacturers,EUR,MIL,952001.0,172265206.0,352298042.0,Consumer Cyclical,1590524.0889775574,5013
+SFER.MI,SFER,Salvatore Ferragamo,Consumer Discretionary,Italy,.MI,Italy_Mid,1264941696.0,Consumer Cyclical,Luxury Goods,EUR,MIL,435342.0,63961146.0,165676698.0,Consumer Cyclical,2967418.339828825,3752
+TNXT.MI,TNXT,Tinexta,Information Technology,Italy,.MI,Italy_Mid,688376320.0,Technology,Information Technology Services,EUR,MIL,95842.0,28116055.0,45891755.0,Technology,1484961.3775482655,2965
+ZV.MI,ZV,Zignago Vetro,Materials,Italy,.MI,Italy_Small,637275392.0,Consumer Cyclical,Packaging & Containers,EUR,MIL,91206.0,31661641.0,88265288.0,Consumer Cyclical,676185.4652426322,4784
+ALFEN.AS,ALFEN,Alfen,electronic equipment,Netherlands,.AS,AMX,208732640.0,Industrials,Electrical Equipment & Parts,EUR,AMS,252379.0,21213539.0,21742981.0,Industrials,2471478.632025528,2060
+AMG.AS,AMG,Advanced Metallurgical Group,machinery: Industrial,Netherlands,.AS,AMX,1069664512.0,Basic Materials,Other Industrial Metals & Mining,EUR,AMS,319502.0,30266199.0,32335683.0,Basic Materials,10846379.403256893,4798
+CRBN.AS,CRBN,Corbion,food products,Netherlands,.AS,AMX,1101246976.0,Basic Materials,Specialty Chemicals,EUR,AMS,130150.0,48530358.0,57626739.0,Basic Materials,2538285.597530079,5450
+FUR.AS,FUR,Fugro,engineering and contracting services,Netherlands,.AS,AMX,1229131392.0,Energy,Oil & Gas Equipment & Services,EUR,AMS,603106.0,107193836.0,111334361.0,Energy,6589956.204734993,5450
+GLPG.AS,GLPG,Galapagos,biotechnology,Netherlands,.AS,AMX,1607888512.0,Healthcare,Biotechnology,EUR,AMS,80041.0,44538512.0,65897071.0,Healthcare,2177972.2752770423,5361
+OCI.AS,OCI,OCI,Fertilizers,Netherlands,.AS,AMX,767469312.0,Basic Materials,Specialty Chemicals,EUR,AMS,682861.0,105047562.0,210939330.0,Basic Materials,2269534.6652561347,3376
+PNL.AS,PNL,PostNL,delivery services,Netherlands,.AS,AMX,566670208.0,Industrials,Integrated Freight & Logistics,EUR,AMS,2031664.0,492382498.0,508680625.0,Industrials,2337727.7775169252,5450
+TWEKA.AS,TWEKA,TKH Group,electrical components,Netherlands,.AS,AMX,1623287680.0,Technology,Communication Equipment,EUR,AMS,104600.0,26887409.0,39884014.0,Technology,4052490.6516868593,5450
+ATC.WA,ATC,Arctic Paper,Materials,Poland,.WA,mWIG40,544601984.0,Basic Materials,Paper & Paper Products,PLN,WSE,31386.0,21948291.0,69287783.0,Basic Materials,245018.6440208435,4134
+TEN.WA,TEN,Ten Square Games,Communication Services,Poland,.WA,mWIG40,674145664.0,Communication Services,Electronic Gaming & Multimedia,PLN,WSE,25680.0,4218198.0,6359865.0,Communication Services,2649619.466580709,1908
+ALTR.LS,ALTR,Altri,Basic Resources,Portugal,.LS,PSI,1005145280.0,Basic Materials,Paper & Paper Products,EUR,LIS,314835.0,61000005.0,205131672.0,Basic Materials,1459297.9141538064,5452
+COR.LS,COR,Corticeira Amorim,Industrial Goods & Services,Portugal,.LS,PSI,892430016.0,Basic Materials,Lumber & Wood Production,EUR,LIS,138550.0,38030020.0,133000000.0,Basic Materials,933650.8313375711,5452
+CTT.LS,CTT,CTT Correios de Portugal,Industrial Goods & Services,Portugal,.LS,PSI,895881088.0,Industrials,Integrated Freight & Logistics,EUR,LIS,418568.0,77753985.0,132388875.0,Industrials,2781125.7741559586,3157
+EGL.LS,EGL,Mota-Engil,Construction & Materials,Portugal,.LS,PSI,1519767936.0,Industrials,Engineering & Construction,EUR,LIS,2081122.0,,306775950.0,Industrials,9867365.4883852,5452
+IBS.LS,IBS,Ibersol,Travel & Leisure,Portugal,.LS,PSI,461182336.0,Consumer Cyclical,Restaurants,EUR,LIS,13935.0,14356986.0,40366030.0,Consumer Cyclical,150751.37716390291,5452
+SEM.LS,SEM,Semapa,Basic Resources,Portugal,.LS,PSI,1813034880.0,Basic Materials,Paper & Paper Products,EUR,LIS,27937.0,13401282.0,79869373.0,Basic Materials,618426.5163959503,5452
+A3M.MC,A3M,Atresmedia,Communication Services,Spain,.MC,Spain_Mid,1134899328.0,Communication Services,Entertainment,EUR,MCE,376718.0,96781687.0,225178424.0,Communication Services,1881115.2855735063,5440
+ADDV-B.ST,ADDV-B,AddLife,Health Care,Sweden,.ST,OMX_Mid_SE,1048497280.0,Healthcare,Medical Instruments & Supplies,SEK,STO,2843869.0,478981448.0,583209491.0,Healthcare,4652374.352142108,2628
+CINT.ST,CINT,CINT Group,Information Technology,Sweden,.ST,Sweden_Small,1327611648.0,Technology,Software - Application,SEK,STO,3109965.0,298169512.0,354976383.0,Technology,10486636.093540045,1292
+SUS.ST,SUS,Surgical Science,Health Care,Sweden,.ST,Sweden_Small,1614470016.0,Healthcare,Health Information Services,SEK,STO,392267.0,43092167.0,51026236.0,Healthcare,11454008.971069686,2214
+AMS.SW,AMS,ams,Hardware,Switzerland,.SW,SMIM,1029022592.0,Technology,Semiconductors,CHF,EBS,645120.0,98676445.0,98849432.0,Technology,5543500.2122133095,5363
+TECN.SW,TECN,Tecan,Scientific Equipment,Switzerland,.SW,SMIM,1707280512.0,Healthcare,Medical Instruments & Supplies,CHF,EBS,63928.0,12500379.0,12655898.0,Healthcare,8390789.08837789,5363
+AAS.L,AAS,Aberdeen Asia Focus,Investment Trusts,UK,.L,FTSE_250,561495872.0,,,GBp,LSE,285519.0,,139675588.0,Investment Trusts,111600837.9,5382
+AEP.L,AEP,AEP Plantations,Food Producers,UK,.L,FTSE_250,713972672.0,Consumer Defensive,Farm Products,GBp,LSE,45663.0,17390512.0,38468178.0,Consumer Defensive,73427660.15,5382
+AGT.L,AGT,AVI Global Trust,Investment Trusts,UK,.L,FTSE_250,1016581824.0,,,GBp,LSE,858915.0,,402606671.0,Investment Trusts,212100171.9,5382
+AIE.L,AIE,Ashoka India Equity Investment Trust,Investment Trusts,UK,.L,FTSE_250,402129792.0,,,GBp,LSE,756633.0,,169317811.0,Investment Trusts,181427049.65,1961
+ALFA.L,ALFA,Alfa Financial Software,Software and Computer Services,UK,.L,FTSE_250,440609664.0,Technology,Software - Application,GBp,LSE,697737.0,130042961.0,296108644.0,Technology,129312625.2423935,2242
+AML.L,AML,Aston Martin Lagonda,Automobiles & Parts,UK,.L,FTSE_250,426079968.0,Consumer Cyclical,Auto Manufacturers,GBp,LSE,2340931.0,346616730.0,1012066502.0,Consumer Cyclical,115040667.10901025,1899
+AO.L,AO,AO World,Retail,UK,.L,FTSE_250,527818464.0,Consumer Cyclical,Specialty Retail,GBp,LSE,473465.0,148804800.0,555598374.0,Consumer Cyclical,47438155.41025963,3015
+APN.L,APN,Applied Nutrition,Food Producers,UK,.L,FTSE_250,560000000.0,Consumer Defensive,Packaged Foods,GBp,LSE,362341.0,111067500.0,250000000.0,Consumer Defensive,84701503.48333333,369
+ASL.L,ASL,Aberforth Smaller Companies Trust,Investment Trusts,UK,.L,FTSE_250,1190755072.0,,,GBp,LSE,154617.0,,78649605.0,Investment Trusts,248798524.66666666,5382
+ATR.L,ATR,Schroder Asian Total Return Investment Company,Investment Trusts,UK,.L,FTSE_250,553664768.0,,,GBp,LSE,155237.0,,93524454.0,Investment Trusts,91781567.73333333,5382
+ATT.L,ATT,Allianz Technology Trust,Investment Trusts,UK,.L,FTSE_250,1968272512.0,,,GBp,LSE,1222369.0,,346526859.0,Investment Trusts,657693824.6666666,5382
+ATYM.L,ATYM,Atalaya Mining,Industrial Metals and Mining,UK,.L,FTSE_250,1220846848.0,Basic Materials,Copper,GBp,LSE,810313.0,110801296.0,153759043.0,Basic Materials,731127175.65,5292
+AVON.L,AVON,Avon Technologies,Industrial Goods and Services,UK,.L,FTSE_250,513335008.0,Industrials,Aerospace & Defense,GBp,LSE,62268.0,24082704.0,29313384.0,Industrials,112005116.03333333,5382
+BAG.L,BAG,A.G. Barr,Beverages,UK,.L,FTSE_250,716007040.0,Consumer Defensive,Beverages - Non-Alcoholic,GBp,LSE,209273.0,88269366.0,110922858.0,Consumer Defensive,132256055.49166666,5382
+BCG.L,BCG,Baltic Classifieds,Consumer Digital Services,UK,.L,FTSE_250,890247552.0,Communication Services,Internet Content & Information,GBp,LSE,2059789.0,405643045.0,451058438.0,Communication Services,375774256.14985603,1207
+BGFD.L,BGFD,Baillie Gifford Japan Trust,Investment Trusts,UK,.L,FTSE_250,624354496.0,,,GBp,LSE,353659.0,,71436440.0,Investment Trusts,319966372.23333335,5382
+BME.L,BME,B&M,Retailers,UK,.L,FTSE_250,1753791872.0,Consumer Defensive,Discount Stores,GBp,LSE,8833920.0,1004244276.0,1005038256.0,Consumer Defensive,1560714516.6828113,2989
+BOWL.L,BOWL,Hollywood Bowl Group,Travel and leisure,UK,.L,FTSE_250,440875456.0,Consumer Cyclical,Leisure,GBp,LSE,953908.0,161095515.0,167633242.0,Consumer Cyclical,251723212.25,2413
+BOY.L,BOY,Bodycote,Industrial Engineering,UK,.L,FTSE_250,1184456576.0,Industrials,Specialty Industrial Machinery,GBp,LSE,346946.0,170251707.0,171252364.0,Industrials,237299767.575,5382
+BPCR.L,BPCR,Biopharma Credit,Investment Trusts,UK,.L,FTSE_250,1061474112.0,,,USD,LSE,1417055.0,,1129227778.0,Investment Trusts,1301264.4003564816,2283
+BREE.L,BREE,Breedon Group,Construction & Materials,UK,.L,FTSE_250,1106591104.0,Basic Materials,Building Materials,GBp,LSE,1552022.0,256241380.0,346676387.0,Basic Materials,523240102.4036148,4505
+BRGE.L,BRGE,BlackRock Greater Europe Investment Trust,Investment Trusts,UK,.L,FTSE_250,515155872.0,,,GBp,LSE,241880.0,,91828141.0,Investment Trusts,138210973.21666667,5382
+BRSC.L,BRSC,BlackRock Smaller Companies Trust,Equity Investments,UK,.L,FTSE_250,506418720.0,,,GBp,LSE,118736.0,,39812792.0,Equity Investments,162143066.73333332,5382
+BRWM.L,BRWM,BlackRock World Mining Trust,Investment Trusts,UK,.L,FTSE_250,1850348160.0,,,GBp,LSE,733632.0,,186527036.0,Investment Trusts,676765409.9666667,5382
+BUT.L,BUT,Brunner Investment Trust,Investment Trusts,UK,.L,FTSE_250,625677376.0,,,GBp,LSE,54115.0,,43150164.0,Investment Trusts,78575749.16666667,5382
+BYIT.L,BYIT,Bytes Technology Group,Aerospace & Defence,UK,.L,FTSE_250,671291072.0,Technology,Software - Infrastructure,GBp,LSE,1068952.0,219205350.0,236370093.0,Technology,324805961.0243576,1342
+CCR.L,CCR,C&C Group,Food & Tobacco,UK,.L,FTSE_250,453050784.0,Consumer Defensive,Beverages - Brewers,GBp,LSE,583932.0,373123422.0,368333957.0,Consumer Defensive,67152935.33238004,5382
+CGT.L,CGT,Capital Gearing Trust,Investment Trusts,UK,.L,FTSE_250,792355712.0,,,GBp,LSE,33505.0,,15690213.0,Investment Trusts,162826898.08333334,5382
+CHG.L,CHG,Chemring Group,Aerospace & Defence,UK,.L,FTSE_250,1468589568.0,Industrials,Aerospace & Defense,GBp,LSE,1048253.0,249165985.0,268972456.0,Industrials,549410200.2333333,5382
+CKN.L,CKN,Clarkson,Industrial Transportation,UK,.L,FTSE_250,1460948608.0,Industrials,Marine Shipping,GBp,LSE,116143.0,24340123.0,30705099.0,Industrials,516015783.95,5382
+CLDN.L,CLDN,Caledonia Investments,Investment Trusts,UK,.L,FTSE_250,1754218368.0,,,GBp,LSE,498966.0,,517369423.0,Investment Trusts,175403856.5,5382
+COA.L,COA,Coats Group,Consumer Staples,UK,.L,FTSE_250,1607236864.0,Consumer Cyclical,Textile Manufacturing,GBp,LSE,3924071.0,1900635967.0,1914361942.0,Consumer Cyclical,340813989.4386307,5382
+COST.L,COST,Costain Group,Engineering and Construction,UK,.L,FTSE_250,530739104.0,Industrials,Engineering & Construction,GBp,LSE,1632565.0,233751601.0,265769213.0,Industrials,308670456.0251328,5382
+CURY.L,CURY,Currys,Retailers,UK,.L,FTSE_250,1412950912.0,Consumer Cyclical,Specialty Retail,GBp,LSE,4435491.0,893546520.0,1038129445.0,Consumer Cyclical,622484646.9464916,4174
+CVSG.L,CVSG,CVS Group,Health Care,UK,.L,FTSE_250,824341440.0,Healthcare,Medical Care Facilities,GBp,LSE,516000.0,70074959.0,70156719.0,Healthcare,657563512.4666667,4674
+CWR.L,CWR,Ceres Power,Alternative Energy,UK,.L,FTSE_250,598062912.0,Industrials,Electrical Equipment & Parts,GBp,LSE,2290514.0,100919154.0,194808774.0,Industrials,710933014.002355,5382
+DNLM.L,DNLM,Dunelm Group,Retailers,UK,.L,FTSE_250,1694049280.0,Consumer Cyclical,Specialty Retail,GBp,LSE,642453.0,163065205.0,201313039.0,Consumer Cyclical,600017032.0666667,4920
+DOCS.L,DOCS,Dr. Martens,Retailers,UK,.L,FTSE_250,630312896.0,Consumer Cyclical,Footwear & Accessories,GBp,LSE,1605252.0,519898086.0,966737603.0,Consumer Cyclical,107644335.50091305,1311
+DOM.L,DOM,Domino's Pizza,Travel & Leisure,UK,.L,FTSE_250,686465216.0,Consumer Cyclical,Restaurants,GBp,LSE,1745715.0,346594390.0,381157777.0,Consumer Cyclical,326085987.8391777,5382
+DSCV.L,DSCV,discoverIE,Support Services,UK,.L,FTSE_250,561360256.0,Technology,Electronic Components,GBp,LSE,261471.0,92180187.0,97121154.0,Technology,159441431.76666668,5382
+EDIN.L,EDIN,Edinburgh Investment Trust,Investment Trusts,UK,.L,FTSE_250,1059806848.0,,,GBp,LSE,405522.0,,131528025.0,Investment Trusts,330473410.8333333,5382
+ELM.L,ELM,Elementis,Chemicals,UK,.L,FTSE_250,917686464.0,Basic Materials,Specialty Chemicals,GBp,LSE,1326978.0,564790937.0,569284408.0,Basic Materials,209754119.9160914,5382
+ENOG.L,ENOG,Energean,Oil & Gas Producers,UK,.L,FTSE_250,1595945984.0,Energy,Oil & Gas E&P,GBp,LSE,351806.0,147311384.0,184715959.0,Energy,309029425.60833335,2037
+ESCT.L,ESCT,European Smaller Companies Trust,Investment Trusts,UK,.L,FTSE_250,753996032.0,,,GBp,LSE,1186614.0,,347463609.0,Investment Trusts,253471211.41666666,5382
+EWG.L,EWG,W. A. G. Payment Solutions,Financial Services,UK,.L,FTSE_250,800446976.0,Technology,Software - Infrastructure,GBp,LSE,421440.0,167823810.0,692428147.0,Technology,48269688.07719155,1136
+EWI.L,EWI,Edinburgh Worldwide Investment Trust,Investment Trusts,UK,.L,FTSE_250,786886720.0,,,GBp,LSE,1117105.0,,345884292.0,Investment Trusts,250170426.16666666,5382
+FAN.L,FAN,Volution Group,Construction & Materials,UK,.L,FTSE_250,1247622144.0,Industrials,Building Products & Equipment,GBp,LSE,584694.0,197063043.0,198035249.0,Industrials,375050498.1,2986
+FCSS.L,FCSS,Fidelity China Special Situations,Investment Trusts,UK,.L,FTSE_250,1336978944.0,,,GBp,LSE,893872.0,,461027215.0,Investment Trusts,277377388.025,4037
+FGP.L,FGP,FirstGroup,Travel & Leisure,UK,.L,FTSE_250,946674560.0,Industrials,Railroads,GBp,LSE,1042546.0,487016404.0,543129407.0,Industrials,189452730.5983256,5382
+FGT.L,FGT,Finsbury Growth & Income Trust,Equity Investments,UK,.L,FTSE_250,802175488.0,,,GBp,LSE,738134.0,,109586815.0,Equity Investments,563647330.7833333,5382
+FOUR.L,FOUR,4imprint,Media,UK,.L,FTSE_250,1023104384.0,Communication Services,Advertising Agencies,GBp,LSE,85088.0,27613865.0,28082714.0,Communication Services,329347102.65,5382
+FSV.L,FSV,Fidelity Special Values,Investment Trusts,UK,.L,FTSE_250,1376861184.0,,,GBp,LSE,823840.0,,324348920.0,Investment Trusts,348316891.90833336,5382
+GAMA.L,GAMA,Gamma Communications,Telecommunications,UK,.L,FTSE_250,752076800.0,Communication Services,Telecom Services,GBp,LSE,684095.0,91545928.0,90986789.0,Communication Services,578260319.8616455,2905
+GBG.L,GBG,GB Group,Software and Computer Services,UK,.L,FTSE_250,436567936.0,Technology,Software - Application,GBp,LSE,1717410.0,246675013.0,232662111.0,Technology,352190810.725926,5382
+GDWN.L,GDWN,Goodwin,General Industrials,UK,.L,FTSE_250,972312768.0,Industrials,Specialty Industrial Machinery,GBp,LSE,15556.0,2995655.0,7631968.0,Industrials,293441973.1666667,5382
+GEN.L,GEN,Genuit Group,Construction & Materials,UK,.L,FTSE_250,758696768.0,Industrials,Building Products & Equipment,GBp,LSE,1079970.0,247211411.0,251224094.0,Industrials,358395604.73284453,3030
+GFRD.L,GFRD,Galliford Try,Construction,UK,.L,FTSE_250,510875680.0,Industrials,Engineering & Construction,GBp,LSE,291816.0,95158442.0,98240074.0,Industrials,157282302.31666666,5382
+GFTU.L,GFTU,Grafton Group,Support Services,UK,.L,FTSE_250,1773474176.0,Industrials,Industrial Distribution,GBp,LSE,519783.0,157287312.0,193146816.0,Industrials,469538157.46094155,5381
+GNS.L,GNS,Genus,Pharmaceuticals & Biotechnology,UK,.L,FTSE_250,1710804864.0,Healthcare,Biotechnology,GBp,LSE,186171.0,65074547.0,66413228.0,Healthcare,526847446.71666664,5382
+GRG.L,GRG,Greggs,Food & Drug Retailers,UK,.L,FTSE_250,1643168128.0,Consumer Cyclical,Restaurants,GBp,LSE,507105.0,100486503.0,101838742.0,Consumer Cyclical,823984865.45,5382
+GSCT.L,GSCT,Global Smaller Companies Trust,Investment Trusts,UK,.L,FTSE_250,777710976.0,,,GBp,LSE,605313.0,,419477357.0,Investment Trusts,110611219.3474706,5382
+HAS.L,HAS,Hays,Support Services,UK,.L,FTSE_250,483818592.0,Industrials,Staffing & Employment Services,GBp,LSE,5007827.0,1472543874.0,1598871698.0,Industrials,200314799.10630053,5382
+HFG.L,HFG,Hilton Food Group,Food Producers,UK,.L,FTSE_250,476765280.0,Consumer Defensive,Packaged Foods,GBp,LSE,272218.0,79247749.0,89955713.0,Consumer Defensive,138050403.84166667,4862
+HGT.L,HGT,Hg Capital Trust,Investment Trusts,UK,.L,FTSE_250,1674131968.0,,,GBp,LSE,2020809.0,,453694303.0,Investment Trusts,878368810.2166667,5382
+HILS.L,HILS,Hill & Smith,Industrial Engineering,UK,.L,FTSE_250,1826617600.0,Industrials,Engineering & Construction,GBp,LSE,188968.0,79128742.0,78719334.0,Industrials,420313545.0833333,5382
+HRI.L,HRI,Herald Investment Trust,Investment Trusts,UK,.L,FTSE_250,1251499008.0,,,GBp,LSE,124739.0,,47858467.0,Investment Trusts,314854231.8333333,5382
+HSL.L,HSL,Henderson Smaller Companies Investment Trust,Investment Trusts,UK,.L,FTSE_250,484685088.0,,,GBp,LSE,178081.0,,56954769.0,Investment Trusts,157503042.98333332,5382
+HTG.L,HTG,Hunting,"Oil, Gas and Coal",UK,.L,FTSE_250,717742656.0,Energy,Oil & Gas Equipment & Services,GBp,LSE,633653.0,105364325.0,146577909.0,Energy,308215122.4916667,5382
+IAD.L,IAD,Invesco Asia Dragon Trust,Investment Trusts,UK,.L,FTSE_250,868512896.0,,,GBp,LSE,376179.0,,201745151.0,Investment Trusts,164849522.13333333,5382
+IBST.L,IBST,Ibstock,Construction & Materials,UK,.L,FTSE_250,429644544.0,Basic Materials,Building Materials,GBp,LSE,1564507.0,348505164.0,394893894.0,Basic Materials,188241489.7359374,2644
+ICGT.L,ICGT,ICG Enterprise Trust,Investment Trusts,UK,.L,FTSE_250,827320064.0,,,GBp,LSE,84711.0,,61465086.0,Investment Trusts,121906823.23333333,5382
+IEM.L,IEM,Impax Environmental Markets,Investment Trusts,UK,.L,FTSE_250,840662720.0,,,GBp,LSE,1022376.0,,190410579.0,Investment Trusts,437677607.05833334,5382
+JAM.L,JAM,JPMorgan American Investment Trust,Investment Trusts,UK,.L,FTSE_250,1864343552.0,,,GBp,LSE,338144.0,,166757018.0,Investment Trusts,378717015.7,5382
+JDW.L,JDW,Wetherspoon (J D),Travel & Leisure,UK,.L,FTSE_250,663001536.0,Consumer Cyclical,Restaurants,GBp,LSE,344561.0,61722970.0,105405650.0,Consumer Cyclical,220907949.31666666,5382
+JEDT.L,JEDT,JPMorgan European Discovery,Investment Trusts,UK,.L,FTSE_250,570434688.0,,,GBp,LSE,159463.0,,92303345.0,Investment Trusts,97140775.43333334,5382
+JEGI.L,JEGI,JPMorgan European Growth & Income,Investment Trusts,UK,.L,FTSE_250,608207296.0,,,GBp,LSE,1419435.0,,422366188.0,Investment Trusts,198314545.11436334,5382
+JEMI.L,JEMI,JPMorgan Emerging Markets Dividend Income,Investment Trusts,UK,.L,FTSE_250,486308160.0,,,GBp,LSE,774343.0,,262869285.0,Investment Trusts,144598501.25,3966
+JII.L,JII,JPMorgan India Growth & Income,Investment Trusts,UK,.L,FTSE_250,459375936.0,,,GBp,LSE,,,45322880.0,Investment Trusts,74238853.9,5382
+JSG.L,JSG,Johnson Service Group,Industrial Support Services,UK,.L,FTSE_250,509277152.0,Industrials,Specialty Business Services,GBp,LSE,1105546.0,337501833.0,379491179.0,Industrials,153167862.2173935,5382
+KIE.L,KIE,Kier Group,Construction & Materials,UK,.L,FTSE_250,914626816.0,Industrials,Engineering & Construction,GBp,LSE,1366858.0,409476122.0,437620469.0,Industrials,305600251.5799049,5382
+KLR.L,KLR,Keller Group,Construction & Materials,UK,.L,FTSE_250,1488687232.0,Industrials,Engineering & Construction,GBp,LSE,188075.0,67295294.0,69252564.0,Industrials,375252661.3666667,5382
+KNOS.L,KNOS,Kainos,Software & Computer Services,UK,.L,FTSE_250,881387200.0,Technology,Software - Application,GBp,LSE,500164.0,79057797.0,116930494.0,Technology,397996182.43333334,2717
+LWDB.L,LWDB,Law Debenture,Investment Trusts,UK,.L,FTSE_250,1499569536.0,,,GBp,LSE,220100.0,,133114987.0,Investment Trusts,249213811.26666668,5382
+MAB.L,MAB,Mitchells & Butlers,Travel & Leisure,UK,.L,FTSE_250,1587737600.0,Consumer Cyclical,Restaurants,GBp,LSE,674266.0,245203376.0,593546766.0,Consumer Cyclical,192651439.54166666,5382
+MEGP.L,MEGP,ME Group International,Leisure Goods,UK,.L,FTSE_250,545373888.0,Industrials,Business Equipment & Supplies,GBp,LSE,1153201.0,228764361.0,376492294.0,Industrials,112370610.42208761,5382
+MGAM.L,MGAM,Morgan Advanced Materials,Electronic & Electrical Equipment,UK,.L,FTSE_250,590145600.0,Industrials,Specialty Industrial Machinery,GBp,LSE,1046743.0,253957772.0,276414792.0,Industrials,237149166.02174023,5382
+MONY.L,MONY,MONY Group,Media,UK,.L,FTSE_250,844894528.0,Communication Services,Internet Content & Information,GBp,LSE,2340923.0,516537942.0,521539835.0,Communication Services,385571449.31162316,4727
+MOON.L,MOON,Moonpig,Retailers,UK,.L,FTSE_250,669418624.0,Consumer Cyclical,Specialty Retail,GBp,LSE,1002437.0,308764917.0,305982619.0,Consumer Cyclical,212748966.28358763,1309
+MRC.L,MRC,Mercantile Investment Trust,Collective Investments,UK,.L,FTSE_250,1687441024.0,,,GBp,LSE,2208824.0,,661741638.0,Collective Investments,568654872.1416667,5382
+MRCH.L,MRCH,Merchants Trust,Investment Trusts,UK,.L,FTSE_250,913847424.0,,,GBp,LSE,280560.0,,147632870.0,Investment Trusts,175400820.23333332,5382
+MSLH.L,MSLH,Marshalls,Construction & Materials,UK,.L,FTSE_250,368458880.0,Basic Materials,Building Materials,GBp,LSE,1482984.0,227043418.0,252888724.0,Basic Materials,238717521.15397745,5382
+MUT.L,MUT,Murray Income Trust,Investment Trusts,UK,.L,FTSE_250,893342656.0,,,GBp,LSE,232975.0,,94333684.0,Investment Trusts,218232399.16666666,5382
+NAS.L,NAS,North Atlantic Smaller Companies Investment Trust,Investment Trusts,UK,.L,FTSE_250,451169728.0,,,GBp,LSE,129079.0,,129100000.0,Investment Trusts,45861130.7,5382
+NCC.L,NCC,NCC Group,Software and Computer Services,UK,.L,FTSE_250,325123168.0,Technology,Software - Infrastructure,GBp,LSE,2182031.0,225449175.0,279414054.0,Technology,282876159.493034,5382
+OCDO.L,OCDO,Ocado Group,Food & drug retailers,UK,.L,FTSE_250,1559508608.0,Consumer Defensive,Grocery Stores,GBp,LSE,2878762.0,394024190.0,831294550.0,Consumer Defensive,622270782.8705094,3972
+ONT.L,ONT,Oxford Nanopore Technologies,Health Care,UK,.L,FTSE_250,1049590656.0,Healthcare,Biotechnology,GBp,LSE,1807101.0,401332431.0,967364692.0,Healthcare,240760796.96300545,1142
+OXB.L,OXB,Oxford Biomedica,Pharmaceuticals and Biotechnology,UK,.L,FTSE_250,684291456.0,Healthcare,Biotechnology,GBp,LSE,364540.0,60791871.0,120899550.0,Healthcare,263608304.83333334,5382
+OXIG.L,OXIG,Oxford Instruments,Electronic & Electrical Equipment,UK,.L,"FTSE_250,UK_Mid",1462975744.0,Technology,Scientific & Technical Instruments,GBp,LSE,214837.0,55851498.0,55335057.0,Technology,551896924.3166667,5382
+PAGE.L,PAGE,PageGroup,Support Services,UK,.L,FTSE_250,427028288.0,Industrials,Staffing & Employment Services,GBp,LSE,1211628.0,289500711.0,313330589.0,Industrials,187432638.00771484,5382
+PCGH.L,PCGH,Polar Capital Global Healthcare Trust,Investment Trusts,UK,.L,FTSE_250,388517152.0,,,GBp,LSE,352909.0,,99365000.0,Investment Trusts,142385462.31666666,3998
+PETS.L,PETS,Pets at Home,Retailers,UK,.L,FTSE_250,833369472.0,Consumer Cyclical,Specialty Retail,GBp,LSE,936080.0,421787550.0,442105778.0,Consumer Cyclical,186077344.9464531,3052
+PFD.L,PFD,Premier Foods,Food & Drug Retailers,UK,.L,FTSE_250,1687146112.0,Consumer Defensive,Packaged Foods,GBp,LSE,1862914.0,633839188.0,861668065.0,Consumer Defensive,352905729.8635419,5382
+PHI.L,PHI,Pacific Horizon Investment Trust,Investment Trusts,UK,.L,FTSE_250,766313984.0,,,GBp,LSE,168324.0,,82046467.0,Investment Trusts,153355328.68333334,5382
+PIN.L,PIN,Pantheon International,Equity Investments,UK,.L,FTSE_250,1570020096.0,,,GBp,LSE,1015331.0,,426531663.0,Equity Investments,372550413.90833336,5382
+PINT.L,PINT,Pantheon Infrastructure,Investment Trusts,UK,.L,FTSE_250,524860000.0,,,GBp,LSE,623382.0,,468625000.0,Investment Trusts,69398735.11816965,1109
+PNL.L,PNL,Personal Assets Trust,Investment Trusts,UK,.L,FTSE_250,1677155072.0,,,GBp,LSE,573299.0,,312319372.0,Investment Trusts,310123404.18333334,5382
+PPH.L,PPH,PPHE Hotel Group,Travel and Leisure,UK,.L,FTSE_250,709883264.0,Consumer Cyclical,Lodging,GBp,LSE,26375.0,18335163.0,41856324.0,Consumer Cyclical,47060673.53333333,5382
+PTEC.L,PTEC,Playtech,Software & Computer Services,UK,.L,FTSE_250,1076480640.0,Consumer Cyclical,Gambling,GBp,LSE,1493590.0,211657005.0,282051310.0,Consumer Cyclical,507436094.84242505,5062
+RHIM.L,RHIM,RHI Magnesita,Support Services,UK,.L,FTSE_250,1252053760.0,Industrials,Metal Fabrication,GBp,LSE,25168.0,16407575.0,47336625.0,Industrials,69296087.5,2134
+RNK.L,RNK,Rank Group,Travel and Leisure,UK,.L,FTSE_250,426270880.0,Consumer Cyclical,Gambling,GBp,LSE,628901.0,181452960.0,468429541.0,Consumer Cyclical,57389182.45472336,5382
+RPI.L,RPI,Raspberry Pi Holdings,Technology,UK,.L,FTSE_250,972345664.0,Technology,Electronic Components,GBp,LSE,1114179.0,75133104.0,193501635.0,Technology,412621352.66339874,465
+SAIN.L,SAIN,Scottish American Investment Company,Investment Trusts,UK,.L,FTSE_250,811022080.0,,,GBp,LSE,376653.0,,159336374.0,Investment Trusts,195703195.275,5382
+SDP.L,SDP,Schroder AsiaPacific Fund,Investment Trusts,UK,.L,FTSE_250,902570368.0,,,GBp,LSE,228955.0,,127842834.0,Investment Trusts,164122461.61666667,5382
+SEIT.L,SEIT,SDCL Energy Efficiency Income Trust,Energy,UK,.L,FTSE_250,455876192.0,,,GBp,LSE,3672827.0,,1085419558.0,Energy,167799014.56326452,1850
+SMWH.L,SMWH,W H Smith,Retailers,UK,.L,FTSE_250,758768000.0,Consumer Cyclical,Specialty Retail,GBp,LSE,520950.0,122078729.0,124694826.0,Consumer Cyclical,317061179.3833333,5382
+SNR.L,SNR,Senior,Aerospace & Defence,UK,.L,FTSE_250,1190591872.0,Industrials,Aerospace & Defense,GBp,LSE,3712269.0,320776089.0,412086135.0,Industrials,1042288606.5833334,5382
+SPI.L,SPI,Spire Healthcare,Health Care Equipment & Services,UK,.L,FTSE_250,610511040.0,Healthcare,Medical Care Facilities,GBp,LSE,1657068.0,176511394.0,400597780.0,Healthcare,292545758.5416962,2964
+SSPG.L,SSPG,SSP Group,Retailers,UK,.L,FTSE_250,1484614912.0,Consumer Cyclical,Restaurants,GBp,LSE,3824224.0,777321429.0,779224434.0,Consumer Cyclical,676080670.8352587,2970
+TATE.L,TATE,Tate & Lyle,Food Producers,UK,.L,FTSE_250,1586972544.0,Consumer Defensive,Packaged Foods,GBp,LSE,1835516.0,352212228.0,441684581.0,Consumer Defensive,677451921.1263636,5382
+TEP.L,TEP,Telecom Plus,Telecomms,UK,.L,FTSE_250,1093990784.0,Utilities,Utilities - Diversified,GBp,LSE,214990.0,73246365.0,80087177.0,Utilities,290950851.96666664,5382
+THG.L,THG,THG,Personal Products,UK,.L,FTSE_250,488502816.0,Consumer Cyclical,Internet Retail,GBp,LSE,5504172.0,517257235.0,1557725726.0,Consumer Cyclical,174833620.2514098,1405
+THRG.L,THRG,BlackRock Throgmorton Trust,Equity Investments,UK,.L,FTSE_250,414184160.0,,,GBp,LSE,282709.0,,75033364.0,Equity Investments,175332263.13333333,5382
+TMPL.L,TMPL,Temple Bar Investment Trust,Collective Investments,UK,.L,FTSE_250,1168726016.0,,,GBp,LSE,1125740.0,,298144378.0,Collective Investments,437447287.7416667,5382
+TPK.L,TPK,Travis Perkins,Support Services,UK,.L,FTSE_250,1225495552.0,Industrials,Industrial Distribution,GBp,LSE,714985.0,209207037.0,211840211.0,Industrials,447949474.1,5382
+TRIG.L,TRIG,The Renewables Infrastructure Group,Investment Trusts,UK,.L,FTSE_250,1634410368.0,Utilities,Utilities - Renewable,GBp,LSE,8182039.0,,2369848482.0,Utilities,550748220.2070252,3210
+TRN.L,TRN,Trainline,Industrial Transportation,UK,.L,FTSE_250,870527872.0,Consumer Cyclical,Travel Services,GBp,LSE,2860678.0,394131402.0,367486252.0,Consumer Cyclical,592217235.7364998,1719
+TRST.L,TRST,Trustpilot,Technology,UK,.L,FTSE_250,874267392.0,Technology,Software - Application,GBp,LSE,4167692.0,331943124.0,386750057.0,Technology,744832429.164635,1274
+TRY.L,TRY,TR Property Investment Trust,Investment Trusts,UK,.L,FTSE_250,1020283392.0,,,GBp,LSE,831584.0,,317350980.0,Investment Trusts,271492953.8666667,5382
+USA.L,USA,Baillie Gifford US Growth Trust,Investment Trusts,UK,.L,FTSE_250,826020224.0,,,GBp,LSE,640333.0,,276723700.0,Investment Trusts,185206568.125,2032
+VCT.L,VCT,Victrex,Chemicals,UK,.L,FTSE_250,540166976.0,Basic Materials,Specialty Chemicals,GBp,LSE,304549.0,67442174.0,87123711.0,Basic Materials,202451794.1,5382
+VEIL.L,VEIL,Vietnam Enterprise Investments,General Financial,UK,.L,FTSE_250,1033250304.0,,,GBp,LSE,215326.0,,138754569.0,General Financial,168611180.21666667,2468
+VSVS.L,VSVS,Vesuvius,General Industrials,UK,.L,FTSE_250,1067023424.0,Basic Materials,Steel,GBp,LSE,536641.0,171154586.0,246198286.0,Basic Materials,242670126.09059754,5382
+VTY.L,VTY,Vistry Group,Home Construction,UK,.L,FTSE_250,1081155200.0,Consumer Cyclical,Residential Construction,GBp,LSE,2244813.0,221024747.0,318112828.0,Consumer Cyclical,985053592.1401504,5382
+WIX.L,WIX,Wickes,Retailers,UK,.L,FTSE_250,507105600.0,Consumer Cyclical,Home Improvement Retail,GBp,LSE,670795.0,211307321.0,222414739.0,Consumer Cyclical,149565176.49166667,1250
+WIZZ.L,WIZZ,Wizz Air,Travel & Leisure,UK,.L,FTSE_250,1026852288.0,Industrials,Airlines,GBp,LSE,1145273.0,86719532.0,103461185.0,Industrials,1277438040.825,2810
+WOSG.L,WOSG,Watches of Switzerland,Personal Goods,UK,.L,FTSE_250,1164002944.0,Consumer Cyclical,Luxury Goods,GBp,LSE,701159.0,217501252.0,231412113.0,Consumer Cyclical,349534718.28885853,1735
+XPS.L,XPS,XPS Pensions,Financial Services,UK,.L,FTSE_250,619530176.0,Consumer Cyclical,Personal Services,GBp,LSE,804901.0,180385157.0,204465415.0,Consumer Cyclical,261631142.58333334,2310
+ZIG.L,ZIG,Zigup,Support Services,UK,.L,FTSE_250,915907456.0,Industrials,Rental & Leasing Services,GBp,LSE,763018.0,212788476.0,227554635.0,Industrials,302098505.05833334,5382

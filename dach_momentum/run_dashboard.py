@@ -15,7 +15,7 @@ import logging
 import pandas as pd
 import yfinance as yf
 from dach_momentum import config
-from dach_momentum.data import load_prices
+from dach_momentum.data import load_prices, print_data_freshness
 from dach_momentum.signals import compute_all_signals, load_signals
 from dach_momentum.dashboard import run_dashboard, print_dashboard
 
@@ -30,6 +30,8 @@ logging.getLogger("yfinance").setLevel(logging.WARNING)
 
 
 def main():
+    print_data_freshness()
+
     # --- Try loading pre-computed signals first ---
     signals = load_signals()
 

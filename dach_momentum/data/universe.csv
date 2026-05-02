@@ -1,154 +1,833 @@
-ticker,name,sector,country,suffix,index,yf_ticker
-ADS,Adidas,Consumer Discretionary,Germany,.DE,DAX,ADS.DE
-AIR,Airbus,Industrials,Germany,.DE,DAX,AIR.DE
-ALV,Allianz,Insurance,Germany,.DE,DAX,ALV.DE
-BAS,BASF,Materials,Germany,.DE,DAX,BAS.DE
-BAYN,Bayer,Health Care,Germany,.DE,DAX,BAYN.DE
-BEI,Beiersdorf,Consumer Staples,Germany,.DE,DAX,BEI.DE
-BMW,BMW,Consumer Discretionary,Germany,.DE,DAX,BMW.DE
-BNR,Brenntag,Industrials,Germany,.DE,DAX,BNR.DE
-CBK,Commerzbank,Financials,Germany,.DE,DAX,CBK.DE
-CON,Continental,Consumer Discretionary,Germany,.DE,DAX,CON.DE
-1COV,Covestro,Materials,Germany,.DE,DAX,1COV.DE
-DB1,Deutsche Boerse,Financials,Germany,.DE,DAX,DB1.DE
-DBK,Deutsche Bank,Financials,Germany,.DE,DAX,DBK.DE
-DHL,DHL Group,Industrials,Germany,.DE,DAX,DHL.DE
-DTE,Deutsche Telekom,Communication Services,Germany,.DE,DAX,DTE.DE
-DTG,Daimler Truck,Industrials,Germany,.DE,DAX,DTG.DE
-EOAN,E.ON,Utilities,Germany,.DE,DAX,EOAN.DE
-ENR,Siemens Energy,Industrials,Germany,.DE,DAX,ENR.DE
-FRE,Fresenius,Health Care,Germany,.DE,DAX,FRE.DE
-HEI,Heidelberg Materials,Materials,Germany,.DE,DAX,HEI.DE
-HEN3,Henkel,Consumer Staples,Germany,.DE,DAX,HEN3.DE
-HNR1,Hannover Re,Insurance,Germany,.DE,DAX,HNR1.DE
-IFX,Infineon Technologies,Information Technology,Germany,.DE,"DAX,TecDAX",IFX.DE
-MBG,Mercedes-Benz Group,Consumer Discretionary,Germany,.DE,DAX,MBG.DE
-MRK,Merck KGaA,Health Care,Germany,.DE,DAX,MRK.DE
-MTX,MTU Aero Engines,Industrials,Germany,.DE,DAX,MTX.DE
-MUV2,Munich Re,Insurance,Germany,.DE,DAX,MUV2.DE
-PAH3,Porsche Automobil Holding SE,Consumer Discretionary,Germany,.DE,DAX,PAH3.DE
-P911,Porsche AG,Consumer Discretionary,Germany,.DE,DAX,P911.DE
-QIA,Qiagen,Health Care,Germany,.DE,"DAX,TecDAX",QIA.DE
-RHM,Rheinmetall,Industrials,Germany,.DE,DAX,RHM.DE
-RWE,RWE,Utilities,Germany,.DE,DAX,RWE.DE
-SAP,SAP,Information Technology,Germany,.DE,"DAX,TecDAX",SAP.DE
-SRT3,Sartorius,Health Care,Germany,.DE,"DAX,TecDAX",SRT3.DE
-SIE,Siemens,Industrials,Germany,.DE,DAX,SIE.DE
-SHL,Siemens Healthineers,Health Care,Germany,.DE,"DAX,TecDAX",SHL.DE
-SY1,Symrise,Materials,Germany,.DE,DAX,SY1.DE
-VNA,Vonovia,Real Estate,Germany,.DE,DAX,VNA.DE
-VOW3,Volkswagen,Consumer Discretionary,Germany,.DE,DAX,VOW3.DE
-ZAL,Zalando,Consumer Discretionary,Germany,.DE,DAX,ZAL.DE
-AFX,Carl Zeiss Meditec,Health Care,Germany,.DE,"MDAX,TecDAX",AFX.DE
-AIXA,Aixtron,Information Technology,Germany,.DE,"MDAX,TecDAX",AIXA.DE
-BC8,Bechtle,Information Technology,Germany,.DE,"MDAX,TecDAX",BC8.DE
-BOSS,Hugo Boss,Consumer Discretionary,Germany,.DE,MDAX,BOSS.DE
-DHER,Delivery Hero,Consumer Discretionary,Germany,.DE,MDAX,DHER.DE
-EVK,Evonik Industries,Materials,Germany,.DE,MDAX,EVK.DE
-FME,Fresenius Medical Care,Health Care,Germany,.DE,MDAX,FME.DE
-FPE3,Fuchs SE,Materials,Germany,.DE,MDAX,FPE3.DE
-G1A,GEA Group,Industrials,Germany,.DE,MDAX,G1A.DE
-GXI,Gerresheimer,Health Care,Germany,.DE,MDAX,GXI.DE
-KGX,Kion Group,Industrials,Germany,.DE,MDAX,KGX.DE
-KRN,Krones,Industrials,Germany,.DE,MDAX,KRN.DE
-LEG,LEG Immobilien,Real Estate,Germany,.DE,MDAX,LEG.DE
-LXS,Lanxess,Materials,Germany,.DE,MDAX,LXS.DE
-NEM,Nemetschek,Information Technology,Germany,.DE,"MDAX,TecDAX",NEM.DE
-NDX1,Nordex,Industrials,Germany,.DE,"MDAX,TecDAX",NDX1.DE
-PUM,Puma,Consumer Discretionary,Germany,.DE,MDAX,PUM.DE
-RAA,Rational,Industrials,Germany,.DE,MDAX,RAA.DE
-SZG,Salzgitter,Materials,Germany,.DE,MDAX,SZG.DE
-TEG,TAG Immobilien,Real Estate,Germany,.DE,MDAX,TEG.DE
-TLX,Talanx,Insurance,Germany,.DE,MDAX,TLX.DE
-UTDI,United Internet,Communication Services,Germany,.DE,"MDAX,TecDAX",UTDI.DE
-WAF,Siltronic,Information Technology,Germany,.DE,MDAX,WAF.DE
-WCH,Wacker Chemie,Materials,Germany,.DE,MDAX,WCH.DE
-1U1,1&1 AG,Communication Services,Germany,.DE,TecDAX,1U1.DE
-FNTN,freenet,Communication Services,Germany,.DE,"SDAX,TecDAX",FNTN.DE
-EVD,CTS Eventim,Communication Services,Germany,.DE,SDAX,EVD.DE
-BYW6,BayWa,Consumer Staples,Germany,.DE,SDAX,BYW6.DE
-CWC,CEWE Stiftung,Consumer Discretionary,Germany,.DE,SDAX,CWC.DE
-FTK,flatexDEGIRO,Financials,Germany,.DE,SDAX,FTK.DE
-G24,Scout24,Communication Services,Germany,.DE,MDAX,G24.DE
-GFT,GFT Technologies,Information Technology,Germany,.DE,TecDAX,GFT.DE
-HBH,Hornbach Holding,Consumer Discretionary,Germany,.DE,SDAX,HBH.DE
-HDD,Heidelberger Druckmaschinen,Industrials,Germany,.DE,SDAX,HDD.DE
-INH,Indus Holding,Industrials,Germany,.DE,SDAX,INH.DE
-JEN,Jenoptik,Information Technology,Germany,.DE,"SDAX,TecDAX",JEN.DE
-JUN3,Jungheinrich,Industrials,Germany,.DE,SDAX,JUN3.DE
-KWS,KWS Saat,Consumer Staples,Germany,.DE,SDAX,KWS.DE
-NOEJ,Norma Group,Industrials,Germany,.DE,SDAX,NOEJ.DE
-SFQ,SAF-Holland,Industrials,Germany,.DE,SDAX,SFQ.DE
-SGL,SGL Carbon,Materials,Germany,.DE,SDAX,SGL.DE
-SHA,Schaeffler,Consumer Discretionary,Germany,.DE,SDAX,SHA.DE
-STO3,Sto SE,Industrials,Germany,.DE,SDAX,STO3.DE
-VBK,Verbio,Energy,Germany,.DE,SDAX,VBK.DE
-SBS,Stratec SE,Health Care,Germany,.DE,SDAX,SBS.DE
-DIC,Branicks Group,Real Estate,Germany,.DE,SDAX,DIC.DE
-DEQ,Deutsche EuroShop,Real Estate,Germany,.DE,SDAX,DEQ.DE
-HAB,Hamborner REIT,Real Estate,Germany,.DE,SDAX,HAB.DE
-AG1,Auto1 Group,Consumer Discretionary,Germany,.DE,SDAX,AG1.DE
-PBB,Deutsche Pfandbriefbank,Financials,Germany,.DE,SDAX,PBB.DE
-HLAG,Hapag-Lloyd,Industrials,Germany,.DE,MDAX,HLAG.DE
-TKA,thyssenkrupp,Industrials,Germany,.DE,MDAX,TKA.DE
-HOT,Hochtief,Industrials,Germany,.DE,MDAX,HOT.DE
-BVB,Borussia Dortmund,Communication Services,Germany,.DE,SDAX,BVB.DE
-S92,SMA Solar Technology,Information Technology,Germany,.DE,"SDAX,TecDAX",S92.DE
-EUZ,Eckert und Ziegler,Health Care,Germany,.DE,"SDAX,TecDAX",EUZ.DE
-NB2,Northern Data,Information Technology,Germany,.DE,SDAX,NB2.DE
-PNE3,PNE AG,Utilities,Germany,.DE,SDAX,PNE3.DE
-WAC,Wacker Neuson,Industrials,Germany,.DE,SDAX,WAC.DE
-TIMA,Zeal Network,Consumer Discretionary,Germany,.DE,SDAX,TIMA.DE
-ELG,Elmos Semiconductor,Information Technology,Germany,.DE,TecDAX,ELG.DE
-O2D,Telefonica Deutschland,Communication Services,Germany,.DE,TecDAX,O2D.DE
-DRW3,Draegerwerk,Health Care,Germany,.DE,TecDAX,DRW3.DE
-SANT,S&T AG,Information Technology,Germany,.DE,TecDAX,SANT.DE
-SOW,SoftwareONE,Information Technology,Germany,.DE,TecDAX,SOW.DE
-OMV,OMV,Energy,Austria,.VI,ATX,OMV.VI
-VOE,voestalpine,Materials,Austria,.VI,ATX,VOE.VI
-EBS,Erste Group Bank,Financials,Austria,.VI,ATX,EBS.VI
-WIE,Wienerberger,Materials,Austria,.VI,ATX,WIE.VI
-SBO,Schoeller-Bleckmann Oilfield,Energy,Austria,.VI,ATX,SBO.VI
-VER,Verbund,Utilities,Austria,.VI,ATX,VER.VI
-TKA,Telekom Austria,Communication Services,Austria,.VI,ATX,TKA.VI
-RBI,Raiffeisen Bank International,Financials,Austria,.VI,ATX,RBI.VI
-LNZ,Lenzing,Materials,Austria,.VI,ATX,LNZ.VI
-FLU,Flughafen Wien,Industrials,Austria,.VI,ATX,FLU.VI
-AND,Andritz,Industrials,Austria,.VI,ATX,AND.VI
-POST,Oesterreichische Post,Industrials,Austria,.VI,ATX,POST.VI
-BG,BAWAG Group,Financials,Austria,.VI,ATX,BG.VI
-ATS,AT&S,Information Technology,Austria,.VI,ATX,ATS.VI
-PAL,Palfinger,Industrials,Austria,.VI,ATX,PAL.VI
-UQA,UNIQA Insurance,Insurance,Austria,.VI,ATX,UQA.VI
-NESN,Nestle,Consumer Staples,Switzerland,.SW,SMI,NESN.SW
-NOVN,Novartis,Health Care,Switzerland,.SW,SMI,NOVN.SW
-ROG,Roche,Health Care,Switzerland,.SW,SMI,ROG.SW
-UBSG,UBS Group,Financials,Switzerland,.SW,SMI,UBSG.SW
-ZURN,Zurich Insurance,Insurance,Switzerland,.SW,SMI,ZURN.SW
-ABBN,ABB,Industrials,Switzerland,.SW,SMI,ABBN.SW
-SREN,Swiss Re,Insurance,Switzerland,.SW,SMI,SREN.SW
-SIKA,Sika,Materials,Switzerland,.SW,SMI,SIKA.SW
-LONN,Lonza Group,Health Care,Switzerland,.SW,SMI,LONN.SW
-SLHN,Swiss Life,Insurance,Switzerland,.SW,SMI,SLHN.SW
-CFR,Richemont,Consumer Discretionary,Switzerland,.SW,SMI,CFR.SW
-GEBN,Geberit,Industrials,Switzerland,.SW,SMI,GEBN.SW
-SCMN,Swisscom,Communication Services,Switzerland,.SW,SMI,SCMN.SW
-GIVN,Givaudan,Materials,Switzerland,.SW,SMI,GIVN.SW
-HOLN,Holcim,Materials,Switzerland,.SW,SMI,HOLN.SW
-LOGN,Logitech,Information Technology,Switzerland,.SW,SMI,LOGN.SW
-PGHN,Partners Group,Financials,Switzerland,.SW,SMI,PGHN.SW
-SGSN,SGS,Industrials,Switzerland,.SW,SMI,SGSN.SW
-BAER,Julius Baer,Financials,Switzerland,.SW,SMI,BAER.SW
-ALC,Alcon,Health Care,Switzerland,.SW,SMI,ALC.SW
-SOON,Sonova,Health Care,Switzerland,.SW,SMI,SOON.SW
-BARN,Barry Callebaut,Consumer Staples,Switzerland,.SW,SMIM,BARN.SW
-TEMN,Temenos,Information Technology,Switzerland,.SW,SMIM,TEMN.SW
-VACN,VAT Group,Industrials,Switzerland,.SW,SMIM,VACN.SW
-BUCN,Bucher Industries,Industrials,Switzerland,.SW,SMIM,BUCN.SW
-STMN,Straumann,Health Care,Switzerland,.SW,SMIM,STMN.SW
-DUFN,Avolta,Consumer Discretionary,Switzerland,.SW,SMIM,DUFN.SW
-FLUN,Flughafen Zuerich,Industrials,Switzerland,.SW,SMIM,FLUN.SW
-SWON,SoftwareOne,Information Technology,Switzerland,.SW,SMIM,SWON.SW
-DOCM,DocMorris,Consumer Staples,Switzerland,.SW,SMIM,DOCM.SW
-BELM,Belimo,Industrials,Switzerland,.SW,SMIM,BELM.SW
-EMMN,Emmi,Consumer Staples,Switzerland,.SW,SMIM,EMMN.SW
+yf_ticker,ticker,name,sector,country,suffix,index
+ANDR.VI,ANDR,Andritz,Industrials,Austria,.VI,ATX
+ATS.VI,ATS,AT&S,Information Technology,Austria,.VI,ATX
+BG.VI,BG,BAWAG Group,Financials,Austria,.VI,ATX
+EBS.VI,EBS,Erste Group Bank,Financials,Austria,.VI,ATX
+FLU.VI,FLU,Flughafen Wien,Industrials,Austria,.VI,ATX
+LNZ.VI,LNZ,Lenzing,Materials,Austria,.VI,ATX
+OMV.VI,OMV,OMV,Energy,Austria,.VI,ATX
+PAL.VI,PAL,Palfinger,Industrials,Austria,.VI,ATX
+POST.VI,POST,Oesterreichische Post,Industrials,Austria,.VI,ATX
+RBI.VI,RBI,Raiffeisen Bank International,Financials,Austria,.VI,ATX
+SBO.VI,SBO,Schoeller-Bleckmann,Energy,Austria,.VI,ATX
+UQA.VI,UQA,UNIQA Insurance,Insurance,Austria,.VI,ATX
+VER.VI,VER,Verbund,Utilities,Austria,.VI,ATX
+VOE.VI,VOE,voestalpine,Materials,Austria,.VI,ATX
+WIE.VI,WIE,Wienerberger,Materials,Austria,.VI,ATX
+ABLX.BR,ABLX,Ablynx,pharmaceuticals,Belgium,.BR,BEL_20
+AD.BR,AD,Delhaize Group,retail,Belgium,.BR,BEL_20
+AGFB.BR,AGFB,Agfa-Gevaert,electronic equipment,Belgium,.BR,BEL_20
+BAR.BR,BAR,Barco,Industrial Goods & Services,Belgium,.BR,BEL_20
+BEFB.BR,BEFB,Befimmo-Sicafi,industrial and office REITs,Belgium,.BR,BEL_20
+BEKB.BR,BEKB,Bekaert,industrial goods and services,Belgium,.BR,BEL_20
+BPOST.BR,BPOST,Bpost,Industrial Goods and Services,Belgium,.BR,BEL_20
+DIE.BR,DIE,D'Ieteren,Consumer services,Belgium,.BR,BEL_20
+DL.BR,DL,Delta Lloyd,Insurance,Belgium,.BR,BEL_20
+ELE.BR,ELE,Electrabel,Electricity,Belgium,.BR,BEL_20
+ENGI.BR,ENGI,Engie,Utilities,Belgium,.BR,BEL_20
+EVS.BR,EVS,EVS Broadcast Equipment,Information Technology,Belgium,.BR,Belgium_Mid
+GLPG.BR,GLPG,Galapagos,Health Care,Belgium,.BR,BEL_20
+INGA.BR,INGA,ING Group,Banks,Belgium,.BR,BEL_20
+NAT.BR,NAT,CNP,Specialty finance,Belgium,.BR,BEL_20
+NOLONGERLISTED.BR,NOLONGERLISTED,Almanij,banks,Belgium,.BR,BEL_20
+NYR.BR,NYR,Nyrstar,Metallurgy,Belgium,.BR,BEL_20
+OBEL.BR,OBEL,Mobistar,Telecom,Belgium,.BR,BEL_20
+OME.BR,OME,Omega Pharma,Pharmaceuticals,Belgium,.BR,BEL_20
+ONTEX.BR,ONTEX,Ontex Group,Personal and Household Goods,Belgium,.BR,BEL_20
+REC.BR,REC,Recticel,Polyurethane based products,Belgium,.BR,BEL_20
+TESB.BR,TESB,Tessenderlo,Chemistry,Belgium,.BR,BEL_20
+THR.BR,THR,ThromboGenics,Biopharmaceuticals,Belgium,.BR,BEL_20
+ALK-B.CO,ALK-B,ALK-Abello,Health Care,Denmark,.CO,Denmark_Mid
+AMBUB.CO,AMBUB,Ambu,Health Care,Denmark,.CO,C25
+BAVA.CO,BAVA,Bavarian Nordic,Health Care,Denmark,.CO,C25
+CARLB.CO,CARLB,Carlsberg Group (class B),"Food, Beverage and Tobacco",Denmark,.CO,C25
+CHEMM.CO,CHEMM,ChemoMetec,Health Care,Denmark,.CO,Denmark_Small
+COLOB.CO,COLOB,Coloplast (class B),Health Care,Denmark,.CO,C25
+DANSKE.CO,DANSKE,Danske Bank,Banks,Denmark,.CO,C25
+DEMANT.CO,DEMANT,Demant,Health Care,Denmark,.CO,C25
+DSV.CO,DSV,DSV,Industrial Goods and Services,Denmark,.CO,C25
+GMAB.CO,GMAB,Genmab,Health Care,Denmark,.CO,C25
+GN.CO,GN,GN Store Nord,Health Care,Denmark,.CO,C25
+ISS.CO,ISS,ISS,Industrial Goods and Services,Denmark,.CO,C25
+JYSK.CO,JYSK,Jyske Bank,Banks,Denmark,.CO,C25
+MAERSKA.CO,MAERSKA,A.P. Møller-Mærsk (class A),Industrial Goods and Services,Denmark,.CO,C25
+MAERSKB.CO,MAERSKB,A.P. Møller-Mærsk (class B),Industrial Goods and Services,Denmark,.CO,C25
+NDA.CO,NDA,Nordea Bank Abp,Banks,Denmark,.CO,C25
+NKT.CO,NKT,NKT,Industrial Goods and Services,Denmark,.CO,C25
+NOVOB.CO,NOVOB,Novo Nordisk,Health Care,Denmark,.CO,C25
+NSISB.CO,NSISB,Novonesis,Health Care,Denmark,.CO,C25
+ORSTED.CO,ORSTED,Ørsted,Utilities,Denmark,.CO,C25
+PNDORA.CO,PNDORA,Pandora,Consumer Products and Services,Denmark,.CO,C25
+RBREW.CO,RBREW,Royal Unibrew,"Food, Beverage and Tobacco",Denmark,.CO,C25
+ROCKB.CO,ROCKB,Rockwool International,Construction and Materials,Denmark,.CO,C25
+SYDB.CO,SYDB,Sydbank,Banks,Denmark,.CO,C25
+TOP.CO,TOP,Topdanmark,Insurance,Denmark,.CO,Denmark_Mid
+TRYG.CO,TRYG,Tryg,Insurance,Denmark,.CO,C25
+VWS.CO,VWS,Vestas Wind Systems,Energy,Denmark,.CO,C25
+ZEAL.CO,ZEAL,Zealand Pharma,Health Care,Denmark,.CO,C25
+ELISA.HE,ELISA,Elisa,Communication Services,Finland,.HE,OMX_H25
+FORTUM.HE,FORTUM,Fortum,Utilities,Finland,.HE,OMX_H25
+HIAB.HE,HIAB,Hiab,Industrials,Finland,.HE,OMX_H25
+HUH1V.HE,HUH1V,Huhtamäki,Industrials,Finland,.HE,OMX_H25
+KALMAR.HE,KALMAR,Kalmar  B,Industrials,Finland,.HE,OMX_H25
+KCR.HE,KCR,Konecranes,Industrials,Finland,.HE,OMX_H25
+KEMIRA.HE,KEMIRA,Kemira,Materials,Finland,.HE,OMX_H25
+KESKOB.HE,KESKOB,Kesko B,Consumer Staples,Finland,.HE,OMX_H25
+KNEBV.HE,KNEBV,KONE,Industrials,Finland,.HE,OMX_H25
+KOJAMO.HE,KOJAMO,Kojamo,Real Estate,Finland,.HE,OMX_H25
+MANTA.HE,MANTA,Mandatum,Financials,Finland,.HE,OMX_H25
+METSO.HE,METSO,Metso,Industrials,Finland,.HE,OMX_H25
+NDA-FI.HE,NDA-FI,Nordea,Financials,Finland,.HE,OMX_H25
+NESTE.HE,NESTE,Neste,Energy,Finland,.HE,OMX_H25
+NOKIA.HE,NOKIA,Nokia,Information Technology,Finland,.HE,OMX_H25
+ORNBV.HE,ORNBV,Orion,Health Care,Finland,.HE,OMX_H25
+OUT1V.HE,OUT1V,Outokumpu,Materials,Finland,.HE,OMX_H25
+QTCOM.HE,QTCOM,Qt Group,Information Technology,Finland,.HE,OMX_H25
+REG1V.HE,REG1V,Revenio,Health Care,Finland,.HE,Finland_Mid
+SAMPO.HE,SAMPO,Sampo A,Financials,Finland,.HE,OMX_H25
+STERV.HE,STERV,Stora Enso R,Materials,Finland,.HE,OMX_H25
+TIETO.HE,TIETO,TietoEVRY,Information Technology,Finland,.HE,OMX_H25
+TYRES.HE,TYRES,Nokian Tyres,Consumer Discretionary,Finland,.HE,OMX_H25
+UPM.HE,UPM,UPM-Kymmene,Materials,Finland,.HE,OMX_H25
+VALMT.HE,VALMT,Valmet,Industrials,Finland,.HE,OMX_H25
+WRT1V.HE,WRT1V,Wärtsilä,Industrials,Finland,.HE,OMX_H25
+AI.PA,AI,Air Liquide,Materials,France,.PA,SBF_120
+BAIN.PA,BAIN,Bain de Bretagne,Consumer Discretionary,France,.PA,France_Small
+BIG.PA,BIG,Bigben Interactive,Communication Services,France,.PA,France_Small
+BN.PA,BN,Danone,Consumer Staples,France,.PA,SBF_120
+BOI.PA,BOI,Boiron,Health Care,France,.PA,France_Small
+COFA.PA,COFA,Coface,Financials,France,.PA,France_Mid
+CRI.PA,CRI,Chargeurs,Industrials,France,.PA,France_Small
+DBG.PA,DBG,Derichebourg,Industrials,France,.PA,France_Mid
+DEC.PA,DEC,JCDecaux,Communication Services,France,.PA,CAC_Mid_60
+DG.PA,DG,Vinci,Industrials,France,.PA,SBF_120
+DIM.PA,DIM,Sartorius Stedim Biotech,Health Care,France,.PA,SBF_120
+ELIS.PA,ELIS,Elis,Industrials,France,.PA,CAC_Mid_60
+EN.PA,EN,Bouygues,Industrials,France,.PA,SBF_120
+FNAC.PA,FNAC,Fnac Darty,Consumer Discretionary,France,.PA,CAC_Mid_60
+GBT.PA,GBT,Guerbet,Health Care,France,.PA,CAC_Mid_60
+GTT.PA,GTT,GTT,Industrials,France,.PA,France_Mid
+HEXA.PA,HEXA,Hexaom,Consumer Discretionary,France,.PA,France_Small
+IPN.PA,IPN,Ipsen,Health Care,France,.PA,SBF_120
+ITP.PA,ITP,Interparfums,Consumer Discretionary,France,.PA,CAC_Mid_60
+KOF.PA,KOF,Kaufman and Broad,Consumer Discretionary,France,.PA,France_Small
+LDC.PA,LDC,LDC SA,Consumer Staples,France,.PA,CAC_Mid_60
+MDM.PA,MDM,Maisons du Monde,Consumer Discretionary,France,.PA,France_Small
+ML.PA,ML,Michelin,Consumer Discretionary,France,.PA,SBF_120
+MRN.PA,MRN,Mersen,Industrials,France,.PA,France_Mid
+MTR.PA,MTR,Manitou,Industrials,France,.PA,France_Small
+NXI.PA,NXI,Nexity,Real Estate,France,.PA,France_Mid
+POM.PA,POM,Plastic Omnium,Consumer Discretionary,France,.PA,SBF_120
+RCO.PA,RCO,Remy Cointreau,Consumer Staples,France,.PA,CAC_Mid_60
+RF.PA,RF,Eurazeo,Financials,France,.PA,SBF_120
+RI.PA,RI,Pernod Ricard,Consumer Staples,France,.PA,SBF_120
+RUI.PA,RUI,Rubis,Energy,France,.PA,CAC_Mid_60
+SK.PA,SK,SEB SA,Consumer Discretionary,France,.PA,CAC_Mid_60
+SOI.PA,SOI,Soitec,Information Technology,France,.PA,CAC_Mid_60
+SPIE.PA,SPIE,Spie,Industrials,France,.PA,CAC_Mid_60
+SU.PA,SU,Schneider Electric,Industrials,France,.PA,SBF_120
+SW.PA,SW,Sodexo,Consumer Discretionary,France,.PA,CAC_Mid_60
+THEP.PA,THEP,Thermador Groupe,Industrials,France,.PA,France_Small
+TRI.PA,TRI,Trigano,Consumer Discretionary,France,.PA,CAC_Mid_60
+UBI.PA,UBI,Ubisoft,Communication Services,France,.PA,CAC_Mid_60
+VCT.PA,VCT,Vicat,Materials,France,.PA,France_Mid
+VETO.PA,VETO,Vetoquinol,Health Care,France,.PA,France_Small
+VIRP.PA,VIRP,Virbac,Health Care,France,.PA,CAC_Mid_60
+1COV.DE,1COV,Covestro,Materials,Germany,.DE,DAX
+1U1.DE,1U1,1&1 AG,Communication Services,Germany,.DE,TecDAX
+8TRA.DE,8TRA,Traton,,Germany,.DE,MDAX
+ADS.DE,ADS,Adidas,Consumer Discretionary,Germany,.DE,DAX
+AFX.DE,AFX,Carl Zeiss Meditec,Medical technology,Germany,.DE,MDAX
+AG1.DE,AG1,Auto1 Group,Consumer Discretionary,Germany,.DE,SDAX
+AIR.DE,AIR,Airbus,Industrials,Germany,.DE,DAX
+AIXA.DE,AIXA,Aixtron,Semiconductor industry,Germany,.DE,MDAX
+ALV.DE,ALV,Allianz,Insurance,Germany,.DE,DAX
+AOF.DE,AOF,Atoss Software,Information Technology,Germany,.DE,Germany_Small
+AT1.DE,AT1,Aroundtown,Real estate,Germany,.DE,MDAX
+BAS.DE,BAS,BASF,Materials,Germany,.DE,DAX
+BAYN.DE,BAYN,Bayer,Health Care,Germany,.DE,DAX
+BC8.DE,BC8,Bechtle,IT services,Germany,.DE,MDAX
+BEI.DE,BEI,Beiersdorf,Consumer Staples,Germany,.DE,DAX
+BFSA.DE,BFSA,Befesa,Waste management,Germany,.DE,MDAX
+BMW.DE,BMW,BMW,Consumer Discretionary,Germany,.DE,DAX
+BNR.DE,BNR,Brenntag,Industrials,Germany,.DE,DAX
+BOSS.DE,BOSS,Hugo Boss,"Clothing, Accessories",Germany,.DE,MDAX
+BVB.DE,BVB,Borussia Dortmund,Communication Services,Germany,.DE,SDAX
+BYW6.DE,BYW6,BayWa,Consumer Staples,Germany,.DE,SDAX
+CBK.DE,CBK,Commerzbank,Financials,Germany,.DE,DAX
+COK.DE,COK,CANCOM,Information Technology,Germany,.DE,SDAX
+CON.DE,CON,Continental,Consumer Discretionary,Germany,.DE,DAX
+COP.DE,COP,CompuGroup Medical,Health Care,Germany,.DE,SDAX
+CWC.DE,CWC,CEWE Stiftung,Consumer Discretionary,Germany,.DE,SDAX
+DB1.DE,DB1,Deutsche Boerse,Financials,Germany,.DE,DAX
+DBAN.DE,DBAN,Deutsche Beteiligungs AG,Financials,Germany,.DE,SDAX
+DBK.DE,DBK,Deutsche Bank,Financials,Germany,.DE,DAX
+DEQ.DE,DEQ,Deutsche EuroShop,Real Estate,Germany,.DE,SDAX
+DHER.DE,DHER,Delivery Hero,Delivery service,Germany,.DE,MDAX
+DHL.DE,DHL,DHL Group,Industrials,Germany,.DE,DAX
+DMP.DE,DMP,Dermapharm,Health Care,Germany,.DE,SDAX
+DRW3.DE,DRW3,Draegerwerk,Health Care,Germany,.DE,TecDAX
+DTE.DE,DTE,Deutsche Telekom,Communication Services,Germany,.DE,DAX
+DTG.DE,DTG,Daimler Truck,Industrials,Germany,.DE,DAX
+ECV.DE,ECV,Encavis,Renewable energy,Germany,.DE,MDAX
+ELG.DE,ELG,Elmos Semiconductor,Information Technology,Germany,.DE,TecDAX
+ENR.DE,ENR,Siemens Energy,Industrials,Germany,.DE,DAX
+EOAN.DE,EOAN,E.ON,Utilities,Germany,.DE,DAX
+EUZ.DE,EUZ,Eckert und Ziegler,Health Care,Germany,.DE,SDAX
+EVD.DE,EVD,CTS Eventim,Leisure-events,Germany,.DE,"MDAX,SDAX"
+EVK.DE,EVK,Evonik,Chemistry,Germany,.DE,MDAX
+EVT.DE,EVT,Evotec,Biotechnology,Germany,.DE,MDAX
+FNTN.DE,FNTN,Freenet,Telecommunications,Germany,.DE,"MDAX,SDAX"
+FPE3.DE,FPE3,Fuchs Petrolub,Chemistry,Germany,.DE,MDAX
+FRA.DE,FRA,Fraport,Airport operator,Germany,.DE,MDAX
+FRE.DE,FRE,Fresenius Medical Care,Medical technology,Germany,.DE,"DAX,MDAX"
+FTK.DE,FTK,flatexDEGIRO,Financials,Germany,.DE,SDAX
+G1A.DE,G1A,GEA Group,Machinery,Germany,.DE,MDAX
+G24.DE,G24,Scout24,Online-market,Germany,.DE,MDAX
+GBF.DE,GBF,Bilfinger,,Germany,.DE,MDAX
+GFT.DE,GFT,GFT Technologies,Information Technology,Germany,.DE,SDAX
+GXI.DE,GXI,Gerresheimer,Packaging,Germany,.DE,MDAX
+HAG.DE,HAG,Hensoldt,Defence,Germany,.DE,MDAX
+HBH.DE,HBH,Hornbach Holding,Consumer Discretionary,Germany,.DE,SDAX
+HDD.DE,HDD,Heidelberger Druckmaschinen,Industrials,Germany,.DE,SDAX
+HEI.DE,HEI,Heidelberg Materials,Materials,Germany,.DE,DAX
+HEN3.DE,HEN3,Henkel,Consumer Staples,Germany,.DE,DAX
+HFG.DE,HFG,HelloFresh,Meal kit,Germany,.DE,MDAX
+HLE.DE,HLE,Hella,Automotive,Germany,.DE,MDAX
+HNR1.DE,HNR1,Hannover Re,Insurance,Germany,.DE,DAX
+HOT.DE,HOT,Hochtief,Construction,Germany,.DE,MDAX
+HYQ.DE,HYQ,Hypoport,Information Technology,Germany,.DE,SDAX
+IFX.DE,IFX,Infineon Technologies,Information Technology,Germany,.DE,DAX
+INH.DE,INH,Indus Holding,Industrials,Germany,.DE,SDAX
+IXX.DE,IXX,INIT Innovation,Information Technology,Germany,.DE,Germany_Small
+JEN.DE,JEN,Jenoptik,Information Technology,Germany,.DE,"MDAX,SDAX"
+JUN3.DE,JUN3,Jungheinrich,"Intralogistics, Mechanical engineering",Germany,.DE,"MDAX,SDAX"
+KBX.DE,KBX,Knorr-Bremse,Manufacturing,Germany,.DE,MDAX
+KGX.DE,KGX,KION Group,Handling equipment,Germany,.DE,MDAX
+KRN.DE,KRN,Krones,,Germany,.DE,MDAX
+KTN.DE,KTN,Kontron,Information Technology,Germany,.DE,SDAX
+KWS.DE,KWS,KWS Saat,Consumer Staples,Germany,.DE,SDAX
+LEG.DE,LEG,LEG Immobilien,Real estate,Germany,.DE,MDAX
+LHA.DE,LHA,Lufthansa,Airlines,Germany,.DE,MDAX
+LPK.DE,LPK,LPKF Laser,Information Technology,Germany,.DE,Germany_Small
+LXS.DE,LXS,Lanxess,Chemistry,Germany,.DE,MDAX
+MBB.DE,MBB,MBB SE,Industrials,Germany,.DE,Germany_Small
+MBG.DE,MBG,Mercedes-Benz Group,Consumer Discretionary,Germany,.DE,DAX
+MRK.DE,MRK,Merck KGaA,Health Care,Germany,.DE,DAX
+MTX.DE,MTX,MTU Aero Engines,Industrials,Germany,.DE,DAX
+MUV2.DE,MUV2,Munich Re,Insurance,Germany,.DE,DAX
+NA9.DE,NA9,Nagarro,Information Technology,Germany,.DE,SDAX
+NB2.DE,NB2,Northern Data,Information Technology,Germany,.DE,Germany_Small
+NDA.DE,NDA,Aurubis,Metals,Germany,.DE,MDAX
+NDX1.DE,NDX1,Nordex,,Germany,.DE,MDAX
+NEM.DE,NEM,Nemetschek,Software,Germany,.DE,MDAX
+NOEJ.DE,NOEJ,Norma Group,Industrials,Germany,.DE,SDAX
+P911.DE,P911,Porsche AG,Consumer Discretionary,Germany,.DE,DAX
+PAH3.DE,PAH3,Porsche Automobil Holding,Consumer Discretionary,Germany,.DE,DAX
+PAT.DE,PAT,Patrizia,Real Estate,Germany,.DE,SDAX
+PBB.DE,PBB,Deutsche Pfandbriefbank,Financials,Germany,.DE,SDAX
+PNE3.DE,PNE3,PNE AG,Utilities,Germany,.DE,SDAX
+PUM.DE,PUM,Puma,Sports equipment,Germany,.DE,MDAX
+QIA.DE,QIA,Qiagen,Health Care,Germany,.DE,DAX
+RAA.DE,RAA,Rational,Manufacturing,Germany,.DE,MDAX
+RDC.DE,RDC,Redcare Pharmacy,Pharmacy,Germany,.DE,MDAX
+RHM.DE,RHM,Rheinmetall,Industrials,Germany,.DE,DAX
+RIB.DE,RIB,RIB Software,Information Technology,Germany,.DE,Germany_Small
+RRTL.DE,RRTL,RTL Group,Media,Germany,.DE,MDAX
+RWE.DE,RWE,RWE,Utilities,Germany,.DE,DAX
+S92.DE,S92,SMA Solar Technology,Information Technology,Germany,.DE,SDAX
+SAP.DE,SAP,SAP,Information Technology,Germany,.DE,DAX
+SAX.DE,SAX,Ströer,Media,Germany,.DE,MDAX
+SBS.DE,SBS,Stratec SE,Health Care,Germany,.DE,SDAX
+SDF.DE,SDF,K+S,Mining (fertilizer and salt),Germany,.DE,MDAX
+SFQ.DE,SFQ,SAF-Holland,Industrials,Germany,.DE,SDAX
+SGL.DE,SGL,SGL Carbon,Materials,Germany,.DE,SDAX
+SHL.DE,SHL,Siemens Healthineers,Health Care,Germany,.DE,DAX
+SIE.DE,SIE,Siemens,Industrials,Germany,.DE,DAX
+SMHN.DE,SMHN,SUESS MicroTec,Information Technology,Germany,.DE,SDAX
+SRT3.DE,SRT3,Sartorius,Health Care,Germany,.DE,DAX
+STM.DE,STM,Stabilus,Automotive,Germany,.DE,MDAX
+STO3.DE,STO3,Sto SE,Industrials,Germany,.DE,SDAX
+SY1.DE,SY1,Symrise,Materials,Germany,.DE,DAX
+SZG.DE,SZG,Salzgitter,Materials,Germany,.DE,SDAX
+TEG.DE,TEG,TAG Tegernsee Immobilien und Beteiligung,Real estate,Germany,.DE,MDAX
+TKA.DE,TKA,ThyssenKrupp,Conglomerate,Germany,.DE,MDAX
+TLX.DE,TLX,Talanx,Real Estate,Germany,.DE,MDAX
+TMV.DE,TMV,TeamViewe,Software,Germany,.DE,MDAX
+TPE.DE,TPE,PVA TePla,Information Technology,Germany,.DE,SDAX
+TTR1.DE,TTR1,technotrans,Industrials,Germany,.DE,Germany_Small
+TUI1.DE,TUI1,TUI,Tourism,Germany,.DE,MDAX
+UTDI.DE,UTDI,United Internet,Telecommunications,Germany,.DE,MDAX
+VBK.DE,VBK,Verbio,Energy,Germany,.DE,SDAX
+VNA.DE,VNA,Vonovia,Real Estate,Germany,.DE,DAX
+VOW3.DE,VOW3,Volkswagen,Consumer Discretionary,Germany,.DE,DAX
+WAC.DE,WAC,Wacker Neuson,Industrials,Germany,.DE,SDAX
+WAF.DE,WAF,Siltronic,Semiconductor industry,Germany,.DE,MDAX
+WCH.DE,WCH,Wacker Chemie,Chemistry,Germany,.DE,MDAX
+YSN.DE,YSN,Secunet Security,Information Technology,Germany,.DE,TecDAX
+ZAL.DE,ZAL,Zalando,Consumer Discretionary,Germany,.DE,DAX
+ALPHA.AT,ALPHA,Alpha Services and Holdings,Financials,Greece,.AT,ATHEX
+EUROB.AT,EUROB,Eurobank Ergasias,Financials,Greece,.AT,ATHEX
+MYTIL.AT,MYTIL,Mytilineos,Industrials,Greece,.AT,ATHEX
+OPHR.AT,OPHR,Ophrys,Energy,Greece,.AT,ATHEX
+PPC.AT,PPC,Public Power Corp,Utilities,Greece,.AT,ATHEX
+A2A.MI,A2A,A2A,Utilities,Italy,.MI,FTSE_MIB
+AMP.MI,AMP,Amplifon,Health Care,Italy,.MI,FTSE_MIB
+AVIO.MI,AVIO,Avio,Aerospace,Italy,.MI,FTSE_MIB
+AZM.MI,AZM,Azimut,Financial Services,Italy,.MI,FTSE_MIB
+BAMI.MI,BAMI,Banco BPM,Banks,Italy,.MI,FTSE_MIB
+BC.MI,BC,Brunello Cucinelli,Consumer Products and Services,Italy,.MI,FTSE_MIB
+BMED.MI,BMED,Banca Mediolanum,Financial Services,Italy,.MI,FTSE_MIB
+BMPS.MI,BMPS,Banca Monte dei Paschi di Siena,Banks,Italy,.MI,FTSE_MIB
+BPE.MI,BPE,BPER Banca,Banks,Italy,.MI,FTSE_MIB
+BZU.MI,BZU,Buzzi,Construction and Materials,Italy,.MI,FTSE_MIB
+CPR.MI,CPR,Campari,"Food, Beverage and Tobacco",Italy,.MI,FTSE_MIB
+CRL.MI,CRL,Carel Industries,Industrials,Italy,.MI,Italy_Mid
+DAL.MI,DAL,Datalogic,Information Technology,Italy,.MI,Italy_Mid
+DIA.MI,DIA,Diasorin,Health Care,Italy,.MI,FTSE_MIB
+DLG.MI,DLG,De Longhi,Consumer Discretionary,Italy,.MI,Italy_Mid
+ENEL.MI,ENEL,Enel,Utilities,Italy,.MI,FTSE_MIB
+ENI.MI,ENI,Eni,Energy,Italy,.MI,FTSE_MIB
+FBK.MI,FBK,FinecoBank,Banks,Italy,.MI,FTSE_MIB
+FCT.MI,FCT,Fincantieri,Shipbuilding,Italy,.MI,FTSE_MIB
+G.MI,G,Generali,Insurance,Italy,.MI,FTSE_MIB
+HER.MI,HER,Hera,Utilities,Italy,.MI,FTSE_MIB
+IG.MI,IG,Italgas,Utilities,Italy,.MI,FTSE_MIB
+INW.MI,INW,INWIT,Telecommunications,Italy,.MI,FTSE_MIB
+ISP.MI,ISP,Intesa Sanpaolo,Banks,Italy,.MI,FTSE_MIB
+IVG.MI,IVG,Iveco Group,Industrial Goods and Services,Italy,.MI,FTSE_MIB
+JUVE.MI,JUVE,Juventus FC,Communication Services,Italy,.MI,Italy_Small
+LDO.MI,LDO,Leonardo,Industrial Goods and Services,Italy,.MI,FTSE_MIB
+LTMC.MI,LTMC,Lottomatica Group,Gambling,Italy,.MI,FTSE_MIB
+MARR.MI,MARR,MARR,Consumer Staples,Italy,.MI,Italy_Mid
+MB.MI,MB,Mediobanca,Banks,Italy,.MI,FTSE_MIB
+MONC.MI,MONC,Moncler,Consumer Products and Services,Italy,.MI,FTSE_MIB
+NEXI.MI,NEXI,Nexi,Industrial Goods and Services,Italy,.MI,FTSE_MIB
+PIA.MI,PIA,Piaggio,Consumer Discretionary,Italy,.MI,Italy_Mid
+PRY.MI,PRY,Prysmian,Industrial Goods and Services,Italy,.MI,FTSE_MIB
+PST.MI,PST,Poste italiane,Financial Services,Italy,.MI,FTSE_MIB
+RACE.MI,RACE,Ferrari,Automobiles and Parts,Italy,.MI,FTSE_MIB
+REC.MI,REC,Recordati,Health Care,Italy,.MI,FTSE_MIB
+REY.MI,REY,Reply,Information Technology,Italy,.MI,Italy_Mid
+SFER.MI,SFER,Salvatore Ferragamo,Consumer Discretionary,Italy,.MI,Italy_Mid
+SPM.MI,SPM,Saipem,Energy,Italy,.MI,FTSE_MIB
+SRG.MI,SRG,Snam,Energy,Italy,.MI,FTSE_MIB
+STLAM.MI,STLAM,Stellantis,Automobiles and Parts,Italy,.MI,FTSE_MIB
+STMMI.MI,STMMI,STMicroelectronics,Technology,Italy,.MI,FTSE_MIB
+TEN.MI,TEN,Tenaris,Energy,Italy,.MI,FTSE_MIB
+TGYM.MI,TGYM,Technogym,Consumer Discretionary,Italy,.MI,Italy_Mid
+TIT.MI,TIT,Telecom Italia,Telecommunications,Italy,.MI,FTSE_MIB
+TNXT.MI,TNXT,Tinexta,Information Technology,Italy,.MI,Italy_Mid
+TOD.MI,TOD,Tods,Consumer Discretionary,Italy,.MI,Italy_Mid
+TRN.MI,TRN,Terna,Utilities,Italy,.MI,FTSE_MIB
+UCG.MI,UCG,UniCredit,Banks,Italy,.MI,FTSE_MIB
+UNI.MI,UNI,Unipol,Insurance,Italy,.MI,FTSE_MIB
+ZV.MI,ZV,Zignago Vetro,Materials,Italy,.MI,Italy_Small
+AALB.AS,AALB,Aalberts,electronic equipment,Netherlands,.AS,AMX
+ABN.AS,ABN,ABN AMRO,Financials,Netherlands,.AS,"AEX,AMX"
+AD.AS,AD,Ahold Delhaize,Consumer Staples,Netherlands,.AS,AEX
+ADYEN.AS,ADYEN,Adyen,Industrials,Netherlands,.AS,AEX
+AF.AS,AF,Air France-KLM,airlines,Netherlands,.AS,AMX
+AGN.AS,AGN,Aegon,Financials,Netherlands,.AS,AEX
+AKZA.AS,AKZA,AkzoNobel,Basic Materials,Netherlands,.AS,AEX
+ALFEN.AS,ALFEN,Alfen,electronic equipment,Netherlands,.AS,AMX
+AMG.AS,AMG,Advanced Metallurgical Group,machinery: Industrial,Netherlands,.AS,AMX
+APAM.AS,APAM,Aperam,iron and steel,Netherlands,.AS,AMX
+ARCAD.AS,ARCAD,Arcadis,engineering and contracting services,Netherlands,.AS,AMX
+ASM.AS,ASM,ASM International,Technology,Netherlands,.AS,AEX
+ASML.AS,ASML,ASML Holding,Technology,Netherlands,.AS,AEX
+ASRNL.AS,ASRNL,ASR Nederland,Financials,Netherlands,.AS,AEX
+BESI.AS,BESI,BE Semiconductors,Technology,Netherlands,.AS,AEX
+BFIT.AS,BFIT,Basic-Fit,recreational services,Netherlands,.AS,AMX
+BOKA.AS,BOKA,Boskalis,construction,Netherlands,.AS,AMX
+CRBN.AS,CRBN,Corbion,food products,Netherlands,.AS,AMX
+DSFIR.AS,DSFIR,DSM Firmenich AG,Consumer Staples,Netherlands,.AS,AEX
+ECMPA.AS,ECMPA,Eurocommercial Properties,retail REITs,Netherlands,.AS,AMX
+EXO.AS,EXO,Exor,Financials,Netherlands,.AS,AEX
+FAGR.AS,FAGR,Fagron,medical equipment,Netherlands,.AS,AMX
+FLOW.AS,FLOW,Flow traders,investment services,Netherlands,.AS,AMX
+FUR.AS,FUR,Fugro,engineering and contracting services,Netherlands,.AS,AMX
+GLPG.AS,GLPG,Galapagos,biotechnology,Netherlands,.AS,AMX
+GVNV.AS,GVNV,GrandVision,medical supplies,Netherlands,.AS,AMX
+HEIA.AS,HEIA,Heineken,Consumer Staples,Netherlands,.AS,AEX
+IMCD.AS,IMCD,IMCD,Basic Materials,Netherlands,.AS,AEX
+INGA.AS,INGA,ING Group,Financials,Netherlands,.AS,AEX
+INPST.AS,INPST,InPost,delivery services,Netherlands,.AS,AMX
+INTER.AS,INTER,Intertrust,financial services,Netherlands,.AS,AMX
+JDEP.AS,JDEP,JDE PEET'S,soft drinks,Netherlands,.AS,AMX
+KPN.AS,KPN,KPN,Telecommunications,Netherlands,.AS,AEX
+MT.AS,MT,ArcelorMittal,Basic Materials,Netherlands,.AS,AEX
+NN.AS,NN,NN Group,Financials,Netherlands,.AS,AEX
+OCI.AS,OCI,OCI,Fertilizers,Netherlands,.AS,AMX
+PHIA.AS,PHIA,Philips,Health Care,Netherlands,.AS,AEX
+PNL.AS,PNL,PostNL,delivery services,Netherlands,.AS,AMX
+PRX.AS,PRX,Prosus,Technology,Netherlands,.AS,AEX
+RAND.AS,RAND,Randstad,Industrials,Netherlands,.AS,AEX
+REN.AS,REN,RELX,Consumer Discretionary,Netherlands,.AS,AEX
+SBMO.AS,SBMO,SBM Offshore,oil equipment and services,Netherlands,.AS,AMX
+SHELL.AS,SHELL,Shell plc,Energy,Netherlands,.AS,AEX
+TWEKA.AS,TWEKA,TKH Group,electrical components,Netherlands,.AS,AMX
+UMG.AS,UMG,Universal Music Group,Consumer Discretionary,Netherlands,.AS,AEX
+UNA.AS,UNA,Unilever,Consumer Staples,Netherlands,.AS,AEX
+VPK.AS,VPK,Vopak,transportation services,Netherlands,.AS,AMX
+WDP.AS,WDP,WDP,industrial REITs,Netherlands,.AS,AMX
+WKL.AS,WKL,Wolters Kluwer,Consumer Discretionary,Netherlands,.AS,AEX
+ATEA.OL,ATEA,Atea,Information Technology,Norway,.OL,Norway_Mid
+AUTO.OL,AUTO,AutoStore,Industrials,Norway,.OL,Norway_Mid
+BAKKA.OL,BAKKA,Bakkafrost,Consumer Staples,Norway,.OL,Norway_Mid
+BRG.OL,BRG,Borregaard,Materials,Norway,.OL,Norway_Mid
+CRAYN.OL,CRAYN,Crayon,Information Technology,Norway,.OL,Norway_Mid
+HEX.OL,HEX,Hexagon Composites,Industrials,Norway,.OL,Norway_Mid
+KIT.OL,KIT,Kitron,Information Technology,Norway,.OL,Norway_Small
+OSEAKRBP.OL,OSEAKRBP,Aker BP,oil: crude producers,Norway,.OL,OBX
+OSEBWLPG.OL,OSEBWLPG,BW LPG,marine transportation,Norway,.OL,OBX
+OSEDNB.OL,OSEDNB,DNB Bank,banks,Norway,.OL,OBX
+OSEEQNR.OL,OSEEQNR,Equinor,integrated oil and gas,Norway,.OL,OBX
+OSEFRO.OL,OSEFRO,Frontline,marine transportation,Norway,.OL,OBX
+OSEGJF.OL,OSEGJF,Gjensidige Forsikring,full line insurance,Norway,.OL,OBX
+OSEGOGL.OL,OSEGOGL,Golden Ocean Group,marine transportation,Norway,.OL,OBX
+OSEHAFNI.OL,OSEHAFNI,Hafnia Limited,marine transportation,Norway,.OL,OBX
+OSEHAUTO.OL,OSEHAUTO,Höegh Autoliners ASA,marine transportation,Norway,.OL,OBX
+OSEKOG.OL,OSEKOG,Kongsberg Gruppen,diversified industrials,Norway,.OL,OBX
+OSEMOWI.OL,OSEMOWI,Mowi,"farming, fishing, ranching and plantations",Norway,.OL,OBX
+OSEMPCC.OL,OSEMPCC,MPC Container Ships,marine transportation,Norway,.OL,OBX
+OSENAS.OL,OSENAS,Norwegian Air Shuttle,airlines,Norway,.OL,OBX
+OSENHY.OL,OSENHY,Norsk Hydro,aluminum,Norway,.OL,OBX
+OSENOD.OL,OSENOD,Nordic Semiconductor,semiconductors,Norway,.OL,OBX
+OSEORK.OL,OSEORK,Orkla,food products,Norway,.OL,OBX
+OSESALM.OL,OSESALM,SalMar,"farming, fishing, ranching and plantations",Norway,.OL,OBX
+OSESTB.OL,OSESTB,Storebrand,life insurance,Norway,.OL,OBX
+OSESUBC.OL,OSESUBC,Subsea 7,oil equipment and services,Norway,.OL,OBX
+OSETEL.OL,OSETEL,Telenor,telecommunications services,Norway,.OL,OBX
+OSETGS.OL,OSETGS,TGS ASA,oil equipment and services,Norway,.OL,OBX
+OSETOM.OL,OSETOM,Tomra Systems,machinery: industrial,Norway,.OL,OBX
+OSEVAR.OL,OSEVAR,Vår Energi ASA,offshore drilling and other services,Norway,.OL,OBX
+OSEWAWI.OL,OSEWAWI,Wallenius Wilhelmsen,marine transportation,Norway,.OL,OBX
+OSEYAR.OL,OSEYAR,Yara International,fertilizers,Norway,.OL,OBX
+ACP.WA,ACP,Asseco Poland,Information Technology,Poland,.WA,mWIG40
+ALE.WA,ALE,Allegro,Consumer Discretionary,Poland,.WA,WIG20
+ATC.WA,ATC,Arctic Paper,Materials,Poland,.WA,mWIG40
+BFT.WA,BFT,Benefit Systems,Consumer Discretionary,Poland,.WA,mWIG40
+BHW.WA,BHW,Bank Handlowy,Financials,Poland,.WA,mWIG40
+CCC.WA,CCC,CCC,Consumer Discretionary,Poland,.WA,mWIG40
+CDR.WA,CDR,CD Projekt,Communication Services,Poland,.WA,WIG20
+CMR.WA,CMR,Comarch,Information Technology,Poland,.WA,mWIG40
+DNP.WA,DNP,Dino Polska,Consumer Staples,Poland,.WA,WIG20
+ING.WA,ING,ING Bank Slaski,Financials,Poland,.WA,mWIG40
+KGH.WA,KGH,KGHM,Materials,Poland,.WA,WIG20
+LPP.WA,LPP,LPP,Consumer Discretionary,Poland,.WA,WIG20
+LVC.WA,LVC,LiveChat Software,Information Technology,Poland,.WA,mWIG40
+PCO.WA,PCO,Pepco,Consumer Discretionary,Poland,.WA,mWIG40
+PEO.WA,PEO,Pekao,Financials,Poland,.WA,WIG20
+PKN.WA,PKN,PKN Orlen,Energy,Poland,.WA,WIG20
+PZU.WA,PZU,PZU,Insurance,Poland,.WA,WIG20
+TEN.WA,TEN,Ten Square Games,Communication Services,Poland,.WA,mWIG40
+ALTR.LS,ALTR,Altri,Basic Resources,Portugal,.LS,PSI
+BCP.LS,BCP,Banco Comercial Português,Banks,Portugal,.LS,PSI
+COR.LS,COR,Corticeira Amorim,Industrial Goods & Services,Portugal,.LS,PSI
+CTT.LS,CTT,CTT Correios de Portugal,Industrial Goods & Services,Portugal,.LS,PSI
+EDP.LS,EDP,Energias de Portugal,Utilities,Portugal,.LS,PSI
+EDPR.LS,EDPR,EDP Renováveis,Utilities,Portugal,.LS,PSI
+EGL.LS,EGL,Mota-Engil,Construction & Materials,Portugal,.LS,PSI
+GALP.LS,GALP,Galp Energia,Energy,Portugal,.LS,PSI
+IBS.LS,IBS,Ibersol,Travel & Leisure,Portugal,.LS,PSI
+JMT.LS,JMT,Jerónimo Martins,"Personal Care, Drug & Grocery Stores",Portugal,.LS,PSI
+NBA.LS,NBA,Novabase,Technology,Portugal,.LS,PSI
+NOS.LS,NOS,NOS,Telecommunications,Portugal,.LS,PSI
+NVG.LS,NVG,The Navigator Company,Basic Resources,Portugal,.LS,PSI
+PHR.LS,PHR,Pharol,Telecommunications,Portugal,.LS,PSI
+RENE.LS,RENE,Redes Energéticas Nacionais,Utilities,Portugal,.LS,PSI
+SEM.LS,SEM,Semapa,Basic Resources,Portugal,.LS,PSI
+SON.LS,SON,Sonae,"Personal Care, Drug & Grocery Stores",Portugal,.LS,PSI
+SONC.LS,SONC,Sonae Capital,Financial Services,Portugal,.LS,PSI
+A3M.MC,A3M,Atresmedia,Communication Services,Spain,.MC,Spain_Mid
+ACS.MC,ACS,ACS,Construction,Spain,.MC,IBEX_35
+ACX.MC,ACX,Acerinox,Steel,Spain,.MC,IBEX_35
+AENA.MC,AENA,AENA,Aviation,Spain,.MC,IBEX_35
+AMS.MC,AMS,Amadeus IT Group,Tourism,Spain,.MC,IBEX_35
+ANA.MC,ANA,Acciona,Construction,Spain,.MC,IBEX_35
+ANE.MC,ANE,Acciona Energía,Energy,Spain,.MC,IBEX_35
+BBVA.MC,BBVA,BBVA,Financial Services,Spain,.MC,IBEX_35
+BKT.MC,BKT,Bankinter,Financial Services,Spain,.MC,IBEX_35
+CABK.MC,CABK,CaixaBank,Financial Services,Spain,.MC,IBEX_35
+CAF.MC,CAF,CAF,Industrials,Spain,.MC,Spain_Mid
+CIE.MC,CIE,CIE Automotive,Consumer Discretionary,Spain,.MC,Spain_Mid
+CLNX.MC,CLNX,Cellnex Telecom,Telecommunications,Spain,.MC,IBEX_35
+COL.MC,COL,Inmobiliaria Colonial,Real Estate,Spain,.MC,IBEX_35
+ELE.MC,ELE,Endesa,Energy,Spain,.MC,IBEX_35
+ENG.MC,ENG,Enagás,Energy,Spain,.MC,IBEX_35
+FDR.MC,FDR,Fluidra,Manufacturing,Spain,.MC,IBEX_35
+FER.MC,FER,Ferrovial,Infrastructure,Spain,.MC,IBEX_35
+GRF.MC,GRF,Grifols,Pharmaceuticals,Spain,.MC,IBEX_35
+IAG.MC,IAG,International Airlines Group,Aviation,Spain,.MC,IBEX_35
+IBE.MC,IBE,Iberdrola,Energy,Spain,.MC,IBEX_35
+IDR.MC,IDR,Indra,Information Technology,Spain,.MC,IBEX_35
+ITX.MC,ITX,Inditex,Textile,Spain,.MC,IBEX_35
+LOG.MC,LOG,Logista,Logistics,Spain,.MC,"IBEX_35,Spain_Mid"
+MAP.MC,MAP,Mapfre,Insurance,Spain,.MC,IBEX_35
+MRL.MC,MRL,Merlin Properties,Real Estate,Spain,.MC,IBEX_35
+MTS.MC,MTS,ArcelorMittal,Steel,Spain,.MC,IBEX_35
+NTGY.MC,NTGY,Naturgy,Energy,Spain,.MC,IBEX_35
+PUIG.MC,PUIG,Puig,Clothes and Cosmetics,Spain,.MC,IBEX_35
+RED.MC,RED,Redeia Corporación,Energy,Spain,.MC,IBEX_35
+REP.MC,REP,Repsol,Oil and Gas,Spain,.MC,IBEX_35
+ROVI.MC,ROVI,Laboratorios Rovi,Pharmaceuticals,Spain,.MC,IBEX_35
+SAB.MC,SAB,Banco Sabadell,Financial Services,Spain,.MC,IBEX_35
+SAN.MC,SAN,Santander,Financial Services,Spain,.MC,IBEX_35
+SCYR.MC,SCYR,Sacyr,Construction,Spain,.MC,IBEX_35
+SLR.MC,SLR,Solaria,Solar Energy,Spain,.MC,IBEX_35
+TEF.MC,TEF,Telefónica,Telecommunications,Spain,.MC,IBEX_35
+UNI.MC,UNI,Unicaja,Financial Services,Spain,.MC,IBEX_35
+VID.MC,VID,Vidrala,Materials,Spain,.MC,Spain_Mid
+VIS.MC,VIS,Viscofan,Consumer Staples,Spain,.MC,Spain_Mid
+ABB.ST,ABB,ABB Ltd,Industrials,Sweden,.ST,OMX_30
+ADDT-B.ST,ADDT-B,Addtech B,Industrials,Sweden,.ST,"OMX_30,OMX_Mid"
+ADDV-B.ST,ADDV-B,AddLife,Health Care,Sweden,.ST,OMX_Mid_SE
+ALFA.ST,ALFA,Alfa Laval,Industrials,Sweden,.ST,OMX_30
+ANOD-B.ST,ANOD-B,Addnode Group,Information Technology,Sweden,.ST,Sweden_Small
+ASSA-B.ST,ASSA-B,Assa Abloy B,Industrials,Sweden,.ST,OMX_30
+ATCO-A.ST,ATCO-A,Atlas Copco A,Industrials,Sweden,.ST,OMX_30
+AZN.ST,AZN,AstraZeneca,Health Care,Sweden,.ST,OMX_30
+BEIA-B.ST,BEIA-B,Beijer Alma,Industrials,Sweden,.ST,Sweden_Small
+BEIJ-B.ST,BEIJ-B,Beijer Ref,Industrials,Sweden,.ST,OMX_Mid_SE
+BOL.ST,BOL,Boliden,Materials,Sweden,.ST,OMX_30
+BUFAB.ST,BUFAB,Bufab,Industrials,Sweden,.ST,Sweden_Small
+CINT.ST,CINT,CINT Group,Information Technology,Sweden,.ST,Sweden_Small
+EMBRAC-B.ST,EMBRAC-B,Embracer Group,Communication Services,Sweden,.ST,OMX_Mid_SE
+EPI-A.ST,EPI-A,Epiroc A,Industrials,Sweden,.ST,OMX_30
+EQT.ST,EQT,EQT,Financials,Sweden,.ST,OMX_30
+ERIC-B.ST,ERIC-B,Ericsson B,Information Technology,Sweden,.ST,OMX_30
+ESSITY-B.ST,ESSITY-B,Essity B,Consumer Staples,Sweden,.ST,OMX_30
+EVO.ST,EVO,Evolution,Consumer Discretionary,Sweden,.ST,OMX_30
+FNOX.ST,FNOX,Fortnox,Information Technology,Sweden,.ST,OMX_Mid_SE
+HEXA-B.ST,HEXA-B,Hexagon B,Information Technology,Sweden,.ST,OMX_30
+HM-B.ST,HM-B,Hennes & Mauritz B,Consumer Discretionary,Sweden,.ST,OMX_30
+HMS.ST,HMS,HMS Networks,Information Technology,Sweden,.ST,OMX_Mid
+HPOL-B.ST,HPOL-B,Hexpol,Materials,Sweden,.ST,OMX_Mid_SE
+HTRO.ST,HTRO,Hexatronic,Information Technology,Sweden,.ST,Sweden_Small
+INDU-C.ST,INDU-C,Industrivärden C,Financials,Sweden,.ST,OMX_30
+INVE-B.ST,INVE-B,Investor B,Financials,Sweden,.ST,OMX_30
+LAGR-B.ST,LAGR-B,Lagercrantz,Industrials,Sweden,.ST,OMX_Mid
+LIFCO-B.ST,LIFCO-B,Lifco B,Industrials,Sweden,.ST,"OMX_30,OMX_Mid"
+MCOV-B.ST,MCOV-B,Medicover,Health Care,Sweden,.ST,OMX_Mid_SE
+MIPS.ST,MIPS,MIPS,Consumer Discretionary,Sweden,.ST,Sweden_Small
+MTRS.ST,MTRS,Munters,Industrials,Sweden,.ST,OMX_Mid_SE
+NDA-SE.ST,NDA-SE,Nordea Bank Abp,Financials,Sweden,.ST,OMX_30
+NIBE-B.ST,NIBE-B,Nibe Industrier B,Industrials,Sweden,.ST,OMX_30
+NMAN.ST,NMAN,Nederman,Industrials,Sweden,.ST,Sweden_Small
+SAAB-B.ST,SAAB-B,Saab B,Industrials,Sweden,.ST,OMX_30
+SAND.ST,SAND,Sandvik,Industrials,Sweden,.ST,OMX_30
+SCA-B.ST,SCA-B,SCA B,Materials,Sweden,.ST,OMX_30
+SEB-A.ST,SEB-A,SEB A,Financials,Sweden,.ST,OMX_30
+SECT-B.ST,SECT-B,Sectra,Health Care,Sweden,.ST,OMX_Mid
+SHB-A.ST,SHB-A,Handelsbanken A,Financials,Sweden,.ST,OMX_30
+SKA-B.ST,SKA-B,Skanska B,Industrials,Sweden,.ST,OMX_30
+SKF-B.ST,SKF-B,SKF B,Industrials,Sweden,.ST,OMX_30
+SUS.ST,SUS,Surgical Science,Health Care,Sweden,.ST,Sweden_Small
+SWEC-B.ST,SWEC-B,Sweco,Industrials,Sweden,.ST,OMX_Mid
+SWED-A.ST,SWED-A,Swedbank A,Financials,Sweden,.ST,OMX_30
+TEL2-B.ST,TEL2-B,Tele2 B,Communication Services,Sweden,.ST,OMX_30
+TELIA.ST,TELIA,Telia Company,Communication Services,Sweden,.ST,OMX_30
+TROAX.ST,TROAX,Troax,Industrials,Sweden,.ST,Sweden_Small
+VIT-B.ST,VIT-B,Vitec Software,Information Technology,Sweden,.ST,Sweden_Small
+VITR.ST,VITR,Vitrolife,Health Care,Sweden,.ST,OMX_Mid
+VOLV-B.ST,VOLV-B,Volvo B,Industrials,Sweden,.ST,OMX_30
+ABBN.SW,ABBN,ABB Ltd,Electrical equipment,Switzerland,.SW,SMI
+ADEN.SW,ADEN,Adecco,Professional Services,Switzerland,.SW,SMIM
+ALC.SW,ALC,Alcon Inc,Pharmacy,Switzerland,.SW,SMI
+AMS.SW,AMS,ams,Hardware,Switzerland,.SW,SMIM
+AVOL.SW,AVOL,Avolta,Retail trade,Switzerland,.SW,SMIM
+BAER.SW,BAER,Julius Bär,Banking,Switzerland,.SW,SMIM
+BALN.SW,BALN,Bâloise,Insurance,Switzerland,.SW,SMIM
+BARN.SW,BARN,Barry Callebaut,Food & Beverages,Switzerland,.SW,SMIM
+BEAN.SW,BEAN,Belimo,HVAC,Switzerland,.SW,SMIM
+BKW.SW,BKW,BKW Energie,Energy,Switzerland,.SW,SMIM
+CFR.SW,CFR,Compagnie Financière Richemont SA,Luxury Goods,Switzerland,.SW,SMI
+CLN.SW,CLN,Clariant,Specialty chemicals,Switzerland,.SW,SMIM
+EMSN.SW,EMSN,Ems-Chemie,Specialty chemicals,Switzerland,.SW,SMIM
+FHZN.SW,FHZN,Flughafen Zürich,Infrastructure,Switzerland,.SW,SMIM
+FI-N.SW,FI-N,Georg Fischer,"Machines, Components",Switzerland,.SW,SMIM
+GALE.SW,GALE,Galenica,"Pharma, Retail Trade",Switzerland,.SW,SMIM
+GEBN.SW,GEBN,Geberit AG,Sanitary engineering,Switzerland,.SW,SMI
+GIVN.SW,GIVN,Givaudan SA,Chemistry,Switzerland,.SW,SMI
+HELN.SW,HELN,Helvetia Insurance,Insurance,Switzerland,.SW,SMIM
+HOLN.SW,HOLN,Holcim Limited,Building materials,Switzerland,.SW,SMI
+KNIN.SW,KNIN,Kuehne + Nagel,Logistics,Switzerland,.SW,SMI
+LISNLISP.SW,LISNLISP,Lindt & Sprüngli,Food & Beverages,Switzerland,.SW,SMIM
+LOGN.SW,LOGN,Logitech International SA,Computer hardware and software,Switzerland,.SW,SMI
+LONN.SW,LONN,Lonza Group AG,Chemistry,Switzerland,.SW,SMI
+MBTN.SW,MBTN,Meyer Burger,Energy Equipment,Switzerland,.SW,SMIM
+NESN.SW,NESN,Nestlé SA,Food,Switzerland,.SW,SMI
+NOVN.SW,NOVN,Novartis International AG,Pharmacy,Switzerland,.SW,SMI
+PGHN.SW,PGHN,Partners Group Holding AG,Private equity,Switzerland,.SW,SMI
+PSPN.SW,PSPN,PSP Swiss Property,Real estate,Switzerland,.SW,SMIM
+RO.SW,RO,Roche (bearer share),Pharma,Switzerland,.SW,SMIM
+ROG.SW,ROG,Roche Holding AG,Pharmacy,Switzerland,.SW,SMI
+SCHNSCHP.SW,SCHNSCHP,Schindler Group,Construction supply,Switzerland,.SW,SMIM
+SCMN.SW,SCMN,Swisscom AG,Telecommunications,Switzerland,.SW,SMI
+SDZ.SW,SDZ,Sandoz,Pharma,Switzerland,.SW,SMIM
+SGSN.SW,SGSN,SGS SA,Business Services,Switzerland,.SW,SMIM
+SIGN.SW,SIGN,SIG Group,Packaging,Switzerland,.SW,SMIM
+SIKA.SW,SIKA,Sika AG,Chemistry,Switzerland,.SW,SMI
+SLHN.SW,SLHN,Swiss Life Holding AG,Insurance,Switzerland,.SW,SMI
+SOON.SW,SOON,Sonova,Medical devices,Switzerland,.SW,SMI
+SPSN.SW,SPSN,Swiss Prime Site,Real estate,Switzerland,.SW,SMIM
+SREN.SW,SREN,Swiss Reinsurance Company Ltd,Insurance,Switzerland,.SW,SMI
+STMN.SW,STMN,Straumann,Pharma,Switzerland,.SW,SMIM
+TECN.SW,TECN,Tecan,Scientific Equipment,Switzerland,.SW,SMIM
+TEMN.SW,TEMN,Temenos Group,Software,Switzerland,.SW,SMIM
+UBSG.SW,UBSG,UBS Group AG,Banks,Switzerland,.SW,SMI
+UHR.SW,UHR,Swatch,Precision & Watches,Switzerland,.SW,SMIM
+VACN.SW,VACN,VAT Group AG,Components,Switzerland,.SW,SMIM
+ZURN.SW,ZURN,Zurich Insurance Group AG,Insurance,Switzerland,.SW,SMI
+3IN.L,3IN,3i Infrastructure,Financial Services,UK,.L,FTSE_250
+AAS.L,AAS,Aberdeen Asia Focus,Investment Trusts,UK,.L,FTSE_250
+ABDN.L,ABDN,Aberdeen Group,Financial Services,UK,.L,FTSE_250
+AEP.L,AEP,AEP Plantations,Food Producers,UK,.L,FTSE_250
+AGT.L,AGT,AVI Global Trust,Investment Trusts,UK,.L,FTSE_250
+AIE.L,AIE,Ashoka India Equity Investment Trust,Investment Trusts,UK,.L,FTSE_250
+AJB.L,AJB,AJ Bell,Financial Services,UK,.L,FTSE_250
+ALFA.L,ALFA,Alfa Financial Software,Software and Computer Services,UK,.L,FTSE_250
+AML.L,AML,Aston Martin Lagonda,Automobiles & Parts,UK,.L,FTSE_250
+AO.L,AO,AO World,Retail,UK,.L,FTSE_250
+APN.L,APN,Applied Nutrition,Food Producers,UK,.L,FTSE_250
+ASHM.L,ASHM,Ashmore Group,Financial Services,UK,.L,FTSE_250
+ASL.L,ASL,Aberforth Smaller Companies Trust,Investment Trusts,UK,.L,FTSE_250
+ATR.L,ATR,Schroder Asian Total Return Investment Company,Investment Trusts,UK,.L,FTSE_250
+ATT.L,ATT,Allianz Technology Trust,Investment Trusts,UK,.L,FTSE_250
+ATYM.L,ATYM,Atalaya Mining,Industrial Metals and Mining,UK,.L,FTSE_250
+AVON.L,AVON,Avon Technologies,Industrial Goods and Services,UK,.L,FTSE_250
+BAG.L,BAG,A.G. Barr,Beverages,UK,.L,FTSE_250
+BBY.L,BBY,Balfour Beatty,Construction & Materials,UK,.L,FTSE_250
+BCG.L,BCG,Baltic Classifieds,Consumer Digital Services,UK,.L,FTSE_250
+BGFD.L,BGFD,Baillie Gifford Japan Trust,Investment Trusts,UK,.L,FTSE_250
+BHMG.L,BHMG,BH Macro,Hedge Funds,UK,.L,FTSE_250
+BME.L,BME,B&M,Retailers,UK,.L,FTSE_250
+BNKR.L,BNKR,Bankers Investment Trust,Investment Trusts,UK,.L,FTSE_250
+BOWL.L,BOWL,Hollywood Bowl Group,Travel and leisure,UK,.L,FTSE_250
+BOY.L,BOY,Bodycote,Industrial Engineering,UK,.L,FTSE_250
+BPCR.L,BPCR,Biopharma Credit,Investment Trusts,UK,.L,FTSE_250
+BPT.L,BPT,Bridgepoint Group,Financial Services,UK,.L,FTSE_250
+BREE.L,BREE,Breedon Group,Construction & Materials,UK,.L,FTSE_250
+BRGE.L,BRGE,BlackRock Greater Europe Investment Trust,Investment Trusts,UK,.L,FTSE_250
+BRSC.L,BRSC,BlackRock Smaller Companies Trust,Equity Investments,UK,.L,FTSE_250
+BRWM.L,BRWM,BlackRock World Mining Trust,Investment Trusts,UK,.L,FTSE_250
+BSIF.L,BSIF,Bluefield Solar Income Fund,Investment Trusts,UK,.L,FTSE_250
+BUT.L,BUT,Brunner Investment Trust,Investment Trusts,UK,.L,FTSE_250
+BWY.L,BWY,Bellway,Home Construction,UK,.L,FTSE_250
+BYG.L,BYG,Big Yellow Group,Real Estate Investment Trusts,UK,.L,FTSE_250
+BYIT.L,BYIT,Bytes Technology Group,Aerospace & Defence,UK,.L,FTSE_250
+CBG.L,CBG,Close Brothers Group,Financial Services,UK,.L,FTSE_250
+CCC.L,CCC,Computacenter,Software & Computer Services,UK,.L,FTSE_250
+CCL.L,CCL,Carnival Corporation & plc,Travel & Leisure,UK,.L,FTSE_250
+CCR.L,CCR,C&C Group,Food & Tobacco,UK,.L,FTSE_250
+CGT.L,CGT,Capital Gearing Trust,Investment Trusts,UK,.L,FTSE_250
+CHG.L,CHG,Chemring Group,Aerospace & Defence,UK,.L,FTSE_250
+CHRY.L,CHRY,Chrysalis Investments,Investment Trusts,UK,.L,FTSE_250
+CKN.L,CKN,Clarkson,Industrial Transportation,UK,.L,FTSE_250
+CLDN.L,CLDN,Caledonia Investments,Investment Trusts,UK,.L,FTSE_250
+CMCX.L,CMCX,CMC Markets,Financial Services,UK,.L,FTSE_250
+COA.L,COA,Coats Group,Consumer Staples,UK,.L,FTSE_250
+COST.L,COST,Costain Group,Engineering and Construction,UK,.L,FTSE_250
+CSN.L,CSN,Chesnara,Life Insurance,UK,.L,FTSE_250
+CTY.L,CTY,City of London Investment Trust,Investment Trusts,UK,.L,FTSE_250
+CURY.L,CURY,Currys,Retailers,UK,.L,FTSE_250
+CVSG.L,CVSG,CVS Group,Health Care,UK,.L,FTSE_250
+CWK.L,CWK,Cranswick,Food Producers,UK,.L,FTSE_250
+CWR.L,CWR,Ceres Power,Alternative Energy,UK,.L,FTSE_250
+DLN.L,DLN,Derwent London,Real Estate Investment Trusts,UK,.L,FTSE_250
+DNLM.L,DNLM,Dunelm Group,Retailers,UK,.L,FTSE_250
+DOCS.L,DOCS,Dr. Martens,Retailers,UK,.L,FTSE_250
+DOM.L,DOM,Domino's Pizza,Travel & Leisure,UK,.L,FTSE_250
+DRX.L,DRX,Drax Group,Electricity,UK,.L,FTSE_250
+DSCV.L,DSCV,discoverIE,Support Services,UK,.L,FTSE_250
+EDIN.L,EDIN,Edinburgh Investment Trust,Investment Trusts,UK,.L,FTSE_250
+ELM.L,ELM,Elementis,Chemicals,UK,.L,FTSE_250
+EMG.L,EMG,Man Group,Investment Trusts,UK,.L,FTSE_250
+ENOG.L,ENOG,Energean,Oil & Gas Producers,UK,.L,FTSE_250
+ESCT.L,ESCT,European Smaller Companies Trust,Investment Trusts,UK,.L,FTSE_250
+EWG.L,EWG,W. A. G. Payment Solutions,Financial Services,UK,.L,FTSE_250
+EWI.L,EWI,Edinburgh Worldwide Investment Trust,Investment Trusts,UK,.L,FTSE_250
+EZJ.L,EZJ,EasyJet,Travel and Leisure,UK,.L,FTSE_250
+FAN.L,FAN,Volution Group,Construction & Materials,UK,.L,FTSE_250
+FCH.L,FCH,Funding Circle,Financial Services,UK,.L,FTSE_250
+FCSS.L,FCSS,Fidelity China Special Situations,Investment Trusts,UK,.L,FTSE_250
+FEML.L,FEML,Fidelity Emerging Markets,Investment Trusts,UK,.L,FTSE_250
+FEV.L,FEV,Fidelity European Trust,Investment Trusts,UK,.L,FTSE_250
+FGEN.L,FGEN,Foresight Environmental Infrastructure,Investment Trusts,UK,.L,FTSE_250
+FGP.L,FGP,FirstGroup,Travel & Leisure,UK,.L,FTSE_250
+FGT.L,FGT,Finsbury Growth & Income Trust,Equity Investments,UK,.L,FTSE_250
+FOUR.L,FOUR,4imprint,Media,UK,.L,FTSE_250
+FRAS.L,FRAS,Frasers Group,Retailers,UK,.L,FTSE_250
+FSG.L,FSG,Foresight Group,Investment Banking and Brokerage Services,UK,.L,FTSE_250
+FSV.L,FSV,Fidelity Special Values,Investment Trusts,UK,.L,FTSE_250
+GAMA.L,GAMA,Gamma Communications,Telecommunications,UK,.L,FTSE_250
+GBG.L,GBG,GB Group,Software and Computer Services,UK,.L,FTSE_250
+GCP.L,GCP,GCP Infrastructure Investments,General Financial,UK,.L,FTSE_250
+GDWN.L,GDWN,Goodwin,General Industrials,UK,.L,FTSE_250
+GEN.L,GEN,Genuit Group,Construction & Materials,UK,.L,FTSE_250
+GFRD.L,GFRD,Galliford Try,Construction,UK,.L,FTSE_250
+GFTU.L,GFTU,Grafton Group,Support Services,UK,.L,FTSE_250
+GNC.L,GNC,Greencore,"Food, Beverage and Tobacco",UK,.L,FTSE_250
+GNS.L,GNS,Genus,Pharmaceuticals & Biotechnology,UK,.L,FTSE_250
+GPE.L,GPE,Great Portland Estates,Real Estate Investment Trusts,UK,.L,FTSE_250
+GRG.L,GRG,Greggs,Food & Drug Retailers,UK,.L,FTSE_250
+GRI.L,GRI,Grainger,Real Estate Investment & Services,UK,.L,FTSE_250
+GROW.L,GROW,Molten Ventures,Financial Services,UK,.L,FTSE_250
+GSCT.L,GSCT,Global Smaller Companies Trust,Investment Trusts,UK,.L,FTSE_250
+HAS.L,HAS,Hays,Support Services,UK,.L,FTSE_250
+HBR.L,HBR,Harbour Energy,Oil & Gas Producers,UK,.L,FTSE_250
+HFEL.L,HFEL,Henderson Far East Income,Investment Trusts,UK,.L,FTSE_250
+HFG.L,HFG,Hilton Food Group,Food Producers,UK,.L,FTSE_250
+HGT.L,HGT,Hg Capital Trust,Investment Trusts,UK,.L,FTSE_250
+HICL.L,HICL,HICL Infrastructure Company,Investment Trusts,UK,.L,FTSE_250
+HIK.L,HIK,Hikma Pharmaceuticals,Pharmaceuticals and Biotechnology,UK,.L,FTSE_250
+HILS.L,HILS,Hill & Smith,Industrial Engineering,UK,.L,FTSE_250
+HMSO.L,HMSO,Hammerson,Real Estate Investment Trusts,UK,.L,FTSE_250
+HOC.L,HOC,Hochschild Mining,Basic Resources,UK,.L,FTSE_250
+HRI.L,HRI,Herald Investment Trust,Investment Trusts,UK,.L,FTSE_250
+HSL.L,HSL,Henderson Smaller Companies Investment Trust,Investment Trusts,UK,.L,FTSE_250
+HTG.L,HTG,Hunting,"Oil, Gas and Coal",UK,.L,FTSE_250
+HTWS.L,HTWS,Helios Towers,Telecomms,UK,.L,FTSE_250
+HVPE.L,HVPE,HarbourVest Global Private Equity,Equity Investments,UK,.L,FTSE_250
+HWG.L,HWG,Harworth Group,Real Estate,UK,.L,FTSE_250
+IAD.L,IAD,Invesco Asia Dragon Trust,Investment Trusts,UK,.L,FTSE_250
+IBST.L,IBST,Ibstock,Construction & Materials,UK,.L,FTSE_250
+ICGT.L,ICGT,ICG Enterprise Trust,Investment Trusts,UK,.L,FTSE_250
+IEM.L,IEM,Impax Environmental Markets,Investment Trusts,UK,.L,FTSE_250
+IHP.L,IHP,IntegraFin Holdings,Financial Services,UK,.L,FTSE_250
+INCH.L,INCH,Inchcape,Retailers,UK,.L,FTSE_250
+INPP.L,INPP,International Public Partnerships,Financial Services,UK,.L,FTSE_250
+INVP.L,INVP,Investec,Financial Services,UK,.L,FTSE_250
+IPF.L,IPF,International Personal Finance,Financial Services,UK,.L,FTSE_250
+IPO.L,IPO,IP Group,Financial Services,UK,.L,FTSE_250
+ITH.L,ITH,Ithaca Energy,Oil & Gas Producers,UK,.L,FTSE_250
+ITV.L,ITV,ITV,Media,UK,.L,FTSE_250
+IWG.L,IWG,International Workplace Group,Support Services,UK,.L,FTSE_250
+JAM.L,JAM,JPMorgan American Investment Trust,Investment Trusts,UK,.L,FTSE_250
+JDW.L,JDW,Wetherspoon (J D),Travel & Leisure,UK,.L,FTSE_250
+JEDT.L,JEDT,JPMorgan European Discovery,Investment Trusts,UK,.L,FTSE_250
+JEGI.L,JEGI,JPMorgan European Growth & Income,Investment Trusts,UK,.L,FTSE_250
+JEMI.L,JEMI,JPMorgan Emerging Markets Dividend Income,Investment Trusts,UK,.L,FTSE_250
+JFJ.L,JFJ,JPMorgan Japanese Investment Trust,Investment Trusts,UK,.L,FTSE_250
+JGGI.L,JGGI,JPMorgan Global Growth & Income,Investment Trusts,UK,.L,FTSE_250
+JII.L,JII,JPMorgan India Growth & Income,Investment Trusts,UK,.L,FTSE_250
+JMAT.L,JMAT,Johnson Matthey,Chemicals,UK,.L,FTSE_250
+JMG.L,JMG,JPMorgan Emerging Markets Growth & Income,Investment Trusts,UK,.L,FTSE_250
+JSG.L,JSG,Johnson Service Group,Industrial Support Services,UK,.L,FTSE_250
+JTC.L,JTC,JTC,Financial Services,UK,.L,FTSE_250
+JUP.L,JUP,Jupiter Fund Management,Financial Services,UK,.L,FTSE_250
+KIE.L,KIE,Kier Group,Construction & Materials,UK,.L,FTSE_250
+KLR.L,KLR,Keller Group,Construction & Materials,UK,.L,FTSE_250
+KNOS.L,KNOS,Kainos,Software & Computer Services,UK,.L,FTSE_250
+LRE.L,LRE,Lancashire Holdings,Nonlife Insurance,UK,.L,FTSE_250
+LWDB.L,LWDB,Law Debenture,Investment Trusts,UK,.L,FTSE_250
+MAB.L,MAB,Mitchells & Butlers,Travel & Leisure,UK,.L,FTSE_250
+MEGP.L,MEGP,ME Group International,Leisure Goods,UK,.L,FTSE_250
+MGAM.L,MGAM,Morgan Advanced Materials,Electronic & Electrical Equipment,UK,.L,FTSE_250
+MGGT.L,MGGT,Meggitt,Industrials,UK,.L,UK_Mid
+MGNS.L,MGNS,Morgan Sindall Group,Construction & Materials,UK,.L,FTSE_250
+MNKS.L,MNKS,Monks Investment Trust,Investment Trusts,UK,.L,FTSE_250
+MNTN.L,MNTN,Schiehallion Fund,Investment Trusts,UK,.L,FTSE_250
+MONY.L,MONY,MONY Group,Media,UK,.L,FTSE_250
+MOON.L,MOON,Moonpig,Retailers,UK,.L,FTSE_250
+MRC.L,MRC,Mercantile Investment Trust,Collective Investments,UK,.L,FTSE_250
+MRCH.L,MRCH,Merchants Trust,Investment Trusts,UK,.L,FTSE_250
+MSLH.L,MSLH,Marshalls,Construction & Materials,UK,.L,FTSE_250
+MTO.L,MTO,Mitie,Support Services,UK,.L,FTSE_250
+MTRO.L,MTRO,Metro Bank,Banks,UK,.L,FTSE_250
+MUT.L,MUT,Murray Income Trust,Investment Trusts,UK,.L,FTSE_250
+MYI.L,MYI,Murray International Trust,Investment Trusts,UK,.L,FTSE_250
+N91.L,N91,Ninety One,Financial Services,UK,.L,FTSE_250
+NAS.L,NAS,North Atlantic Smaller Companies Investment Trust,Investment Trusts,UK,.L,FTSE_250
+NBPE.L,NBPE,NB Private Equity Partners,Collective Investments,UK,.L,FTSE_250
+NCC.L,NCC,NCC Group,Software and Computer Services,UK,.L,FTSE_250
+OCDO.L,OCDO,Ocado Group,Food & drug retailers,UK,.L,FTSE_250
+OCI.L,OCI,Oakley Capital Investments,Investment Trusts,UK,.L,FTSE_250
+ONT.L,ONT,Oxford Nanopore Technologies,Health Care,UK,.L,FTSE_250
+OSB.L,OSB,OSB Group,Banks,UK,.L,FTSE_250
+OXB.L,OXB,Oxford Biomedica,Pharmaceuticals and Biotechnology,UK,.L,FTSE_250
+OXIG.L,OXIG,Oxford Instruments,Electronic & Electrical Equipment,UK,.L,"FTSE_250,UK_Mid"
+PAF.L,PAF,Pan African Resources,Precious Metals and Mining,UK,.L,FTSE_250
+PAG.L,PAG,Paragon Banking Group,Financial Services,UK,.L,FTSE_250
+PAGE.L,PAGE,PageGroup,Support Services,UK,.L,FTSE_250
+PCGH.L,PCGH,Polar Capital Global Healthcare Trust,Investment Trusts,UK,.L,FTSE_250
+PETS.L,PETS,Pets at Home,Retailers,UK,.L,FTSE_250
+PEY.L,PEY,Partners Group Private Equity,Investment Trusts,UK,.L,FTSE_250
+PFD.L,PFD,Premier Foods,Food & Drug Retailers,UK,.L,FTSE_250
+PHI.L,PHI,Pacific Horizon Investment Trust,Investment Trusts,UK,.L,FTSE_250
+PHP.L,PHP,Primary Health Properties,Real Estate Investment Trusts,UK,.L,FTSE_250
+PIN.L,PIN,Pantheon International,Equity Investments,UK,.L,FTSE_250
+PINT.L,PINT,Pantheon Infrastructure,Investment Trusts,UK,.L,FTSE_250
+PLUS.L,PLUS,Plus500,Financial Services,UK,.L,FTSE_250
+PNL.L,PNL,Personal Assets Trust,Investment Trusts,UK,.L,FTSE_250
+PNN.L,PNN,Pennon Group,"Gas, Water & Multiutilities",UK,.L,FTSE_250
+POLN.L,POLN,Pollen Street Group,Financial Services,UK,.L,FTSE_250
+PPET.L,PPET,Patria Private Equity Trust,Financial Services,UK,.L,FTSE_250
+PPH.L,PPH,PPHE Hotel Group,Travel and Leisure,UK,.L,FTSE_250
+PRN.L,PRN,Princes Group,Food and drink,UK,.L,FTSE_250
+PTEC.L,PTEC,Playtech,Software & Computer Services,UK,.L,FTSE_250
+QLT.L,QLT,Quilter,Financial Services,UK,.L,FTSE_250
+QQ.L,QQ,Qinetiq,Aerospace & Defence,UK,.L,FTSE_250
+RAT.L,RAT,Rathbones,Financial Services,UK,.L,FTSE_250
+RCP.L,RCP,RIT Capital Partners,Investment Trusts,UK,.L,FTSE_250
+RHIM.L,RHIM,RHI Magnesita,Support Services,UK,.L,FTSE_250
+RICA.L,RICA,Ruffer Investment Company,Investment Trusts,UK,.L,FTSE_250
+RNK.L,RNK,Rank Group,Travel and Leisure,UK,.L,FTSE_250
+ROR.L,ROR,Rotork,Industrial Engineering,UK,.L,FTSE_250
+RPI.L,RPI,Raspberry Pi Holdings,Technology,UK,.L,FTSE_250
+RS1.L,RS1,RS Group,Industrials,UK,.L,FTSE_250
+RSW.L,RSW,Renishaw,Electronic & Electrical Equipment,UK,.L,FTSE_250
+RTW.L,RTW,RTW Biotech Opportunities,Investment Trusts,UK,.L,FTSE_250
+SAFE.L,SAFE,Safestore,Real Estate Investment Trusts,UK,.L,FTSE_250
+SAGA.L,SAGA,Saga,Travel and Leisure,UK,.L,FTSE_250
+SAIN.L,SAIN,Scottish American Investment Company,Investment Trusts,UK,.L,FTSE_250
+SCT.L,SCT,Softcat,Software & Computer Services,UK,.L,FTSE_250
+SDP.L,SDP,Schroder AsiaPacific Fund,Investment Trusts,UK,.L,FTSE_250
+SEIT.L,SEIT,SDCL Energy Efficiency Income Trust,Energy,UK,.L,FTSE_250
+SEQI.L,SEQI,Sequoia Economic Infrastructure Income Fund,Financial Services,UK,.L,FTSE_250
+SHAW.L,SHAW,Shawbrook Bank,Banking,UK,.L,FTSE_250
+SHC.L,SHC,Shaftesbury Capital,Real Estate Investment Trusts,UK,.L,FTSE_250
+SMWH.L,SMWH,W H Smith,Retailers,UK,.L,FTSE_250
+SNR.L,SNR,Senior,Aerospace & Defence,UK,.L,FTSE_250
+SOI.L,SOI,Schroder Oriental Income Fund,Financial Services,UK,.L,FTSE_250
+SPI.L,SPI,Spire Healthcare,Health Care Equipment & Services,UK,.L,FTSE_250
+SRE.L,SRE,Sirius Real Estate,Real Estate,UK,.L,FTSE_250
+SRP.L,SRP,Serco,Support Services,UK,.L,FTSE_250
+SSPG.L,SSPG,SSP Group,Retailers,UK,.L,FTSE_250
+SUPR.L,SUPR,Supermarket Income REIT,Real Estate Investment Trusts,UK,.L,FTSE_250
+SVS.L,SVS,Savills,Real Estate Investment & Services,UK,.L,FTSE_250
+SYNC.L,SYNC,Syncona,Pharmaceuticals & Biotechnology,UK,.L,FTSE_250
+TATE.L,TATE,Tate & Lyle,Food Producers,UK,.L,FTSE_250
+TBCG.L,TBCG,TBC Bank,Banks,UK,.L,FTSE_250
+TCAP.L,TCAP,TP ICAP,Support Services,UK,.L,FTSE_250
+TEM.L,TEM,Templeton Emerging Markets Investment Trust,Investment Trusts,UK,.L,FTSE_250
+TEP.L,TEP,Telecom Plus,Telecomms,UK,.L,FTSE_250
+TFIF.L,TFIF,Twentyfour Income Fund,Investment Trusts,UK,.L,FTSE_250
+THG.L,THG,THG,Personal Products,UK,.L,FTSE_250
+THRG.L,THRG,BlackRock Throgmorton Trust,Equity Investments,UK,.L,FTSE_250
+THRL.L,THRL,Target Healthcare REIT,Real Estate Investment Trusts,UK,.L,FTSE_250
+TMPL.L,TMPL,Temple Bar Investment Trust,Collective Investments,UK,.L,FTSE_250
+TPK.L,TPK,Travis Perkins,Support Services,UK,.L,FTSE_250
+TRIG.L,TRIG,The Renewables Infrastructure Group,Investment Trusts,UK,.L,FTSE_250
+TRN.L,TRN,Trainline,Industrial Transportation,UK,.L,FTSE_250
+TRST.L,TRST,Trustpilot,Technology,UK,.L,FTSE_250
+TRY.L,TRY,TR Property Investment Trust,Investment Trusts,UK,.L,FTSE_250
+TW.L,TW,Taylor Wimpey,Household goods & home construction,UK,.L,FTSE_250
+UEM.L,UEM,Utilico Emerging Markets,Investment Trusts,UK,.L,FTSE_250
+UKW.L,UKW,Greencoat UK Wind,"Gas, Water & Multiutilities",UK,.L,FTSE_250
+USA.L,USA,Baillie Gifford US Growth Trust,Investment Trusts,UK,.L,FTSE_250
+UTG.L,UTG,Unite Group,Real estate investment trusts,UK,.L,FTSE_250
+VCT.L,VCT,Victrex,Chemicals,UK,.L,FTSE_250
+VEIL.L,VEIL,Vietnam Enterprise Investments,General Financial,UK,.L,FTSE_250
+VOF.L,VOF,VinaCapital Vietnam Opportunity Fund,General Financial,UK,.L,FTSE_250
+VSVS.L,VSVS,Vesuvius,General Industrials,UK,.L,FTSE_250
+VTY.L,VTY,Vistry Group,Home Construction,UK,.L,FTSE_250
+WIX.L,WIX,Wickes,Retailers,UK,.L,FTSE_250
+WIZZ.L,WIZZ,Wizz Air,Travel & Leisure,UK,.L,FTSE_250
+WKP.L,WKP,Workspace Group,Real Estate Investment Trusts,UK,.L,FTSE_250
+WOSG.L,WOSG,Watches of Switzerland,Personal Goods,UK,.L,FTSE_250
+WPP.L,WPP,WPP,Media,UK,.L,FTSE_250
+WWH.L,WWH,Worldwide Healthcare Trust,Investment Trusts,UK,.L,FTSE_250
+XPS.L,XPS,XPS Pensions,Financial Services,UK,.L,FTSE_250
+ZIG.L,ZIG,Zigup,Support Services,UK,.L,FTSE_250

@@ -8,7 +8,9 @@ sys.path.insert(0, ".")
 
 import pandas as pd
 import numpy as np
-from dach_momentum.data import load_prices
+from dach_momentum.data import load_prices, print_data_freshness
+
+print_data_freshness()
 
 print("Loading prices...")
 prices = load_prices()
